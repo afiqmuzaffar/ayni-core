@@ -1,1 +1,3 @@
 /target/
+/scripts
+/src/main/resources/persistence-mysql.properties
