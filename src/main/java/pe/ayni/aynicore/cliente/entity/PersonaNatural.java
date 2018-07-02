@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +16,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import constraint.PersonaNatural.Sexo;
+import constraint.PersonaNatural.TipoDocumento;
 
 @Entity
 @Table(name="PersonaNatual")
@@ -24,51 +29,57 @@ public class PersonaNatural {
 	@Column(name="id")
 	private Integer id;
 	
-	@Column(name="primerNombre")
+	@Column(name="primerNombre", nullable=false, length=45)
 	private String primerNombre;
 	
-	@Column(name="segundoNombre")
+	@Column(name="segundoNombre", nullable=true, length=45)
 	private String segundoNombre;
 	
-	@Column(name="apellidoPaterno")
+	@Column(name="apellidoPaterno", nullable=false, length=45)
 	private String apellidoPaterno;
 	
-	@Column(name="apellidoMaterno")
+	@Column(name="apellidoMaterno", nullable=true, length=45)
 	private String apellidoMaterno;
 	
-	@Column(name="sexo")
-	private String sexo;
+	@Enumerated(EnumType.STRING)
+	@Column(name="sexo", nullable=false, length=10)
+	private Sexo sexo;
 	
-	@Column(name="name")
+	@Column(name="name", nullable=false, length=100, unique=true)
 	private String name;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name="tipoDocumento", nullable=false, length=10)
+	private TipoDocumento tipoDocumento;
 	
-	@Column(name="tipoDocumento")
-	private String tipoDocumento;
-	
-	@Column(name="nroDocumento")
+	@Column(name="nroDocumento", nullable=false, length=10, unique=true)
 	private String nroDocumento;
 	
-	@Column(name="fechaNacimiento")
+	@Column(name="fechaNacimiento", nullable=false)
 	private LocalDate fechaNacimiento;
 	
-	@Column(name="fechaRegistro")
+	@Column(name="fechaRegistro", nullable=false)
 	private LocalDate fechaRegistro;
 	
-	@Column(name="email")
+	@Column(name="email", nullable=true, length=45)
 	private String email;
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinColumn(name="idPersonaNatual")
-	private List<Direccion> direcciones;
-	
-	@Column(name="fechaHoraInsercion")
+	@Column(name="fechaHoraInsercion", nullable=false)
 	private LocalDateTime fechaHoraInsercion;
 	
-	@Column(name="fechaHoraModificacion")
+	@Column(name="fechaHoraModificacion", nullable=true)
 	private LocalDateTime fechaHoraModificacion;
 	
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name="idPersonaNatual", nullable=false)
+	private List<Direccion> direcciones;
+	
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name="idPersonaNatural", nullable=false)
+	private List<Telefono> telefonos;
+	
 	public PersonaNatural() {
-
+		
 	}
 
 	public Integer getId() {
@@ -111,11 +122,11 @@ public class PersonaNatural {
 		this.apellidoMaterno = apellidoMaterno;
 	}
 
-	public String getSexo() {
+	public Sexo getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(String sexo) {
+	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
 	}
 
@@ -127,11 +138,11 @@ public class PersonaNatural {
 		this.name = name;
 	}
 
-	public String getTipoDocumento() {
+	public TipoDocumento getTipoDocumento() {
 		return tipoDocumento;
 	}
 
-	public void setTipoDocumento(String tipoDocumento) {
+	public void setTipoDocumento(TipoDocumento tipoDocumento) {
 		this.tipoDocumento = tipoDocumento;
 	}
 
@@ -183,6 +194,22 @@ public class PersonaNatural {
 		this.fechaHoraModificacion = fechaHoraModificacion;
 	}
 
+	public List<Direccion> getDirecciones() {
+		return direcciones;
+	}
+
+	public void setDirecciones(List<Direccion> direcciones) {
+		this.direcciones = direcciones;
+	}
+
+	public List<Telefono> getTelefonos() {
+		return telefonos;
+	}
+
+	public void setTelefonos(List<Telefono> telefonos) {
+		this.telefonos = telefonos;
+	}
+
 	@Override
 	public String toString() {
 		return "PersonaNatural [id=" + id + ", primerNombre=" + primerNombre + ", segundoNombre=" + segundoNombre
@@ -190,13 +217,7 @@ public class PersonaNatural {
 				+ ", name=" + name + ", tipoDocumento=" + tipoDocumento + ", nroDocumento=" + nroDocumento
 				+ ", fechaNacimiento=" + fechaNacimiento + ", fechaRegistro=" + fechaRegistro + ", email=" + email
 				+ ", fechaHoraInsercion=" + fechaHoraInsercion + ", fechaHoraModificacion=" + fechaHoraModificacion
-				+ "]";
+				+ ", direcciones=" + direcciones + ", telefonos=" + telefonos + "]";
 	}
 	
-	
-	
-	
-	
-	
-
 }

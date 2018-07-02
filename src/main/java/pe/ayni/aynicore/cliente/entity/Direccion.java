@@ -4,10 +4,20 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import constraint.Direccion.EstadoDireccion;
+import constraint.Direccion.TipoDireccion;
+import constraint.Direccion.TipoLocalidad;
+import constraint.Direccion.TipoVia;
 
 @Entity
 @Table(name="Direccion")
@@ -18,52 +28,60 @@ public class Direccion {
 	@Column(name="id")
 	private Integer id;
 	
-	@Column(name="tipo")
-	private String tipo;
+	@Enumerated(EnumType.STRING)
+	@Column(name="tipo", nullable=false, length=10)
+	private TipoDireccion tipo;
 	
-	@Column(name="departamento")
+	@Column(name="departamento", nullable=false, length=45)
 	private String departamento;
 	
-	@Column(name="provincia")
+	@Column(name="provincia", nullable=false, length=45)
 	private String provincia;
 	
-	@Column(name="distrito")
+	@Column(name="distrito", nullable=false, length=45)
 	private String distrito;
 	
-	@Column(name="idUbigeo")
-	private Integer idUbigeo;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="idUbigeo", nullable=false)
+	private Ubigeo ubigeo;
 	
-	@Column(name="tipoVia")
-	private String tipoVia;
+	@Enumerated(EnumType.STRING)
+	@Column(name="tipoVia", nullable=true, length=10)
+	private TipoVia tipoVia;
 	
-	@Column(name="numeroVia")
+	@Column(name="nombreVia", nullable=true, length=45)
+	private String nombreVia;
+	
+	@Column(name="numeroVia", nullable=true, length=10)
 	private String numeroVia;
 	
-	@Column(name="tipoLocalidad")
-	private String tipoLocalidad;
+	@Enumerated(EnumType.STRING)
+	@Column(name="tipoLocalidad", nullable=true, length=10)
+	private TipoLocalidad tipoLocalidad;
 	
-	@Column(name="nombreLocalidad")
+	@Column(name="nombreLocalidad", nullable=true, length=45)
 	private String nombreLocalidad;
 	
-	@Column(name="manzana")
+	@Column(name="manzana", nullable=true, length=10)
 	private String manzana;
 	
-	@Column(name="lote")
+	@Column(name="lote", nullable=true, length=10)
 	private String lote;
 	
-	@Column(name="interior")
+	@Column(name="interior", nullable=true, length=10)
 	private String interior;
 	
-	@Column(name="referencia")
+	@Column(name="referencia", nullable=false, length=200)
 	private String referencia;
 	
-	@Column(name="estado")
-	private String estado;
+	@Enumerated(EnumType.STRING)
+	@Column(name="estado", nullable=false, length=10)
+	private EstadoDireccion estado;
 	
-	@Column(name="fechaHoraInsercion")
+	@Column(name="fechaHoraInsercion", nullable=false)
 	private LocalDateTime fechaHoraInsercion;
 	
-	@Column(name="fechaHoraModificacion")
+	@Column(name="fechaHoraModificacion", nullable=true)
 	private LocalDateTime fechaHoraModificacion;
 	
 	public Direccion() {
@@ -78,11 +96,11 @@ public class Direccion {
 		this.id = id;
 	}
 
-	public String getTipo() {
+	public TipoDireccion getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(String tipo) {
+	public void setTipo(TipoDireccion tipo) {
 		this.tipo = tipo;
 	}
 
@@ -110,20 +128,28 @@ public class Direccion {
 		this.distrito = distrito;
 	}
 
-	public Integer getIdUbigeo() {
-		return idUbigeo;
+	public Ubigeo getUbigeo() {
+		return ubigeo;
 	}
 
-	public void setIdUbigeo(Integer idUbigeo) {
-		this.idUbigeo = idUbigeo;
+	public void setUbigeo(Ubigeo ubigeo) {
+		this.ubigeo = ubigeo;
 	}
 
-	public String getTipoVia() {
+	public TipoVia getTipoVia() {
 		return tipoVia;
 	}
 
-	public void setTipoVia(String tipoVia) {
+	public void setTipoVia(TipoVia tipoVia) {
 		this.tipoVia = tipoVia;
+	}
+
+	public String getNombreVia() {
+		return nombreVia;
+	}
+
+	public void setNombreVia(String nombreVia) {
+		this.nombreVia = nombreVia;
 	}
 
 	public String getNumeroVia() {
@@ -134,11 +160,11 @@ public class Direccion {
 		this.numeroVia = numeroVia;
 	}
 
-	public String getTipoLocalidad() {
+	public TipoLocalidad getTipoLocalidad() {
 		return tipoLocalidad;
 	}
 
-	public void setTipoLocalidad(String tipoLocalidad) {
+	public void setTipoLocalidad(TipoLocalidad tipoLocalidad) {
 		this.tipoLocalidad = tipoLocalidad;
 	}
 
@@ -182,11 +208,11 @@ public class Direccion {
 		this.referencia = referencia;
 	}
 
-	public String getEstado() {
+	public EstadoDireccion getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(EstadoDireccion estado) {
 		this.estado = estado;
 	}
 
@@ -209,21 +235,11 @@ public class Direccion {
 	@Override
 	public String toString() {
 		return "Direccion [id=" + id + ", tipo=" + tipo + ", departamento=" + departamento + ", provincia=" + provincia
-				+ ", distrito=" + distrito + ", idUbigeo=" + idUbigeo + ", tipoVia=" + tipoVia + ", numeroVia="
-				+ numeroVia + ", tipoLocalidad=" + tipoLocalidad + ", nombreLocalidad=" + nombreLocalidad + ", manzana="
-				+ manzana + ", lote=" + lote + ", interior=" + interior + ", referencia=" + referencia + ", estado="
-				+ estado + ", fechaHoraInsercion=" + fechaHoraInsercion + ", fechaHoraModificacion="
-				+ fechaHoraModificacion + ", getId()=" + getId() + ", getTipo()=" + getTipo() + ", getDepartamento()="
-				+ getDepartamento() + ", getProvincia()=" + getProvincia() + ", getDistrito()=" + getDistrito()
-				+ ", getIdUbigeo()=" + getIdUbigeo() + ", getTipoVia()=" + getTipoVia() + ", getNumeroVia()="
-				+ getNumeroVia() + ", getTipoLocalidad()=" + getTipoLocalidad() + ", getNombreLocalidad()="
-				+ getNombreLocalidad() + ", getManzana()=" + getManzana() + ", getLote()=" + getLote()
-				+ ", getInterior()=" + getInterior() + ", getReferencia()=" + getReferencia() + ", getEstado()="
-				+ getEstado() + ", getFechaHoraInsercion()=" + getFechaHoraInsercion() + ", getFechaHoraModificacion()="
-				+ getFechaHoraModificacion() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
+				+ ", distrito=" + distrito + ", ubigeo=" + ubigeo + ", tipoVia=" + tipoVia + ", nombreVia=" + nombreVia
+				+ ", numeroVia=" + numeroVia + ", tipoLocalidad=" + tipoLocalidad + ", nombreLocalidad="
+				+ nombreLocalidad + ", manzana=" + manzana + ", lote=" + lote + ", interior=" + interior
+				+ ", referencia=" + referencia + ", estado=" + estado + ", fechaHoraInsercion=" + fechaHoraInsercion
+				+ ", fechaHoraModificacion=" + fechaHoraModificacion + "]";
 	}
-
 	
-		
 }
