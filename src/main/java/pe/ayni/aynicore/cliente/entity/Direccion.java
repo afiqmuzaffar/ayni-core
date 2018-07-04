@@ -14,10 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import constraint.Direccion.EstadoDireccion;
-import constraint.Direccion.TipoDireccion;
-import constraint.Direccion.TipoLocalidad;
-import constraint.Direccion.TipoVia;
+import pe.ayni.aynicore.cliente.constraint.Direccion.EstadoDireccion;
+import pe.ayni.aynicore.cliente.constraint.Direccion.TipoDireccion;
+import pe.ayni.aynicore.cliente.constraint.Direccion.TipoLocalidad;
+import pe.ayni.aynicore.cliente.constraint.Direccion.TipoVia;
 
 @Entity
 @Table(name="Direccion")

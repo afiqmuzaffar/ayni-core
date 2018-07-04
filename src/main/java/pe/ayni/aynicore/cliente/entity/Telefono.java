@@ -11,8 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import constraint.Telefono.EstadoTelefono;
-import constraint.Telefono.TipoTelefono;
+import pe.ayni.aynicore.cliente.constraint.Telefono.EstadoTelefono;
+import pe.ayni.aynicore.cliente.constraint.Telefono.TipoTelefono;
 
 
 @Entity

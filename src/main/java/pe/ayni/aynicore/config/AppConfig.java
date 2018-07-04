@@ -24,7 +24,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan("edu.tamu.jcabelloc.springfullrestappdemo")
+@ComponentScan("pe.ayni.aynicore")
 @PropertySource({ "classpath:persistence-mysql.properties" })
 public class AppConfig implements WebMvcConfigurer{
 	@Autowired

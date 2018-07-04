@@ -3,6 +3,7 @@ package pe.ayni.aynicore.cliente.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,11 +18,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import constraint.PersonaNatural.Sexo;
-import constraint.PersonaNatural.TipoDocumento;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import pe.ayni.aynicore.cliente.constraint.PersonaNatural.Sexo;
+import pe.ayni.aynicore.cliente.constraint.PersonaNatural.TipoDocumento;
+import utils.LocalDateDeserializer;
+import utils.LocalDateSerializer;
 
 @Entity
-@Table(name="PersonaNatual")
+@Table(name="PersonaNatural")
 public class PersonaNatural {
 	
 	@Id
@@ -45,8 +53,8 @@ public class PersonaNatural {
 	@Column(name="sexo", nullable=false, length=10)
 	private Sexo sexo;
 	
-	@Column(name="name", nullable=false, length=100, unique=true)
-	private String name;
+	@Column(name="nombre", nullable=false, length=100, unique=true)
+	private String nombre;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name="tipoDocumento", nullable=false, length=10)
@@ -56,9 +64,13 @@ public class PersonaNatural {
 	private String nroDocumento;
 	
 	@Column(name="fechaNacimiento", nullable=false)
+	@JsonDeserialize(using = LocalDateDeserializer.class)  
+	@JsonSerialize(using = LocalDateSerializer.class) 
 	private LocalDate fechaNacimiento;
 	
 	@Column(name="fechaRegistro", nullable=false)
+	@JsonDeserialize(using = LocalDateDeserializer.class)  
+	@JsonSerialize(using = LocalDateSerializer.class) 
 	private LocalDate fechaRegistro;
 	
 	@Column(name="email", nullable=true, length=45)
@@ -70,13 +82,13 @@ public class PersonaNatural {
 	@Column(name="fechaHoraModificacion", nullable=true)
 	private LocalDateTime fechaHoraModificacion;
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinColumn(name="idPersonaNatual", nullable=false)
-	private List<Direccion> direcciones;
-	
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="idPersonaNatural", nullable=false)
-	private List<Telefono> telefonos;
+	private Set<Direccion> direcciones;
+	
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@JoinColumn(name="idPersonaNatural", nullable=false)
+	private Set<Telefono> telefonos;
 	
 	public PersonaNatural() {
 		
@@ -130,12 +142,12 @@ public class PersonaNatural {
 		this.sexo = sexo;
 	}
 
-	public String getName() {
-		return name;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public TipoDocumento getTipoDocumento() {
@@ -194,19 +206,19 @@ public class PersonaNatural {
 		this.fechaHoraModificacion = fechaHoraModificacion;
 	}
 
-	public List<Direccion> getDirecciones() {
+	public Set<Direccion> getDirecciones() {
 		return direcciones;
 	}
 
-	public void setDirecciones(List<Direccion> direcciones) {
+	public void setDirecciones(Set<Direccion> direcciones) {
 		this.direcciones = direcciones;
 	}
 
-	public List<Telefono> getTelefonos() {
+	public Set<Telefono> getTelefonos() {
 		return telefonos;
 	}
 
-	public void setTelefonos(List<Telefono> telefonos) {
+	public void setTelefonos(Set<Telefono> telefonos) {
 		this.telefonos = telefonos;
 	}
 
@@ -214,7 +226,7 @@ public class PersonaNatural {
 	public String toString() {
 		return "PersonaNatural [id=" + id + ", primerNombre=" + primerNombre + ", segundoNombre=" + segundoNombre
 				+ ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", sexo=" + sexo
-				+ ", name=" + name + ", tipoDocumento=" + tipoDocumento + ", nroDocumento=" + nroDocumento
+				+ ", nombre=" + nombre + ", tipoDocumento=" + tipoDocumento + ", nroDocumento=" + nroDocumento
 				+ ", fechaNacimiento=" + fechaNacimiento + ", fechaRegistro=" + fechaRegistro + ", email=" + email
 				+ ", fechaHoraInsercion=" + fechaHoraInsercion + ", fechaHoraModificacion=" + fechaHoraModificacion
 				+ ", direcciones=" + direcciones + ", telefonos=" + telefonos + "]";
