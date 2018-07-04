@@ -1,4 +1,4 @@
-package utils;
+package pe.ayni.aynicore.utils;
 
 import java.io.IOException;
 import java.time.LocalDate;

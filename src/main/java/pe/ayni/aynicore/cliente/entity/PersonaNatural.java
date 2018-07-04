@@ -2,7 +2,6 @@ package pe.ayni.aynicore.cliente.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -19,14 +18,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import pe.ayni.aynicore.cliente.constraint.PersonaNatural.Sexo;
 import pe.ayni.aynicore.cliente.constraint.PersonaNatural.TipoDocumento;
-import utils.LocalDateDeserializer;
-import utils.LocalDateSerializer;
+import pe.ayni.aynicore.utils.LocalDateDeserializer;
+import pe.ayni.aynicore.utils.LocalDateSerializer;
 
 @Entity
 @Table(name="PersonaNatural")
