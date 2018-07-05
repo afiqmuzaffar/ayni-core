@@ -19,6 +19,7 @@ public class PersonaNaturalDaoImpl implements PersonaNaturalDao {
 	@Override
 	public void create(PersonaNatural personaNatural) {
 		Session session = sessionFactory.getCurrentSession();
+		personaNatural.setNombre();
 		session.save(personaNatural);
 	}
 	
