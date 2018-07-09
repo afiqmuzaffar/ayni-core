@@ -62,11 +62,11 @@ public abstract class Persona {
 	@Column(name="fechaHoraModificacion", nullable=true)
 	private LocalDateTime fechaHoraModificacion;
 	
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="idPersona", nullable=false)
 	private Set<Direccion> direcciones;
 	
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="idPersona", nullable=false)
 	private Set<Telefono> telefonos;
 	

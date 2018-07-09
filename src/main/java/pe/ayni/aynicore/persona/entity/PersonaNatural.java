@@ -10,12 +10,9 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import pe.ayni.aynicore.persona.constraint.PersonaNatural.EstadoCivil;
 import pe.ayni.aynicore.persona.constraint.PersonaNatural.Sexo;
-import pe.ayni.aynicore.utils.LocalDateDeserializer;
-import pe.ayni.aynicore.utils.LocalDateSerializer;
 
 @Entity
 @Table(name="PersonaNatural")
@@ -38,13 +35,15 @@ public class PersonaNatural extends Persona{
 	@Column(name="sexo", nullable=false, length=10)
 	private Sexo sexo;
 
-	@Column(name="fechaNacimiento", nullable=false)
-	@JsonDeserialize(using = LocalDateDeserializer.class)  
-	@JsonSerialize(using = LocalDateSerializer.class) 
+	@Column(name="fechaNacimiento", nullable=true)
 	private LocalDate fechaNacimiento;
 	
 	@Column(name="email", nullable=true, length=45)
 	private String email;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="estadoCivil", nullable=true, length=10)
+	private EstadoCivil estadoCivil;
 	
 	public PersonaNatural() {
 		
@@ -106,9 +105,13 @@ public class PersonaNatural extends Persona{
 		this.email = email;
 	}
 	
-	public void setNombre() {
-		super.setNombre(apellidoPaterno + " " + apellidoMaterno + " " + primerNombre + " " + segundoNombre );
-	}
 	
+	public EstadoCivil getEstadoCivil() {
+		return estadoCivil;
+	}
+
+	public void setEstadoCivil(EstadoCivil estadoCivil) {
+		this.estadoCivil = estadoCivil;
+	}
 	
 }

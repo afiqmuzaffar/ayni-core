@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import pe.ayni.aynicore.persona.dto.PersonaNaturalDTO;
 import pe.ayni.aynicore.persona.entity.PersonaNatural;
 import pe.ayni.aynicore.persona.service.PersonaNaturalService;
 
@@ -20,9 +21,9 @@ public class PersonaNaturalRest {
 	PersonaNaturalService personaNaturalService;
 	
 	@PostMapping("/personas")
-	public PersonaNatural create(@RequestBody PersonaNatural personaNatural) {
-		personaNaturalService.create(personaNatural);
-		return personaNatural;
+	public PersonaNaturalDTO create(@RequestBody PersonaNaturalDTO personaNaturalDTO) {
+		personaNaturalService.create(personaNaturalDTO);
+		return personaNaturalDTO;
 	}
 	
 	@PutMapping("/personas")
