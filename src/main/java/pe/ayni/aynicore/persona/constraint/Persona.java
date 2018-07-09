@@ -1,4 +1,4 @@
-package pe.ayni.aynicore.cliente.constraint;
+package pe.ayni.aynicore.persona.constraint;
 
 public class Persona {
 	

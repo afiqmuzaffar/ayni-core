@@ -1,4 +1,4 @@
-package pe.ayni.aynicore.cliente.dao;
+package pe.ayni.aynicore.persona.dao;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import pe.ayni.aynicore.cliente.entity.PersonaNatural;
+import pe.ayni.aynicore.persona.entity.PersonaNatural;
 
 @Repository
 public class PersonaNaturalDaoImpl implements PersonaNaturalDao {

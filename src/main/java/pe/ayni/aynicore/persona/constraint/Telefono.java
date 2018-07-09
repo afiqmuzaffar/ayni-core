@@ -1,4 +1,4 @@
-package pe.ayni.aynicore.cliente.constraint;
+package pe.ayni.aynicore.persona.constraint;
 
 import java.util.HashMap;
 import java.util.Map;

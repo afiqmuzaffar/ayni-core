@@ -1,4 +1,4 @@
-package pe.ayni.aynicore.cliente.service;
+package pe.ayni.aynicore.persona.service;
 
 import java.time.LocalDateTime;
 
@@ -7,8 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pe.ayni.aynicore.cliente.dao.PersonaNaturalDao;
-import pe.ayni.aynicore.cliente.entity.PersonaNatural;
+import pe.ayni.aynicore.persona.dao.PersonaNaturalDao;
+import pe.ayni.aynicore.persona.entity.PersonaNatural;
 
 @Service
 public class PersonaNaturalServiceImpl implements PersonaNaturalService {

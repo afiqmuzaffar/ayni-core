@@ -1,4 +1,4 @@
-package pe.ayni.aynicore.cliente.rest;
+package pe.ayni.aynicore.persona.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import pe.ayni.aynicore.cliente.entity.PersonaNatural;
-import pe.ayni.aynicore.cliente.service.PersonaNaturalService;
+import pe.ayni.aynicore.persona.entity.PersonaNatural;
+import pe.ayni.aynicore.persona.service.PersonaNaturalService;
 
 @RestController
 @RequestMapping("/api")

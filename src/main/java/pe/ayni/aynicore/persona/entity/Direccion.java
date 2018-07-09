@@ -1,4 +1,4 @@
-package pe.ayni.aynicore.cliente.entity;
+package pe.ayni.aynicore.persona.entity;
 
 import java.time.LocalDateTime;
 
@@ -14,10 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import pe.ayni.aynicore.cliente.constraint.Direccion.EstadoDireccion;
-import pe.ayni.aynicore.cliente.constraint.Direccion.TipoDireccion;
-import pe.ayni.aynicore.cliente.constraint.Direccion.TipoLocalidad;
-import pe.ayni.aynicore.cliente.constraint.Direccion.TipoVia;
+import pe.ayni.aynicore.persona.constraint.Direccion.EstadoDireccion;
+import pe.ayni.aynicore.persona.constraint.Direccion.TipoDireccion;
+import pe.ayni.aynicore.persona.constraint.Direccion.TipoLocalidad;
+import pe.ayni.aynicore.persona.constraint.Direccion.TipoVia;
 
 @Entity
 @Table(name="Direccion")

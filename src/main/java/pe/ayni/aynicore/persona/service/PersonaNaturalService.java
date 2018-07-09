@@ -1,6 +1,6 @@
-package pe.ayni.aynicore.cliente.service;
+package pe.ayni.aynicore.persona.service;
 
-import pe.ayni.aynicore.cliente.entity.PersonaNatural;
+import pe.ayni.aynicore.persona.entity.PersonaNatural;
 
 public interface PersonaNaturalService {
 	

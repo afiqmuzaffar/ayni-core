@@ -1,4 +1,4 @@
-package pe.ayni.aynicore.cliente.entity;
+package pe.ayni.aynicore.persona.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,8 +22,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import pe.ayni.aynicore.cliente.constraint.Persona.TipoIdentificacion;
-import pe.ayni.aynicore.cliente.constraint.Persona.TipoPersona;
+import pe.ayni.aynicore.persona.constraint.Persona.TipoIdentificacion;
+import pe.ayni.aynicore.persona.constraint.Persona.TipoPersona;
 import pe.ayni.aynicore.utils.LocalDateDeserializer;
 import pe.ayni.aynicore.utils.LocalDateSerializer;
 

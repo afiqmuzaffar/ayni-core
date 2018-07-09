@@ -1,4 +1,4 @@
-package pe.ayni.aynicore.cliente.entity;
+package pe.ayni.aynicore.persona.entity;
 
 import java.time.LocalDateTime;
 
@@ -11,8 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import pe.ayni.aynicore.cliente.constraint.Telefono.EstadoTelefono;
-import pe.ayni.aynicore.cliente.constraint.Telefono.TipoTelefono;
+import pe.ayni.aynicore.persona.constraint.Telefono.EstadoTelefono;
+import pe.ayni.aynicore.persona.constraint.Telefono.TipoTelefono;
 
 
 @Entity

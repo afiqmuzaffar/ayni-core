@@ -1,8 +1,8 @@
-package pe.ayni.aynicore.cliente.dao;
+package pe.ayni.aynicore.persona.dao;
 
 import java.util.List;
 
-import pe.ayni.aynicore.cliente.entity.PersonaNatural;
+import pe.ayni.aynicore.persona.entity.PersonaNatural;
 
 public interface PersonaNaturalDao {
 	

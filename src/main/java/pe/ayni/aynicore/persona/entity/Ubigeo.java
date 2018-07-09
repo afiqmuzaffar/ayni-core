@@ -1,4 +1,4 @@
-package pe.ayni.aynicore.cliente.entity;
+package pe.ayni.aynicore.persona.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
