@@ -113,5 +113,20 @@ public class PersonaNatural extends Persona{
 	public void setEstadoCivil(EstadoCivil estadoCivil) {
 		this.estadoCivil = estadoCivil;
 	}
+
+	@Override
+	public String toString() {
+		return "PersonaNatural [primerNombre=" + primerNombre + ", segundoNombre=" + segundoNombre
+				+ ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", sexo=" + sexo
+				+ ", fechaNacimiento=" + fechaNacimiento + ", email=" + email + ", estadoCivil=" + estadoCivil
+				+ ", getId()=" + getId() + ", getNombre()=" + getNombre() + ", getTipoPersona()=" + getTipoPersona()
+				+ ", getTipoIdentificacion()=" + getTipoIdentificacion() + ", getNroIdentificacion()="
+				+ getNroIdentificacion() + ", getFechaRegistro()=" + getFechaRegistro() + ", getFechaHoraInsercion()="
+				+ getFechaHoraInsercion() + ", getFechaHoraModificacion()=" + getFechaHoraModificacion()
+				+ ", getDirecciones()=" + getDirecciones() + ", getTelefonos()=" + getTelefonos() + ", getClass()="
+				+ getClass() + "]";
+	}
+	
+	
 	
 }
