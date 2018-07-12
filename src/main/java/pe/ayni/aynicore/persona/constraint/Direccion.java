@@ -2,7 +2,7 @@ package pe.ayni.aynicore.persona.constraint;
 
 public class Direccion {
 	
-	public enum TipoDireccion { CASA, NEGOCIO}
+	public enum TipoDireccion { CASA, NEGOCIO }
 	
 	public enum TipoVia { JIRON, CALLE, AVENIDA }
 	

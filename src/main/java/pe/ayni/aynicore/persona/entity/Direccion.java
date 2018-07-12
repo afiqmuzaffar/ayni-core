@@ -84,6 +84,11 @@ public class Direccion {
 	@Column(name="fechaHoraModificacion", nullable=true)
 	private LocalDateTime fechaHoraModificacion;
 	
+	@ManyToOne
+	@JoinColumn(name="idPersona", nullable=false)
+	private Persona persona;
+	
+	
 	public Direccion() {
 		
 	}
@@ -230,6 +235,15 @@ public class Direccion {
 
 	public void setFechaHoraModificacion(LocalDateTime fechaHoraModificacion) {
 		this.fechaHoraModificacion = fechaHoraModificacion;
+	}
+	
+	
+	public Persona getPersona() {
+		return persona;
+	}
+
+	public void setPersona(Persona persona) {
+		this.persona = persona;
 	}
 
 	@Override

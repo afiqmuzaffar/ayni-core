@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import pe.ayni.aynicore.persona.dto.PersonaNaturalDTO;
+import pe.ayni.aynicore.persona.dto.PersonaNaturalDto;
 import pe.ayni.aynicore.persona.service.PersonaNaturalService;
 
 @RestController
@@ -22,22 +22,22 @@ public class PersonaNaturalRest {
 	
 	@CrossOrigin
 	@PostMapping("/personas-naturales")
-	public PersonaNaturalDTO createPersonaNatural(@RequestBody PersonaNaturalDTO personaNaturalDTO) {
-		personaNaturalService.createPersonaNatural(personaNaturalDTO);
-		return personaNaturalDTO;
+	public PersonaNaturalDto createPersonaNatural(@RequestBody PersonaNaturalDto personaNaturalDto) {
+		personaNaturalService.createPersonaNatural(personaNaturalDto);
+		return personaNaturalDto;
 	}
 
 	@CrossOrigin
 	@GetMapping("/personas-naturales/{id}")
-	public PersonaNaturalDTO findPersonaNaturalById(@PathVariable Integer id) {
+	public PersonaNaturalDto findPersonaNaturalById(@PathVariable Integer id) {
 		return personaNaturalService.findPersonaNaturalById(id);
 	}
 	
 	@CrossOrigin
 	@PutMapping("/personas-naturales/{id}")
-	public PersonaNaturalDTO updatePersonaNatural(@RequestBody PersonaNaturalDTO personaNaturalDTO) {
-		personaNaturalService.updatePersonaNatural(personaNaturalDTO);
-		return personaNaturalDTO;
+	public PersonaNaturalDto updatePersonaNatural(@RequestBody PersonaNaturalDto personaNaturalDto) {
+		personaNaturalService.updatePersonaNatural(personaNaturalDto);
+		return personaNaturalDto;
 	}
 	
 

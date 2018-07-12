@@ -2,7 +2,7 @@ package pe.ayni.aynicore.persona.dto;
 
 import java.io.Serializable;
 
-public class PersonaNaturalDTO implements Serializable {
+public class PersonaNaturalDto implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 

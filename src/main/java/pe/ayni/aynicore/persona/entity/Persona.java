@@ -52,8 +52,8 @@ public abstract class Persona {
 	private String nroIdentificacion;
 	
 	@Column(name="fechaRegistro", nullable=false)
-	@JsonDeserialize(using = LocalDateDeserializer.class)  
-	@JsonSerialize(using = LocalDateSerializer.class) 
+	//@JsonDeserialize(using = LocalDateDeserializer.class)  
+	//@JsonSerialize(using = LocalDateSerializer.class) 
 	private LocalDate fechaRegistro;
 	
 	@Column(name="fechaHoraInsercion", nullable=false)
@@ -62,8 +62,8 @@ public abstract class Persona {
 	@Column(name="fechaHoraModificacion", nullable=true)
 	private LocalDateTime fechaHoraModificacion;
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinColumn(name="idPersona", nullable=false)
+	@OneToMany(mappedBy="persona", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	//@JoinColumn(name="idPersona", nullable=false)
 	private Set<Direccion> direcciones;
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)

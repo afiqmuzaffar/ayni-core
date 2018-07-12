@@ -18,7 +18,7 @@ import pe.ayni.aynicore.persona.constraint.Persona.TipoPersona;
 import pe.ayni.aynicore.persona.constraint.PersonaNatural.EstadoCivil;
 import pe.ayni.aynicore.persona.constraint.PersonaNatural.Sexo;
 import pe.ayni.aynicore.persona.dao.PersonaNaturalDao;
-import pe.ayni.aynicore.persona.dto.PersonaNaturalDTO;
+import pe.ayni.aynicore.persona.dto.PersonaNaturalDto;
 import pe.ayni.aynicore.persona.entity.PersonaNatural;
 
 @Service
@@ -30,9 +30,9 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 
 	@Override
 	@Transactional
-	public void createPersonaNatural(PersonaNaturalDTO personaNaturalDTO) {
+	public void createPersonaNatural(PersonaNaturalDto personaNaturalDto) {
 		PersonaNatural personaNatural = new PersonaNatural(); 
-		personaNatural = mapDTOToEntity(personaNaturalDTO, personaNatural);	
+		mapDtoToEntity(personaNaturalDto, personaNatural);	
 		personaNatural.setTipoPersona(TipoPersona.PPNN);
 		personaNatural.setId(null);
 		personaNatural.setFechaRegistro(LocalDate.now());
@@ -40,30 +40,30 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 
 		personaNaturalDao.create(personaNatural);
 		
-		personaNaturalDTO.setId(personaNatural.getId());
+		personaNaturalDto.setId(personaNatural.getId());
 	}
 	
 	@Transactional
 	@Override
-	public PersonaNaturalDTO findPersonaNaturalById(Integer id) {
+	public PersonaNaturalDto findPersonaNaturalById(Integer id) {
 		PersonaNatural personaNatural = personaNaturalDao.findById(id);
-		PersonaNaturalDTO personaNaturalDTO = convertToDTO(personaNatural);
-		return personaNaturalDTO;
+		PersonaNaturalDto personaNaturalDto = convertToDTO(personaNatural);
+		return personaNaturalDto;
 	}
 
 	@Override
 	@Transactional
-	public void updatePersonaNatural(PersonaNaturalDTO personaNaturalDTO) {
+	public void updatePersonaNatural(PersonaNaturalDto personaNaturalDto) {
 		
-		PersonaNatural personaNatural = personaNaturalDao.findById(personaNaturalDTO.getId());
-		personaNatural = mapDTOToEntity(personaNaturalDTO, personaNatural);	
+		PersonaNatural personaNatural = personaNaturalDao.findById(personaNaturalDto.getId());
+		mapDtoToEntity(personaNaturalDto, personaNatural);	
 		personaNatural.setFechaHoraModificacion(LocalDateTime.now());
 		personaNaturalDao.update(personaNatural);
 	}
 	
 
 	
-	private PersonaNatural mapDTOToEntity(PersonaNaturalDTO personaNaturalDTO, PersonaNatural personaNatural) {
+	private void mapDtoToEntity(PersonaNaturalDto personaNaturalDto, PersonaNatural personaNatural) {
 		/*
 		Converter<String, String> toUppercase = new AbstractConverter<String, String>() {
 		    protected String convert(String source) {
@@ -82,30 +82,29 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 		PersonaNatural personaNatural = modelMapper.map(personaNaturalDTO, PersonaNatural.class);
 		*/
 		
-		personaNatural.setApellidoPaterno(personaNaturalDTO.getApellidoPaterno().toUpperCase());
-		personaNatural.setApellidoMaterno(personaNaturalDTO.getApellidoMaterno().toUpperCase());
-		personaNatural.setPrimerNombre(personaNaturalDTO.getPrimerNombre().toUpperCase());
-		personaNatural.setSegundoNombre(personaNaturalDTO.getSegundoNombre().toUpperCase());
-		String nombre = personaNaturalDTO.getApellidoPaterno() + " " + personaNaturalDTO.getApellidoMaterno() + " " + personaNaturalDTO.getPrimerNombre() + " " + personaNaturalDTO.getSegundoNombre(); 
+		personaNatural.setApellidoPaterno(personaNaturalDto.getApellidoPaterno().toUpperCase());
+		personaNatural.setApellidoMaterno(personaNaturalDto.getApellidoMaterno().toUpperCase());
+		personaNatural.setPrimerNombre(personaNaturalDto.getPrimerNombre().toUpperCase());
+		personaNatural.setSegundoNombre(personaNaturalDto.getSegundoNombre().toUpperCase());
+		String nombre = personaNaturalDto.getApellidoPaterno() + " " + personaNaturalDto.getApellidoMaterno() + " " + personaNaturalDto.getPrimerNombre() + " " + personaNaturalDto.getSegundoNombre(); 
 		personaNatural.setNombre(nombre.toUpperCase());
-		personaNatural.setSexo(Sexo.valueOf(personaNaturalDTO.getSexo()));
-		personaNatural.setEstadoCivil(EstadoCivil.valueOf(personaNaturalDTO.getEstadoCivil()));
-		personaNatural.setEmail(personaNaturalDTO.getEmail().toUpperCase());
+		personaNatural.setSexo(Sexo.valueOf(personaNaturalDto.getSexo()));
+		personaNatural.setEstadoCivil(EstadoCivil.valueOf(personaNaturalDto.getEstadoCivil()));
+		personaNatural.setEmail(personaNaturalDto.getEmail().toUpperCase());
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDate fechaNacimiento = personaNaturalDTO.getFechaNacimiento() == null ? null : LocalDate.parse(personaNaturalDTO.getFechaNacimiento(), formatter);
+		LocalDate fechaNacimiento = personaNaturalDto.getFechaNacimiento() == null ? null : LocalDate.parse(personaNaturalDto.getFechaNacimiento(), formatter);
 		personaNatural.setFechaNacimiento(fechaNacimiento);
-		personaNatural.setTipoIdentificacion(TipoIdentificacion.valueOf(personaNaturalDTO.getTipoIdentificacion()));
-		personaNatural.setNroIdentificacion(personaNaturalDTO.getNroIdentificacion());
+		personaNatural.setTipoIdentificacion(TipoIdentificacion.valueOf(personaNaturalDto.getTipoIdentificacion()));
+		personaNatural.setNroIdentificacion(personaNaturalDto.getNroIdentificacion());
 		
-		return personaNatural;
 		
 	}
 	
-	private PersonaNaturalDTO convertToDTO (PersonaNatural personaNatural) {
+	private PersonaNaturalDto convertToDTO (PersonaNatural personaNatural) {
 		
 		ModelMapper modelMapper = new ModelMapper();
-		PersonaNaturalDTO  personaNaturalDTO = modelMapper.map(personaNatural, PersonaNaturalDTO.class);
+		PersonaNaturalDto  personaNaturalDTO = modelMapper.map(personaNatural, PersonaNaturalDto.class);
 		return personaNaturalDTO;
 	}
 }
