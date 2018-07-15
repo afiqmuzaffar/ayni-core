@@ -37,7 +37,13 @@ public class DireccionDto implements Serializable {
 	private String referencia;
 	
 	private Integer idPersona;
-
+	
+	private Integer idUbigeoDpto;
+	
+	private Integer idUbigeoProvincia;
+	
+	private Integer idUbigeoDistrito;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -165,6 +171,29 @@ public class DireccionDto implements Serializable {
 	public void setIdPersona(Integer idPersona) {
 		this.idPersona = idPersona;
 	}
-	
-	
+
+	public Integer getIdUbigeoDpto() {
+		return idUbigeoDpto;
+	}
+
+	public void setIdUbigeoDpto(Integer idUbigeoDpto) {
+		this.idUbigeoDpto = idUbigeoDpto;
+	}
+
+	public Integer getIdUbigeoProvincia() {
+		return idUbigeoProvincia;
+	}
+
+	public void setIdUbigeoProvincia(Integer idUbigeoProvincia) {
+		this.idUbigeoProvincia = idUbigeoProvincia;
+	}
+
+	public Integer getIdUbigeoDistrito() {
+		return idUbigeoDistrito;
+	}
+
+	public void setIdUbigeoDistrito(Integer idUbigeoDistrito) {
+		this.idUbigeoDistrito = idUbigeoDistrito;
+	}
+
 }

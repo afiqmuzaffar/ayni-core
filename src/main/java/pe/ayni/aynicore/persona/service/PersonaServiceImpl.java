@@ -21,7 +21,6 @@ public class PersonaServiceImpl implements PersonaService {
 	@Transactional
 	@Override
 	public void addDireccion(Integer idPersona, DireccionDto direccionDto) {
-
 		direccionService.createDireccion(idPersona, direccionDto);
 	}
 	

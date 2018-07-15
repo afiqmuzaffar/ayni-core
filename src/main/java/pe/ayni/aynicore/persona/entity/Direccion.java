@@ -56,7 +56,7 @@ public class Direccion {
 	private String numeroVia;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name="tipoLocalidad", nullable=true, length=10)
+	@Column(name="tipoLocalidad", nullable=true, length=15)
 	private TipoLocalidad tipoLocalidad;
 	
 	@Column(name="nombreLocalidad", nullable=true, length=45)

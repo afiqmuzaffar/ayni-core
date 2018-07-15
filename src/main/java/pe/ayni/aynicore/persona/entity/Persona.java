@@ -19,13 +19,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import pe.ayni.aynicore.persona.constraint.Persona.TipoIdentificacion;
 import pe.ayni.aynicore.persona.constraint.Persona.TipoPersona;
-import pe.ayni.aynicore.utils.LocalDateDeserializer;
-import pe.ayni.aynicore.utils.LocalDateSerializer;
 
 @Entity
 @Table(name="Persona")
@@ -52,8 +48,6 @@ public abstract class Persona {
 	private String nroIdentificacion;
 	
 	@Column(name="fechaRegistro", nullable=false)
-	//@JsonDeserialize(using = LocalDateDeserializer.class)  
-	//@JsonSerialize(using = LocalDateSerializer.class) 
 	private LocalDate fechaRegistro;
 	
 	@Column(name="fechaHoraInsercion", nullable=false)
@@ -63,7 +57,6 @@ public abstract class Persona {
 	private LocalDateTime fechaHoraModificacion;
 	
 	@OneToMany(mappedBy="persona", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	//@JoinColumn(name="idPersona", nullable=false)
 	private Set<Direccion> direcciones;
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
