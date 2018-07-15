@@ -1,7 +1,6 @@
 package pe.ayni.aynicore.persona.service;
 
 import java.time.LocalDateTime;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +63,7 @@ public class DireccionServiceImpl implements DireccionService {
 		direccionDto.setId(direccion.getId());
 		
 	}
-
+	
 	private void mapDtotoEntity(DireccionDto direccionDto, Direccion direccion) {
 		direccion.setTipo(TipoDireccion.valueOf(direccionDto.getTipo()));
 		direccion.setTipoVia(direccionDto.getTipoVia()==null? null: TipoVia.valueOf(direccionDto.getTipoVia()));

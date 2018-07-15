@@ -1,5 +1,7 @@
 package pe.ayni.aynicore.persona.rest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,5 +25,13 @@ public class PersonaRest {
 	public DireccionDto addDireccion(@PathVariable Integer idPersona, @RequestBody DireccionDto direccionDto) {
 		personaService.addDireccion(idPersona, direccionDto);
 		return direccionDto;
+	}
+	
+	@CrossOrigin
+	@RequestMapping("/persona/{idPersona}/direcciones")
+	public List<DireccionDto> findAllDireccionesByIdPersona (@PathVariable Integer idPersona) {
+		List<DireccionDto> direccionesDto;
+		direccionesDto = personaService.findAllDireccionesByIdPersona(idPersona);
+		return direccionesDto;
 	}
 }

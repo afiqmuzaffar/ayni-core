@@ -2,6 +2,7 @@ package pe.ayni.aynicore.persona.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -57,7 +58,7 @@ public abstract class Persona {
 	private LocalDateTime fechaHoraModificacion;
 	
 	@OneToMany(mappedBy="persona", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private Set<Direccion> direcciones;
+	private List<Direccion> direcciones;
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="idPersona", nullable=false)
@@ -149,12 +150,12 @@ public abstract class Persona {
 	}
 
 
-	public Set<Direccion> getDirecciones() {
+	public List<Direccion> getDirecciones() {
 		return direcciones;
 	}
 
 
-	public void setDirecciones(Set<Direccion> direcciones) {
+	public void setDirecciones(List<Direccion> direcciones) {
 		this.direcciones = direcciones;
 	}
 
