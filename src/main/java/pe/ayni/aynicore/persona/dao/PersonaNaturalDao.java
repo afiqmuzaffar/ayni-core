@@ -17,4 +17,6 @@ public interface PersonaNaturalDao {
 	PersonaNatural findByNroDocumento(String nroDocumento);
 	
 	List<PersonaNatural> findByNameLike(String name);
+
+	List<PersonaNatural> findFirstNumberPersonasNaturales(int max);
 }

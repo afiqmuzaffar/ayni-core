@@ -3,6 +3,8 @@ package pe.ayni.aynicore.persona.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -44,7 +46,7 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 	@Override
 	public PersonaNaturalDto findPersonaNaturalById(Integer id) {
 		PersonaNatural personaNatural = personaNaturalDao.findById(id);
-		PersonaNaturalDto personaNaturalDto = convertToDTO(personaNatural);
+		PersonaNaturalDto personaNaturalDto = convertToDto(personaNatural);
 		return personaNaturalDto;
 	}
 
@@ -58,7 +60,16 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 		personaNaturalDao.update(personaNatural);
 	}
 	
-
+	@Transactional
+	@Override
+	public List<PersonaNaturalDto> findFirstNumberPersonasNaturales(int max) {
+		List<PersonaNatural> personasNaturales = personaNaturalDao.findFirstNumberPersonasNaturales(max);
+		List<PersonaNaturalDto> personasNaturalesDto = new ArrayList<>();
+		for(PersonaNatural personaNatural:personasNaturales) {
+			personasNaturalesDto.add(convertToDto(personaNatural));
+		}
+		return personasNaturalesDto;
+	}
 	
 	private void mapDtoToEntity(PersonaNaturalDto personaNaturalDto, PersonaNatural personaNatural) {
 		/*
@@ -98,10 +109,12 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 		
 	}
 	
-	private PersonaNaturalDto convertToDTO (PersonaNatural personaNatural) {
+	private PersonaNaturalDto convertToDto (PersonaNatural personaNatural) {
 		
 		ModelMapper modelMapper = new ModelMapper();
 		PersonaNaturalDto  personaNaturalDTO = modelMapper.map(personaNatural, PersonaNaturalDto.class);
 		return personaNaturalDTO;
 	}
+
+
 }

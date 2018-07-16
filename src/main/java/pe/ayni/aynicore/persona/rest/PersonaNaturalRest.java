@@ -1,5 +1,7 @@
 package pe.ayni.aynicore.persona.rest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pe.ayni.aynicore.persona.dto.PersonaNaturalDto;
@@ -40,6 +43,14 @@ public class PersonaNaturalRest {
 		return personaNaturalDto;
 	}
 	
+	@CrossOrigin
+	@GetMapping("/personas-naturales")
+	public List<PersonaNaturalDto> findFirstNumberPersonasNaturales(@RequestParam("max") int max){
+		if (max > 100) {
+			// do something
+		}
+		return personaNaturalService.findFirstNumberPersonasNaturales(max);
+	}
 
 
 }

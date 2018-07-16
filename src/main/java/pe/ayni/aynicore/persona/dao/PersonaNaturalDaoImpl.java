@@ -37,10 +37,17 @@ public class PersonaNaturalDaoImpl implements PersonaNaturalDao {
 	@Override
 	public List<PersonaNatural> findAll() {
 		Session session = sessionFactory.getCurrentSession();
-		List<PersonaNatural> personas = session.createQuery("SELECT a FROM PersonaNatural", PersonaNatural.class).getResultList();
-		return personas;
+		List<PersonaNatural> personasNaturales = session.createQuery("SELECT a FROM PersonaNatural a", PersonaNatural.class).getResultList();
+		return personasNaturales;
 	}
 
+	@Override
+	public List<PersonaNatural> findFirstNumberPersonasNaturales(int max) {
+		Session session = sessionFactory.getCurrentSession();
+		List<PersonaNatural> personasNaturales = session.createQuery("SELECT a FROM PersonaNatural a", PersonaNatural.class).setMaxResults(max).getResultList();
+		return personasNaturales;
+	}
+	
 	@Override
 	public PersonaNatural findByNroDocumento(String nroDocumento) {
 		// TODO Auto-generated method stub
@@ -52,5 +59,6 @@ public class PersonaNaturalDaoImpl implements PersonaNaturalDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }
