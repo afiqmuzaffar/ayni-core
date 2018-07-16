@@ -11,8 +11,8 @@ import javax.persistence.Table;
 
 
 
-import pe.ayni.aynicore.persona.constraint.PersonaNatural.EstadoCivil;
-import pe.ayni.aynicore.persona.constraint.PersonaNatural.Sexo;
+import pe.ayni.aynicore.persona.constraint.PersonaNaturalConstraint.EstadoCivil;
+import pe.ayni.aynicore.persona.constraint.PersonaNaturalConstraint.Sexo;
 
 @Entity
 @Table(name="PersonaNatural")

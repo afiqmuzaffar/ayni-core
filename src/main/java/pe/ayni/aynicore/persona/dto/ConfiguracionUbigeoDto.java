@@ -1,8 +1,11 @@
 package pe.ayni.aynicore.persona.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ConfiguracionUbigeoDto {
+public class ConfiguracionUbigeoDto implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	private static ConfiguracionUbigeoDto instance;
 	

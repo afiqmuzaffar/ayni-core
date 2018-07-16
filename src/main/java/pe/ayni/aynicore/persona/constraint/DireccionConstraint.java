@@ -1,6 +1,6 @@
 package pe.ayni.aynicore.persona.constraint;
 
-public class Direccion {
+public class DireccionConstraint {
 	
 	public enum TipoDireccion { CASA, NEGOCIO }
 	

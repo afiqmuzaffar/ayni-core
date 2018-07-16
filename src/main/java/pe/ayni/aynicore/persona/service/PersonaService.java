@@ -8,9 +8,14 @@ import pe.ayni.aynicore.persona.entity.Persona;
 
 public interface PersonaService {
 	
-	void addDireccion(Integer idPersona, DireccionDto direccionDTO);
 	Persona findPersonaById(Integer id);
+
+	void addDireccion(Integer idPersona, DireccionDto direccionDTO);
+
 	List<DireccionDto> findAllDireccionesByIdPersona(Integer idPersona);
+	
+	void addTelefono(Integer idPersona, TelefonoDto telefonoDto);
+	
 	List<TelefonoDto> findAllTelefonosByIdPersona(Integer idPersona);
 	
 }

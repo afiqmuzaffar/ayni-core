@@ -19,8 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
-import pe.ayni.aynicore.persona.constraint.Persona.TipoIdentificacion;
-import pe.ayni.aynicore.persona.constraint.Persona.TipoPersona;
+import pe.ayni.aynicore.persona.constraint.PersonaConstraint.TipoIdentificacion;
+import pe.ayni.aynicore.persona.constraint.PersonaConstraint.TipoPersona;
 
 @Entity
 @Table(name="Persona")

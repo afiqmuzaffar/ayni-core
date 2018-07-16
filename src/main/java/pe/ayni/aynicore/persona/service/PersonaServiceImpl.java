@@ -20,22 +20,26 @@ import pe.ayni.aynicore.persona.entity.Telefono;
 @Service
 public class PersonaServiceImpl implements PersonaService {
 	
+
+	@Autowired
+	PersonaDao personaDao;
+	
 	@Autowired
 	DireccionService direccionService;
 	
 	@Autowired
-	PersonaDao personaDao;
-	
-	@Transactional
-	@Override
-	public void addDireccion(Integer idPersona, DireccionDto direccionDto) {
-		direccionService.createDireccion(idPersona, direccionDto);
-	}
+	TelefonoService telefonoService;
 	
 	@Transactional
 	@Override
 	public Persona findPersonaById(Integer id) {
 		return personaDao.findById(id) ;
+	}
+	
+	@Transactional
+	@Override
+	public void addDireccion(Integer idPersona, DireccionDto direccionDto) {
+		direccionService.createDireccion(idPersona, direccionDto);
 	}
 	
 	@Transactional
@@ -54,6 +58,12 @@ public class PersonaServiceImpl implements PersonaService {
 	
 	@Transactional
 	@Override
+	public void addTelefono(Integer idPersona, TelefonoDto telefonoDto) {
+		telefonoService.createTelefono(idPersona, telefonoDto);
+	}
+	
+	@Transactional
+	@Override
 	public List<TelefonoDto> findAllTelefonosByIdPersona(Integer idPersona) {
 		Persona persona = findPersonaById(idPersona);
 		List<Telefono> telefonos = persona.getTelefonos();
@@ -65,6 +75,5 @@ public class PersonaServiceImpl implements PersonaService {
 		}
 		return telefonosDto;
 	}
-	
 
 }

@@ -13,8 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import pe.ayni.aynicore.persona.constraint.Telefono.EstadoTelefono;
-import pe.ayni.aynicore.persona.constraint.Telefono.TipoTelefono;
+import pe.ayni.aynicore.persona.constraint.TelefonoConstraint.EstadoTelefono;
+import pe.ayni.aynicore.persona.constraint.TelefonoConstraint.TipoTelefono;
 
 
 @Entity
@@ -33,8 +33,8 @@ public class Telefono {
 	@Column(name="numero", nullable=false, length=10)
 	private String numero;
 	
-	@Column(name="codTelefonicoDpto", nullable=true)
-	private Integer codTelefonicoDpto;
+	@Column(name="codTelefonicoDpto", nullable=true, length=2)
+	private String codTelefonicoDpto;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name="estado", nullable=false, length=10)
@@ -79,11 +79,11 @@ public class Telefono {
 		this.numero = numero;
 	}
 
-	public Integer getCodTelefonicoDpto() {
+	public String getCodTelefonicoDpto() {
 		return codTelefonicoDpto;
 	}
 
-	public void setCodTelefonicoDpto(Integer codTelefonicoDpto) {
+	public void setCodTelefonicoDpto(String codTelefonicoDpto) {
 		this.codTelefonicoDpto = codTelefonicoDpto;
 	}
 

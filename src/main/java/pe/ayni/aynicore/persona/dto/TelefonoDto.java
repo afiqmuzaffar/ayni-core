@@ -1,10 +1,14 @@
 package pe.ayni.aynicore.persona.dto;
 
-public class TelefonoDto {
+import java.io.Serializable;
+
+public class TelefonoDto implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
 	private String tipo;
-	private Integer codTelefonicoDpto;
+	private String codTelefonicoDpto;
 	private String numero;
 	public Integer getId() {
 		return id;
@@ -18,10 +22,10 @@ public class TelefonoDto {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	public Integer getCodTelefonicoDpto() {
+	public String getCodTelefonicoDpto() {
 		return codTelefonicoDpto;
 	}
-	public void setCodTelefonicoDpto(Integer codTelefonicoDpto) {
+	public void setCodTelefonicoDpto(String codTelefonicoDpto) {
 		this.codTelefonicoDpto = codTelefonicoDpto;
 	}
 	public String getNumero() {

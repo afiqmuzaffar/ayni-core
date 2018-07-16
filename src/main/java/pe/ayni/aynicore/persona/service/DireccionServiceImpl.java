@@ -6,10 +6,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pe.ayni.aynicore.persona.constraint.Direccion.EstadoDireccion;
-import pe.ayni.aynicore.persona.constraint.Direccion.TipoDireccion;
-import pe.ayni.aynicore.persona.constraint.Direccion.TipoLocalidad;
-import pe.ayni.aynicore.persona.constraint.Direccion.TipoVia;
+import pe.ayni.aynicore.persona.constraint.DireccionConstraint.EstadoDireccion;
+import pe.ayni.aynicore.persona.constraint.DireccionConstraint.TipoDireccion;
+import pe.ayni.aynicore.persona.constraint.DireccionConstraint.TipoLocalidad;
+import pe.ayni.aynicore.persona.constraint.DireccionConstraint.TipoVia;
 import pe.ayni.aynicore.persona.dao.DireccionDao;
 import pe.ayni.aynicore.persona.dto.DireccionDto;
 import pe.ayni.aynicore.persona.dto.ConfiguracionUbigeoDto.Departamento;

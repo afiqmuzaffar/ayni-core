@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pe.ayni.aynicore.persona.dto.DireccionDto;
 import pe.ayni.aynicore.persona.dto.TelefonoDto;
+import pe.ayni.aynicore.persona.dto.TelefonoFormDto;
 import pe.ayni.aynicore.persona.service.PersonaService;
+import pe.ayni.aynicore.persona.service.TelefonoService;
 
 @RestController
 @RequestMapping("/api")
@@ -20,6 +22,9 @@ public class PersonaRest {
 	
 	@Autowired
 	PersonaService personaService;
+	
+	@Autowired
+	TelefonoService telefonoService;
 	
 	@CrossOrigin
 	@PostMapping("/persona/{idPersona}/direcciones")
@@ -37,10 +42,23 @@ public class PersonaRest {
 	}
 	
 	@CrossOrigin
+	@PostMapping("/persona/{idPersona}/telefonos")
+	public TelefonoDto addTelefono(@PathVariable Integer idPersona, @RequestBody TelefonoDto telefonoDto) {
+		personaService.addTelefono(idPersona, telefonoDto);
+		return telefonoDto;
+	}
+	
+	@CrossOrigin
 	@RequestMapping("/persona/{idPersona}/telefonos")
 	public List<TelefonoDto> findAllTelefonosByIdPersona (@PathVariable Integer idPersona) {
 		List<TelefonoDto> telefonosDto;
 		telefonosDto = personaService.findAllTelefonosByIdPersona(idPersona);
 		return telefonosDto;
+	}
+	
+	@CrossOrigin
+	@RequestMapping("/persona/{idPersona}/telefonos/form")
+	public TelefonoFormDto getTelefonoForm(@PathVariable Integer idPersona) {
+		return telefonoService.getTelefonoForm();
 	}
 }

@@ -1,6 +1,6 @@
 package pe.ayni.aynicore.persona.constraint;
 
-public class PersonaNatural {
+public class PersonaNaturalConstraint {
 	
 	public enum Sexo { MUJER, HOMBRE }
 	public enum EstadoCivil { SOLTERO, CASADO }

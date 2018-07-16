@@ -10,10 +10,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pe.ayni.aynicore.persona.constraint.Persona.TipoIdentificacion;
-import pe.ayni.aynicore.persona.constraint.Persona.TipoPersona;
-import pe.ayni.aynicore.persona.constraint.PersonaNatural.EstadoCivil;
-import pe.ayni.aynicore.persona.constraint.PersonaNatural.Sexo;
+import pe.ayni.aynicore.persona.constraint.PersonaConstraint.TipoIdentificacion;
+import pe.ayni.aynicore.persona.constraint.PersonaConstraint.TipoPersona;
+import pe.ayni.aynicore.persona.constraint.PersonaNaturalConstraint.EstadoCivil;
+import pe.ayni.aynicore.persona.constraint.PersonaNaturalConstraint.Sexo;
 import pe.ayni.aynicore.persona.dao.PersonaNaturalDao;
 import pe.ayni.aynicore.persona.dto.PersonaNaturalDto;
 import pe.ayni.aynicore.persona.entity.PersonaNatural;
