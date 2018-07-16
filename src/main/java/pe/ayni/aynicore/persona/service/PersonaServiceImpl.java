@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import pe.ayni.aynicore.persona.dao.PersonaDao;
 import pe.ayni.aynicore.persona.dto.DireccionDto;
+import pe.ayni.aynicore.persona.dto.TelefonoDto;
 import pe.ayni.aynicore.persona.entity.Direccion;
 import pe.ayni.aynicore.persona.entity.Persona;
+import pe.ayni.aynicore.persona.entity.Telefono;
 
 @Service
 public class PersonaServiceImpl implements PersonaService {
@@ -48,6 +50,20 @@ public class PersonaServiceImpl implements PersonaService {
 			direccionesDto.add(direccionDto);
 		}
 	    return direccionesDto;
+	}
+	
+	@Transactional
+	@Override
+	public List<TelefonoDto> findAllTelefonosByIdPersona(Integer idPersona) {
+		Persona persona = findPersonaById(idPersona);
+		List<Telefono> telefonos = persona.getTelefonos();
+		List<TelefonoDto> telefonosDto = new ArrayList<>();
+		ModelMapper modelMapper = new ModelMapper();
+		for (Telefono telefono: telefonos) {
+			TelefonoDto telefonoDto = modelMapper.map(telefono, TelefonoDto.class);
+			telefonosDto.add(telefonoDto);
+		}
+		return telefonosDto;
 	}
 	
 

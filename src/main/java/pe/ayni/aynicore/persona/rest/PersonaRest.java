@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pe.ayni.aynicore.persona.dto.DireccionDto;
+import pe.ayni.aynicore.persona.dto.TelefonoDto;
 import pe.ayni.aynicore.persona.service.PersonaService;
 
 @RestController
@@ -33,5 +34,13 @@ public class PersonaRest {
 		List<DireccionDto> direccionesDto;
 		direccionesDto = personaService.findAllDireccionesByIdPersona(idPersona);
 		return direccionesDto;
+	}
+	
+	@CrossOrigin
+	@RequestMapping("/persona/{idPersona}/telefonos")
+	public List<TelefonoDto> findAllTelefonosByIdPersona (@PathVariable Integer idPersona) {
+		List<TelefonoDto> telefonosDto;
+		telefonosDto = personaService.findAllTelefonosByIdPersona(idPersona);
+		return telefonosDto;
 	}
 }

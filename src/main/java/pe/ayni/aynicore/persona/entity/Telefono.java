@@ -9,6 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import pe.ayni.aynicore.persona.constraint.Telefono.EstadoTelefono;
@@ -43,6 +45,10 @@ public class Telefono {
 	
 	@Column(name="fechaHoraModificacion", nullable=true)
 	private LocalDateTime fechaHoraModificacion;
+	
+	@ManyToOne
+	@JoinColumn(name="idPersona", nullable=false)
+	private Persona persona;
 	
 	
 	public Telefono() {
@@ -103,6 +109,14 @@ public class Telefono {
 
 	public void setFechaHoraModificacion(LocalDateTime fechaHoraModificacion) {
 		this.fechaHoraModificacion = fechaHoraModificacion;
+	}
+	
+	public Persona getPersona() {
+		return persona;
+	}
+
+	public void setPersona(Persona persona) {
+		this.persona = persona;
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package pe.ayni.aynicore.persona.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -60,9 +58,8 @@ public abstract class Persona {
 	@OneToMany(mappedBy="persona", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<Direccion> direcciones;
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinColumn(name="idPersona", nullable=false)
-	private Set<Telefono> telefonos;
+	@OneToMany(mappedBy="persona", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	private List<Telefono> telefonos;
 	
 	
 	public Persona() {
@@ -160,12 +157,12 @@ public abstract class Persona {
 	}
 
 
-	public Set<Telefono> getTelefonos() {
+	public List<Telefono> getTelefonos() {
 		return telefonos;
 	}
 
 
-	public void setTelefonos(Set<Telefono> telefonos) {
+	public void setTelefonos(List<Telefono> telefonos) {
 		this.telefonos = telefonos;
 	}
 	
