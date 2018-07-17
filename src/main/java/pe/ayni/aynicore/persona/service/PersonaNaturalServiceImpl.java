@@ -62,14 +62,26 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 	
 	@Transactional
 	@Override
-	public List<PersonaNaturalDto> findFirstNumberPersonasNaturales(int max) {
-		List<PersonaNatural> personasNaturales = personaNaturalDao.findFirstNumberPersonasNaturales(max);
+	public List<PersonaNaturalDto> findFirstNumberOfPersonasNaturales(int max) {
+		List<PersonaNatural> personasNaturales = personaNaturalDao.findFirstNumberOf(max);
 		List<PersonaNaturalDto> personasNaturalesDto = new ArrayList<>();
 		for(PersonaNatural personaNatural:personasNaturales) {
 			personasNaturalesDto.add(convertToDto(personaNatural));
 		}
 		return personasNaturalesDto;
 	}
+	
+	@Transactional
+	@Override
+	public List<PersonaNaturalDto> findPersonasNaturalesBy(String by, String input) {
+		List<PersonaNatural> personasNaturales = personaNaturalDao.findBy(by, input);
+		List<PersonaNaturalDto> personasNaturalesDto = new ArrayList<>();
+		for(PersonaNatural personaNatural:personasNaturales) {
+			personasNaturalesDto.add(convertToDto(personaNatural));
+		}
+		return personasNaturalesDto;
+	}
+
 	
 	private void mapDtoToEntity(PersonaNaturalDto personaNaturalDto, PersonaNatural personaNatural) {
 		/*

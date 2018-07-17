@@ -9,6 +9,7 @@ public interface PersonaNaturalService {
 	void createPersonaNatural(PersonaNaturalDto personaNaturalDto);
 	PersonaNaturalDto findPersonaNaturalById(Integer id);
 	void updatePersonaNatural(PersonaNaturalDto personaNaturalDto);
-	List<PersonaNaturalDto> findFirstNumberPersonasNaturales(int max);
+	List<PersonaNaturalDto> findFirstNumberOfPersonasNaturales(int max);
+	List<PersonaNaturalDto> findPersonasNaturalesBy(String by, String input);
 
 }

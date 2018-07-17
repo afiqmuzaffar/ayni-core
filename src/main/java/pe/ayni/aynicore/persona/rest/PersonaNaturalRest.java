@@ -42,15 +42,19 @@ public class PersonaNaturalRest {
 		personaNaturalService.updatePersonaNatural(personaNaturalDto);
 		return personaNaturalDto;
 	}
+
+	@CrossOrigin
+	@GetMapping(path = "/personas-naturales", params = "max")
+	public List<PersonaNaturalDto> findFirstNumberOfPersonasNaturales(@RequestParam("max") int max ){
+		return personaNaturalService.findFirstNumberOfPersonasNaturales(max);
+	}
 	
 	@CrossOrigin
-	@GetMapping("/personas-naturales")
-	public List<PersonaNaturalDto> findFirstNumberPersonasNaturales(@RequestParam("max") int max){
-		if (max > 100) {
-			// do something
-		}
-		return personaNaturalService.findFirstNumberPersonasNaturales(max);
+	@GetMapping(path = "/personas-naturales", params = {"by", "input"})
+	public List<PersonaNaturalDto> findPersonasNaturalesBy(@RequestParam("by") String by,@RequestParam("input") String input ){
+		return personaNaturalService.findPersonasNaturalesBy(by, input);
 	}
-
+	
+	
 
 }
