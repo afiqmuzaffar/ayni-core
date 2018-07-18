@@ -69,6 +69,24 @@ public class TelefonoServiceImpl implements TelefonoService {
 		
 	}
 	
+	@Transactional
+	@Override
+	public void deleteTelefono(Persona persona, Integer idTelefono) {
+		Telefono telefono = telefonoDao.findById(idTelefono);
+		if (!telefono.getPersona().equals(persona)) {
+			// do something
+		}
+		telefono.setEstado(EstadoTelefono.INACTIVO);
+		telefono.setFechaHoraModificacion(LocalDateTime.now());
+		telefonoDao.update(telefono);
+	}
+	
+	@Transactional
+	@Override
+	public List<Telefono> findAllTelefonosByStatusAndIdPersona(EstadoTelefono estado, Integer idPersona) {
+		return telefonoDao.findAllTelefonosByStatusAndIdPersona(estado, idPersona);
+	}
+	
 	
 
 }

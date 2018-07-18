@@ -9,7 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import pe.ayni.aynicore.persona.constraint.TelefonoConstraint.EstadoTelefono;
 import pe.ayni.aynicore.persona.dao.PersonaDao;
 import pe.ayni.aynicore.persona.dto.DireccionDto;
 import pe.ayni.aynicore.persona.dto.TelefonoDto;
@@ -64,9 +64,17 @@ public class PersonaServiceImpl implements PersonaService {
 	
 	@Transactional
 	@Override
-	public List<TelefonoDto> findAllTelefonosByIdPersona(Integer idPersona) {
+	public void deleteTelefono(Integer idPersona, Integer idTelefono) {
 		Persona persona = findPersonaById(idPersona);
-		List<Telefono> telefonos = persona.getTelefonos();
+		telefonoService.deleteTelefono(persona, idTelefono);
+	}
+	
+	
+	@Transactional
+	@Override
+	public List<TelefonoDto> findAllTelefonosByIdPersona(Integer idPersona) {
+
+		List<Telefono> telefonos = telefonoService.findAllTelefonosByStatusAndIdPersona(EstadoTelefono.ACTIVO, idPersona);
 		List<TelefonoDto> telefonosDto = new ArrayList<>();
 		ModelMapper modelMapper = new ModelMapper();
 		for (Telefono telefono: telefonos) {
@@ -75,5 +83,6 @@ public class PersonaServiceImpl implements PersonaService {
 		}
 		return telefonosDto;
 	}
+
 
 }

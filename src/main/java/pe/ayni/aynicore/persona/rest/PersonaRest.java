@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,6 +47,13 @@ public class PersonaRest {
 	public TelefonoDto addTelefono(@PathVariable Integer idPersona, @RequestBody TelefonoDto telefonoDto) {
 		personaService.addTelefono(idPersona, telefonoDto);
 		return telefonoDto;
+	}
+	
+	@CrossOrigin
+	@DeleteMapping("/persona/{idPersona}/telefonos/{idTelefono}")
+	public void deleteTelefono(@PathVariable Integer idPersona, @PathVariable Integer idTelefono) {
+		personaService.deleteTelefono(idPersona, idTelefono);
+		//return "Telefono con id: " + idTelefono + " fue dado de baja";
 	}
 	
 	@CrossOrigin
