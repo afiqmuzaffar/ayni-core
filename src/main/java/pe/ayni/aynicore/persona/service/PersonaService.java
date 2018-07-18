@@ -19,5 +19,7 @@ public interface PersonaService {
 	List<TelefonoDto> findAllTelefonosByIdPersona(Integer idPersona);
 
 	void deleteTelefono(Integer idPersona, Integer idTelefono);
+
+	void deleteDireccion(Integer idPersona, Integer idDireccion);
 	
 }

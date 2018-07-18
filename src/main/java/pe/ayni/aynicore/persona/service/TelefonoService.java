@@ -15,6 +15,6 @@ public interface TelefonoService {
 
 	void deleteTelefono(Persona persona, Integer idTelefono);
 
-	List<Telefono> findAllTelefonosByStatusAndIdPersona(EstadoTelefono estado, Integer idPersona);
+	List<Telefono> findAllTelefonosByEstadoAndIdPersona(EstadoTelefono estado, Integer idPersona);
 
 }

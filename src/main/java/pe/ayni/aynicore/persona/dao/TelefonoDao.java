@@ -11,7 +11,7 @@ public interface TelefonoDao {
 
 	void update(Telefono telefono);
 
-	List<Telefono> findAllTelefonosByStatusAndIdPersona(EstadoTelefono estado, Integer idPersona);
+	List<Telefono> findAllByEstadoAndIdPersona(EstadoTelefono estado, Integer idPersona);
 
 	Telefono findById(Integer id);
 }

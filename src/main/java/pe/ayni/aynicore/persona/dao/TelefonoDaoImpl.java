@@ -34,7 +34,7 @@ public class TelefonoDaoImpl implements TelefonoDao {
 
 
 	@Override
-	public List<Telefono> findAllTelefonosByStatusAndIdPersona(EstadoTelefono estado, Integer idPersona) {
+	public List<Telefono> findAllByEstadoAndIdPersona(EstadoTelefono estado, Integer idPersona) {
 
 		Session session = sessionFactory.getCurrentSession();
 		List<Telefono> telefonos = session.createQuery("SELECT a FROM Telefono a WHERE estado= :estado AND idPersona = :idPersona", Telefono.class)

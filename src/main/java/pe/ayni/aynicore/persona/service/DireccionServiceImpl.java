@@ -1,6 +1,8 @@
 package pe.ayni.aynicore.persona.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +66,25 @@ public class DireccionServiceImpl implements DireccionService {
 		
 	}
 	
+	@Transactional
+	@Override
+	public void deleteDireccion(Persona persona, Integer idDireccion) {
+		Direccion direccion = direccionDao.findById(idDireccion);
+		if (!direccion.getPersona().equals(persona)) {
+			// TODO: do something
+		}
+		direccion.setEstado(EstadoDireccion.INACTIVO);
+		direccion.setFechaHoraModificacion(LocalDateTime.now());
+		direccionDao.update(direccion);
+	}
+	
+
+	@Override
+	public List<Direccion> findAllDireccionesByEstadoAndIdPersona(EstadoDireccion estado, Integer idPersona) {
+		return direccionDao.findAllByEstadoAndIdPersona(estado, idPersona);
+
+	}
+
 	private void mapDtotoEntity(DireccionDto direccionDto, Direccion direccion) {
 		direccion.setTipo(TipoDireccion.valueOf(direccionDto.getTipo()));
 		direccion.setTipoVia(direccionDto.getTipoVia()==null? null: TipoVia.valueOf(direccionDto.getTipoVia()));
@@ -76,5 +97,6 @@ public class DireccionServiceImpl implements DireccionService {
 		direccion.setInterior(direccionDto.getInterior()==null? null: direccionDto.getInterior().toUpperCase());
 		direccion.setReferencia(direccionDto.getReferencia().toUpperCase());
 	}
+
 
 }

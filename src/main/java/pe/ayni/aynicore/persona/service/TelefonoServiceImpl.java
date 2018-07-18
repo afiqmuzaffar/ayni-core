@@ -83,8 +83,8 @@ public class TelefonoServiceImpl implements TelefonoService {
 	
 	@Transactional
 	@Override
-	public List<Telefono> findAllTelefonosByStatusAndIdPersona(EstadoTelefono estado, Integer idPersona) {
-		return telefonoDao.findAllTelefonosByStatusAndIdPersona(estado, idPersona);
+	public List<Telefono> findAllTelefonosByEstadoAndIdPersona(EstadoTelefono estado, Integer idPersona) {
+		return telefonoDao.findAllByEstadoAndIdPersona(estado, idPersona);
 	}
 	
 	

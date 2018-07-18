@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pe.ayni.aynicore.persona.constraint.DireccionConstraint.EstadoDireccion;
 import pe.ayni.aynicore.persona.constraint.TelefonoConstraint.EstadoTelefono;
 import pe.ayni.aynicore.persona.dao.PersonaDao;
 import pe.ayni.aynicore.persona.dto.DireccionDto;
@@ -44,9 +45,19 @@ public class PersonaServiceImpl implements PersonaService {
 	
 	@Transactional
 	@Override
-	public List<DireccionDto> findAllDireccionesByIdPersona(Integer idPersona) {
+	public void deleteDireccion(Integer idPersona, Integer idDireccion) {
 		Persona persona = findPersonaById(idPersona);
-		List<Direccion> direcciones = persona.getDirecciones();
+		direccionService.deleteDireccion(persona, idDireccion);
+	}
+	
+	
+	@Transactional
+	@Override
+	public List<DireccionDto> findAllDireccionesByIdPersona(Integer idPersona) {
+		//Persona persona = findPersonaById(idPersona);
+		//List<Direccion> direcciones = persona.getDirecciones();
+		List<Direccion> direcciones = direccionService.findAllDireccionesByEstadoAndIdPersona(EstadoDireccion.ACTIVO, idPersona);
+
 		List<DireccionDto> direccionesDto = new ArrayList<>();
 		ModelMapper modelMapper = new ModelMapper();
 		for (Direccion direccion:direcciones) {
@@ -74,7 +85,7 @@ public class PersonaServiceImpl implements PersonaService {
 	@Override
 	public List<TelefonoDto> findAllTelefonosByIdPersona(Integer idPersona) {
 
-		List<Telefono> telefonos = telefonoService.findAllTelefonosByStatusAndIdPersona(EstadoTelefono.ACTIVO, idPersona);
+		List<Telefono> telefonos = telefonoService.findAllTelefonosByEstadoAndIdPersona(EstadoTelefono.ACTIVO, idPersona);
 		List<TelefonoDto> telefonosDto = new ArrayList<>();
 		ModelMapper modelMapper = new ModelMapper();
 		for (Telefono telefono: telefonos) {

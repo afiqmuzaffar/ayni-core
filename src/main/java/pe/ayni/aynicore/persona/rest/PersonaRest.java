@@ -34,9 +34,16 @@ public class PersonaRest {
 		return direccionDto;
 	}
 	
+	
+	@CrossOrigin
+	@DeleteMapping("/persona/{idPersona}/direcciones/{idDireccion}")
+	public void deleteDireccion(@PathVariable Integer idPersona, @PathVariable Integer idDireccion) {
+		personaService.deleteDireccion(idPersona, idDireccion);
+	}
+	
 	@CrossOrigin
 	@RequestMapping("/persona/{idPersona}/direcciones")
-	public List<DireccionDto> findAllDireccionesByIdPersona (@PathVariable Integer idPersona) {
+	public List<DireccionDto> findAllDireccionesByIdPersona(@PathVariable Integer idPersona) {
 		List<DireccionDto> direccionesDto;
 		direccionesDto = personaService.findAllDireccionesByIdPersona(idPersona);
 		return direccionesDto;
