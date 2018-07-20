@@ -17,6 +17,7 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -104,5 +105,11 @@ public class AppConfig implements WebMvcConfigurer{
 		txManager.setSessionFactory(sessionFactory);
 
 		return txManager;
-	}	
+	}
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+          .addResourceHandler("/**")
+          .addResourceLocations("/resources/"); 
+    }
 }
