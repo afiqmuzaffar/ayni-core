@@ -128,5 +128,13 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 		return personaNaturalDTO;
 	}
 
+	// TODO: Temporal
+	@Override
+	@Transactional
+	public PersonaNatural findPersonaNaturalEntityById(Integer id) {
+		return personaNaturalDao.findById(id);
+	}
+
+
 
 }

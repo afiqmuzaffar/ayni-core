@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -16,6 +18,7 @@ import pe.ayni.aynicore.persona.constraint.PersonaNaturalConstraint.Sexo;
 
 @Entity
 @Table(name="PersonaNatural")
+@Inheritance(strategy = InheritanceType.JOINED)
 @PrimaryKeyJoinColumn(name = "id")
 public class PersonaNatural extends Persona{
 	

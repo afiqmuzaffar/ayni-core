@@ -91,7 +91,7 @@ public class AppConfig implements WebMvcConfigurer{
 		
 		// set the properties
 		sessionFactory.setDataSource(myDataSource());
-		sessionFactory.setPackagesToScan(env.getProperty("hibernate.packagesToScan"));
+		sessionFactory.setPackagesToScan(env.getProperty("hibernate.packagesToScan").split(","));
 		sessionFactory.setHibernateProperties(getHibernateProperties());
 		
 		return sessionFactory;
