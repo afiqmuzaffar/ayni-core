@@ -7,6 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -16,7 +21,12 @@ import pe.ayni.aynicore.persona.entity.PersonaNatural;
 @Entity
 @Table(name="Empleado")
 @PrimaryKeyJoinColumn(name = "id")
-public class Empleado extends PersonaNatural{
+public class Empleado{
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
+	private Integer id;
 	
 	@Column(name="fechaIngreso", nullable = false)
 	private LocalDate fechaIngreso;
@@ -34,8 +44,20 @@ public class Empleado extends PersonaNatural{
 	@Column(name="fechaHoraModificacion", nullable=true)
 	private LocalDateTime fechaHoraModificacion;
 	
+	@ManyToOne
+	@JoinColumn(name="idPersonaNatural")
+	private PersonaNatural personaNatural;
+	
 	public Empleado() {
 
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public LocalDate getFechaIngreso() {
@@ -77,8 +99,14 @@ public class Empleado extends PersonaNatural{
 	public void setFechaHoraModificacion(LocalDateTime fechaHoraModificacion) {
 		this.fechaHoraModificacion = fechaHoraModificacion;
 	}
-	
-	
+
+	public PersonaNatural getPersonaNatural() {
+		return personaNatural;
+	}
+
+	public void setPersonaNatural(PersonaNatural personaNatural) {
+		this.personaNatural = personaNatural;
+	}
 	
 
 }

@@ -13,6 +13,7 @@ import pe.ayni.aynicore.empleado.constraint.EmpleadoConstraint.EstadoEmpleado;
 import pe.ayni.aynicore.empleado.entity.Empleado;
 import pe.ayni.aynicore.empleado.service.EmpleadoService;
 import pe.ayni.aynicore.persona.dto.ConfiguracionUbigeoDto;
+import pe.ayni.aynicore.persona.entity.PersonaNatural;
 import pe.ayni.aynicore.persona.service.PersonaNaturalService;
 import pe.ayni.aynicore.persona.service.UbigeoService;
 import pe.ayni.aynicore.seguridad.constraint.UsuarioConstraint.EstadoUsuario;
@@ -43,11 +44,13 @@ public class DemoRest {
 	
 	@GetMapping("/empleado")
 	public void empleado() {
+		PersonaNatural personaNatural = new PersonaNatural();
+		personaNatural.setId(10000001);
 		Empleado empleado = new Empleado();
-		empleado.setId(10000001);
 		empleado.setFechaIngreso(LocalDate.now());
 		empleado.setEstado(EstadoEmpleado.ACTIVO);
 		empleado.setFechaHoraInsercion(LocalDateTime.now());
+		empleado.setPersonaNatural(personaNatural);
 		empleadoService.createEmpleado(empleado);
 	}
 	
@@ -60,7 +63,7 @@ public class DemoRest {
 		usuario.setFechaAlta(LocalDate.now());
 		usuario.setFechaHoraInsercion(LocalDateTime.now());
 		Empleado empleado = new Empleado();
-		empleado.setId(10000001);
+		empleado.setId(1001);
 		usuario.setEmpleado(empleado);
 		usuarioService.createUsuario(usuario);
 	}
