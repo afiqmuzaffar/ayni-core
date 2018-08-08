@@ -26,15 +26,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and()
 		.authorizeRequests()
-		//.antMatchers("/api/**").permitAll() // front end + rest api version
-		.antMatchers("/api/**").authenticated() // single server version
+		.antMatchers("/api/**").permitAll() // 2) front end + rest api version
+		//.antMatchers("/api/**").authenticated() // 1) single server version
 		.and()
 		.httpBasic().and()
-		//.csrf().disable()  // front end + rest api version
-		.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // single server version
-		.and()
-		.logout()
-			.logoutUrl("logout")
+		.csrf().disable()  // 2) front end + rest api version
+		//.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // 1) single server version
+		//.and()
+		//.logout()
+		//	.logoutUrl("logout")
 			
 		;
 	}
