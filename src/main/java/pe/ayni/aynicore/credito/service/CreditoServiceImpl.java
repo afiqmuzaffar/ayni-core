@@ -87,7 +87,6 @@ public class CreditoServiceImpl implements CreditoService {
 		int[] diferenciasEnDias = new int[fechasVencimiento.length];
 		diferenciasEnDias[0] = (int)Math.abs(ChronoUnit.DAYS.between(fechaDesembolso, fechasVencimiento[0]));
 		for (int i = 1; i < diferenciasEnDias.length; i++) {
-			//diferenciasEnDias[i] = (int)Math.abs(Duration.between(fechasVencimiento[i - 1], fechasVencimiento[i]).toDays());
 			diferenciasEnDias[i] = (int)Math.abs(ChronoUnit.DAYS.between(fechasVencimiento[i - 1], fechasVencimiento[i]));
 		}
 		return diferenciasEnDias;

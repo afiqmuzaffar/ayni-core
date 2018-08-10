@@ -82,25 +82,35 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 		return personasNaturalesDto;
 	}
 
-	
-	private void mapDtoToEntity(PersonaNaturalDto personaNaturalDto, PersonaNatural personaNatural) {
-		/*
-		Converter<String, String> toUppercase = new AbstractConverter<String, String>() {
-		    protected String convert(String source) {
-		        return source == null ? null : source.toUpperCase();
-		    }
-		};
-		ModelMapper modelMapper = new ModelMapper();
-		modelMapper.addConverter(toUppercase);
-		modelMapper.addMappings(new PropertyMap<PersonaNaturalDTO, PersonaNatural>() {
+	// TODO: Temporal
+	@Override
+	@Transactional
+	public PersonaNatural findPersonaNaturalEntityById(Integer id) {
+		return personaNaturalDao.findById(id);
+	}
 
-			@Override
-			protected void configure() {
-				map().setNombre(source.getApellidoPaterno()+ " " + source.getApellidoMaterno() + " " + personaNaturalDTO.getPrimerNombre() + " " + personaNaturalDTO.getSegundoNombre() );
-			}
-		});
-		PersonaNatural personaNatural = modelMapper.map(personaNaturalDTO, PersonaNatural.class);
-		*/
+	@Override
+	@Transactional
+	public List<PersonaNaturalDto> findFirstNumberOfExtensionPersonasNaturales(int max) {
+		List<PersonaNaturalDto> personasNaturalesDto = personaNaturalDao.findFirstNumberOfExtension(max);
+		return personasNaturalesDto;
+	}
+
+	@Override
+	@Transactional
+	public List<PersonaNaturalDto> findExtensionPersonasNaturalesBy(String by, String input) {
+		List<PersonaNaturalDto> personasNaturalesDto = personaNaturalDao.findExtensionBy(by, input);
+		return personasNaturalesDto;
+	}
+
+
+	private PersonaNaturalDto convertToDto (PersonaNatural personaNatural) {
+		ModelMapper modelMapper = new ModelMapper();
+		PersonaNaturalDto  personaNaturalDTO = modelMapper.map(personaNatural, PersonaNaturalDto.class);
+		return personaNaturalDTO;
+	}
+
+	private void mapDtoToEntity(PersonaNaturalDto personaNaturalDto, PersonaNatural personaNatural) {
 		
 		personaNatural.setApellidoPaterno(personaNaturalDto.getApellidoPaterno().toUpperCase());
 		personaNatural.setApellidoMaterno(personaNaturalDto.getApellidoMaterno().toUpperCase());
@@ -120,21 +130,5 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 		
 		
 	}
-	
-	private PersonaNaturalDto convertToDto (PersonaNatural personaNatural) {
-		
-		ModelMapper modelMapper = new ModelMapper();
-		PersonaNaturalDto  personaNaturalDTO = modelMapper.map(personaNatural, PersonaNaturalDto.class);
-		return personaNaturalDTO;
-	}
-
-	// TODO: Temporal
-	@Override
-	@Transactional
-	public PersonaNatural findPersonaNaturalEntityById(Integer id) {
-		return personaNaturalDao.findById(id);
-	}
-
-
 
 }

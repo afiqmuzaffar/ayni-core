@@ -31,6 +31,35 @@ public class PersonaNaturalDto implements Serializable {
 	private String email;
 	
 	private String estadoCivil;
+	
+	private Boolean esCliente;
+	
+	private Integer idCliente; 
+	
+	public PersonaNaturalDto(){
+		
+	}
+	
+	public PersonaNaturalDto(Integer id, String nombre, String tipoPersona, String tipoIdentificacion,
+			String nroIdentificacion, String primerNombre, String segundoNombre, String apellidoPaterno,
+			String apellidoMaterno, String sexo, String fechaNacimiento, String email, String estadoCivil,
+			Boolean esCliente, Integer idCliente) {
+		this.id = id;
+		this.nombre = nombre;
+		this.tipoPersona = tipoPersona;
+		this.tipoIdentificacion = tipoIdentificacion;
+		this.nroIdentificacion = nroIdentificacion;
+		this.primerNombre = primerNombre;
+		this.segundoNombre = segundoNombre;
+		this.apellidoPaterno = apellidoPaterno;
+		this.apellidoMaterno = apellidoMaterno;
+		this.sexo = sexo;
+		this.fechaNacimiento = fechaNacimiento;
+		this.email = email;
+		this.estadoCivil = estadoCivil;
+		this.esCliente = esCliente;
+		this.idCliente = idCliente;
+	}
 
 	public Integer getId() {
 		return id;
@@ -134,6 +163,22 @@ public class PersonaNaturalDto implements Serializable {
 
 	public void setEstadoCivil(String estadoCivil) {
 		this.estadoCivil = estadoCivil;
+	}
+
+	public Boolean getEsCliente() {
+		return esCliente;
+	}
+
+	public void setEsCliente(Boolean esCliente) {
+		this.esCliente = esCliente;
+	}
+
+	public Integer getIdCliente() {
+		return idCliente;
+	}
+
+	public void setIdCliente(Integer idCliente) {
+		this.idCliente = idCliente;
 	}
 	
 	

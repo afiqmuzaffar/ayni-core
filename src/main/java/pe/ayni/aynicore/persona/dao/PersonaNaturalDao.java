@@ -2,6 +2,7 @@ package pe.ayni.aynicore.persona.dao;
 
 import java.util.List;
 
+import pe.ayni.aynicore.persona.dto.PersonaNaturalDto;
 import pe.ayni.aynicore.persona.entity.PersonaNatural;
 
 public interface PersonaNaturalDao {
@@ -21,4 +22,8 @@ public interface PersonaNaturalDao {
 	List<PersonaNatural> findFirstNumberOf(int max);
 
 	List<PersonaNatural> findBy(String by, String input);
+
+	List<PersonaNaturalDto> findFirstNumberOfExtension(int max);
+
+	List<PersonaNaturalDto> findExtensionBy(String by, String input);
 }

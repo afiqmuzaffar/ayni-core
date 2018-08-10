@@ -17,44 +17,54 @@ import pe.ayni.aynicore.persona.dto.PersonaNaturalDto;
 import pe.ayni.aynicore.persona.service.PersonaNaturalService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/personas-naturales")
 public class PersonaNaturalRest {
 	
 	@Autowired
 	PersonaNaturalService personaNaturalService;
 	
 	@CrossOrigin
-	@PostMapping("/personas-naturales")
+	@PostMapping("")
 	public PersonaNaturalDto createPersonaNatural(@RequestBody PersonaNaturalDto personaNaturalDto) {
 		personaNaturalService.createPersonaNatural(personaNaturalDto);
 		return personaNaturalDto;
 	}
 
 	@CrossOrigin
-	@GetMapping("/personas-naturales/{id}")
+	@GetMapping("/{id}")
 	public PersonaNaturalDto findPersonaNaturalById(@PathVariable Integer id) {
 		return personaNaturalService.findPersonaNaturalById(id);
 	}
 	
 	@CrossOrigin
-	@PutMapping("/personas-naturales/{id}")
+	@PutMapping("/{id}")
 	public PersonaNaturalDto updatePersonaNatural(@RequestBody PersonaNaturalDto personaNaturalDto) {
 		personaNaturalService.updatePersonaNatural(personaNaturalDto);
 		return personaNaturalDto;
 	}
 
 	@CrossOrigin
-	@GetMapping(path = "/personas-naturales", params = "max")
+	@GetMapping(path = "", params = "max")
 	public List<PersonaNaturalDto> findFirstNumberOfPersonasNaturales(@RequestParam("max") int max ){
 		return personaNaturalService.findFirstNumberOfPersonasNaturales(max);
 	}
 	
 	@CrossOrigin
-	@GetMapping(path = "/personas-naturales", params = {"by", "input"})
+	@GetMapping(path = "", params = {"by", "input"})
 	public List<PersonaNaturalDto> findPersonasNaturalesBy(@RequestParam("by") String by,@RequestParam("input") String input ){
 		return personaNaturalService.findPersonasNaturalesBy(by, input);
 	}
 	
+	@CrossOrigin
+	@GetMapping(path = "/extension", params = "max")
+	public List<PersonaNaturalDto> findFirstNumberOfExtensionPersonasNaturales(@RequestParam("max") int max) {
+		return personaNaturalService.findFirstNumberOfExtensionPersonasNaturales(max);
+	}
 	
+	@CrossOrigin
+	@GetMapping(path = "/extension", params = {"by", "input"})
+	public List<PersonaNaturalDto> findExtensionPersonasNaturalesBy(@RequestParam("by") String by,@RequestParam("input") String input ){
+		return personaNaturalService.findExtensionPersonasNaturalesBy(by, input);
+	}
 
 }

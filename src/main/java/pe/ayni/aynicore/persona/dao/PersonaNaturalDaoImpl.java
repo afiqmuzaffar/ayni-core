@@ -1,13 +1,19 @@
 package pe.ayni.aynicore.persona.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Query;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import pe.ayni.aynicore.persona.dto.PersonaNaturalDto;
+import pe.ayni.aynicore.cliente.entity.Cliente;
+import pe.ayni.aynicore.persona.dto.ConfiguracionUbigeoDto.Provincia;
 import pe.ayni.aynicore.persona.entity.PersonaNatural;
 
 @Repository
@@ -66,7 +72,64 @@ public class PersonaNaturalDaoImpl implements PersonaNaturalDao {
 
 		return personasNaturales;
 	}
-	
+
+	@Override
+	public List<PersonaNaturalDto> findFirstNumberOfExtension(int max) {
+		List<PersonaNaturalDto> personasNaturalesDto = new ArrayList<>();
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("SELECT p, (SELECT c FROM Cliente c WHERE c.personaNatural.id = p.id) FROM PersonaNatural p");
+		query.setMaxResults(max);
+		@SuppressWarnings("unchecked")
+		List<Object[]> list = query.getResultList();
+		for (Object[] line:list) {
+			PersonaNatural ppnn = (PersonaNatural) line[0];
+			Cliente cliente = (Cliente) line[1];
+			PersonaNaturalDto personaNaturalDto = convertToDto(ppnn);
+			if (cliente !=null) {
+				personaNaturalDto.setIdCliente(cliente.getId());
+				personaNaturalDto.setEsCliente(true);
+			} else {
+				personaNaturalDto.setIdCliente(null);
+				personaNaturalDto.setEsCliente(false);
+			}
+			personasNaturalesDto.add(personaNaturalDto);
+		}
+		return personasNaturalesDto;
+	}
+
+	@Override
+	public List<PersonaNaturalDto> findExtensionBy(String by, String input) {
+		List<PersonaNaturalDto> personasNaturalesDto = new ArrayList<>();
+		Session session = sessionFactory.getCurrentSession();
+		String stringQuery = "SELECT p, (SELECT c FROM Cliente c WHERE c.personaNatural.id = p.id) FROM PersonaNatural p ";
+		if (by.toUpperCase().equals("DNI")) {
+			stringQuery += "WHERE p.tipoIdentificacion = 'DNI' and p.nroIdentificacion =:input";
+		} else if (by.toUpperCase().equals("NOMBRE")) {
+			input = input.toUpperCase() + "%";
+			stringQuery += "WHERE p.nombre LIKE :input";
+		}
+		
+		@SuppressWarnings("unchecked")
+		List<Object[]> list = session.createQuery(stringQuery)
+				.setMaxResults(100)
+				.setParameter("input", input)
+				.getResultList();
+		
+		for (Object[] line:list) {
+			PersonaNatural ppnn = (PersonaNatural) line[0];
+			Cliente cliente = (Cliente) line[1];
+			PersonaNaturalDto personaNaturalDto = convertToDto(ppnn);
+			if (cliente !=null) {
+				personaNaturalDto.setIdCliente(cliente.getId());
+				personaNaturalDto.setEsCliente(true);
+			} else {
+				personaNaturalDto.setIdCliente(null);
+				personaNaturalDto.setEsCliente(false);
+			}
+			personasNaturalesDto.add(personaNaturalDto);
+		}
+		return personasNaturalesDto;
+	}
 	
 	@Override
 	public PersonaNatural findByNroDocumento(String nroDocumento) {
@@ -78,6 +141,14 @@ public class PersonaNaturalDaoImpl implements PersonaNaturalDao {
 	public List<PersonaNatural> findByNameLike(String name) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	// TODO Refactor this method and its location
+	private PersonaNaturalDto convertToDto(PersonaNatural personaNatural) {
+		
+		ModelMapper modelMapper = new ModelMapper();
+		PersonaNaturalDto  personaNaturalDTO = modelMapper.map(personaNatural, PersonaNaturalDto.class);
+		return personaNaturalDTO;
 	}
 
 

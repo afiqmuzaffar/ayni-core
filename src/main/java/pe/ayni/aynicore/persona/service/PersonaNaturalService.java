@@ -18,4 +18,8 @@ public interface PersonaNaturalService {
 	List<PersonaNaturalDto> findPersonasNaturalesBy(String by, String input);
 	
 	PersonaNatural findPersonaNaturalEntityById(Integer id);
+
+	List<PersonaNaturalDto> findFirstNumberOfExtensionPersonasNaturales(int max);
+
+	List<PersonaNaturalDto> findExtensionPersonasNaturalesBy(String by, String input);
 }
