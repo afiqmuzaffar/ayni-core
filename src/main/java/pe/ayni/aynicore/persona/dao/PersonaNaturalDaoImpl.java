@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import pe.ayni.aynicore.persona.dto.PersonaNaturalDto;
 import pe.ayni.aynicore.cliente.entity.Cliente;
-import pe.ayni.aynicore.persona.dto.ConfiguracionUbigeoDto.Provincia;
 import pe.ayni.aynicore.persona.entity.PersonaNatural;
 
 @Repository
