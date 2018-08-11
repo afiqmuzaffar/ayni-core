@@ -104,7 +104,7 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 	}
 
 
-	private PersonaNaturalDto convertToDto (PersonaNatural personaNatural) {
+	public PersonaNaturalDto convertToDto (PersonaNatural personaNatural) {
 		ModelMapper modelMapper = new ModelMapper();
 		PersonaNaturalDto  personaNaturalDTO = modelMapper.map(personaNatural, PersonaNaturalDto.class);
 		return personaNaturalDTO;

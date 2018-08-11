@@ -22,4 +22,7 @@ public interface PersonaNaturalService {
 	List<PersonaNaturalDto> findFirstNumberOfExtensionPersonasNaturales(int max);
 
 	List<PersonaNaturalDto> findExtensionPersonasNaturalesBy(String by, String input);
+	
+	PersonaNaturalDto convertToDto (PersonaNatural personaNatural);
+
 }
