@@ -2,9 +2,8 @@ package pe.ayni.aynicore.credito.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
-public class DatosCreditoDto implements Serializable {
+public class CreditoDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
