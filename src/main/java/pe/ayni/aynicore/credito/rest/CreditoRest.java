@@ -1,7 +1,5 @@
 package pe.ayni.aynicore.credito.rest;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,23 +20,9 @@ public class CreditoRest {
 	CreditoService creditoService;
 	
 	@CrossOrigin
-	@GetMapping("/simulacionCronograma")
+	@GetMapping("/simulacion-cronograma")
 	public List<DetalleCronogramaCreditoDto> getSimulacionCronograma(DatosCreditoDto datosCreditoDto) {
 		System.out.println(datosCreditoDto.toString());
-//		List<DetalleCronogramaCreditoDto> cronogramaCreditoDto = new ArrayList<>();
-//		int[] cuotas = {1,2,3,4,5};
-//		for(int i: cuotas) {
-//			DetalleCronogramaCreditoDto detalle = new DetalleCronogramaCreditoDto();
-//			detalle.setNroCuota(i);
-//			detalle.setFechaVencimiento("2018-02-01");
-//			detalle.setSaldoCapital(new BigDecimal(1000));
-//			detalle.setCapital(new BigDecimal(100));
-//			detalle.setInteres(new BigDecimal(50));
-//			detalle.setMontoCuota(new BigDecimal(150));
-//			cronogramaCreditoDto.add(detalle);
-//		} 
-//		
-		
 		return creditoService.getSimulacionCronograma(datosCreditoDto);
 	}
 }
