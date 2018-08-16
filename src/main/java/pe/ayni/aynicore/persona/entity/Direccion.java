@@ -84,7 +84,7 @@ public class Direccion {
 	@Column(name="fechaHoraModificacion", nullable=true)
 	private LocalDateTime fechaHoraModificacion;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="idPersona", nullable=false)
 	private Persona persona;
 	

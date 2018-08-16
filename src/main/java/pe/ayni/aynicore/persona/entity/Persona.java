@@ -55,10 +55,10 @@ public abstract class Persona {
 	@Column(name="fechaHoraModificacion", nullable=true)
 	private LocalDateTime fechaHoraModificacion;
 	
-	@OneToMany(mappedBy="persona", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="persona", fetch=FetchType.LAZY)
 	private List<Direccion> direcciones;
 	
-	@OneToMany(mappedBy="persona", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="persona", fetch=FetchType.LAZY)
 	private List<Telefono> telefonos;
 	
 	

@@ -45,7 +45,7 @@ public class Empleado{
 	private LocalDateTime fechaHoraModificacion;
 	
 	@ManyToOne
-	@JoinColumn(name="idPersonaNatural")
+	@JoinColumn(name="idPersonaNatural", nullable=false)
 	private PersonaNatural personaNatural;
 	
 	public Empleado() {

@@ -47,6 +47,15 @@ public class ClienteDto implements Serializable {
 	public void setPersonaNaturalDto(PersonaNaturalDto personaNatural) {
 		this.personaNatural = personaNatural;
 	}
+
+	@Override
+	public String toString() {
+		return "ClienteDto [id=" + id + ", fechaRegistro=" + fechaRegistro + ", fechaAfiliacion=" + fechaAfiliacion
+				+ ", personaNatural=" + personaNatural + ", getId()=" + getId() + ", getFechaRegistro()="
+				+ getFechaRegistro() + ", getFechaAfiliacion()=" + getFechaAfiliacion() + ", getPersonaNatural()="
+				+ getPersonaNatural() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
+	}
 	
 	
 

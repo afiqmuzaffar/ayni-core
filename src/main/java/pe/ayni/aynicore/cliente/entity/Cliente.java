@@ -10,10 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import pe.ayni.aynicore.persona.entity.PersonaNatural;
 
 @Entity
+@Table(name="Cliente")
 public class Cliente {
 	
 	@Id
@@ -28,7 +30,7 @@ public class Cliente {
 	private LocalDate fechaAfiliacion;
 	
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="idPersonaNatural")
+	@JoinColumn(name="idPersonaNatural", nullable=false, unique=true)
 	private PersonaNatural personaNatural;
 	
 	public Cliente() {

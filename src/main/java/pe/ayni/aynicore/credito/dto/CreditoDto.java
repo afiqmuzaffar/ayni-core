@@ -3,23 +3,32 @@ package pe.ayni.aynicore.credito.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import pe.ayni.aynicore.cliente.dto.ClienteDto;
+
 public class CreditoDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private BigDecimal montoDesembolso;
+	private String moneda; // "0", "1": Soles, "2": Dolares
 	private String frecuencia;
 	private Double tem;
 	private Integer nroCuotas;
 	private String fechaDesembolso;
 	private String fechaPrimeraCuota;
-	
+	private ClienteDto cliente;
 	
 	public BigDecimal getMontoDesembolso() {
 		return montoDesembolso;
 	}
 	public void setMontoDesembolso(BigDecimal montoDesembolso) {
 		this.montoDesembolso = montoDesembolso;
+	}
+	public String getMoneda() {
+		return moneda;
+	}
+	public void setMoneda(String moneda) {
+		this.moneda = moneda;
 	}
 	public String getFrecuencia() {
 		return frecuencia;
@@ -51,20 +60,20 @@ public class CreditoDto implements Serializable {
 	public void setFechaPrimeraCuota(String fechaPrimeraCuota) {
 		this.fechaPrimeraCuota = fechaPrimeraCuota;
 	}
+	public ClienteDto getCliente() {
+		return cliente;
+	}
+	public void setCliente(ClienteDto cliente) {
+		this.cliente = cliente;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	@Override
 	public String toString() {
-		return "DatosCreditoDTO [montoDesembolso=" + montoDesembolso + ", frecuencia=" + frecuencia + ", tem=" + tem
-				+ ", nroCuotas=" + nroCuotas + ", fechaDesembolso=" + fechaDesembolso + ", fechaPrimeraCuota="
-				+ fechaPrimeraCuota + ", getMontoDesembolso()=" + getMontoDesembolso() + ", getFrecuencia()="
-				+ getFrecuencia() + ", getTem()=" + getTem() + ", getNroCuotas()=" + getNroCuotas()
-				+ ", getFechaDesembolso()=" + getFechaDesembolso() + ", getFechaPrimeraCuota()="
-				+ getFechaPrimeraCuota() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+		return "CreditoDto [montoDesembolso=" + montoDesembolso + ", moneda=" + moneda + ", frecuencia=" + frecuencia
+				+ ", tem=" + tem + ", nroCuotas=" + nroCuotas + ", fechaDesembolso=" + fechaDesembolso
+				+ ", fechaPrimeraCuota=" + fechaPrimeraCuota + ", cliente=" + cliente + "]";
 	}
 	
-	
-
 }

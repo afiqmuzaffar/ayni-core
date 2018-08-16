@@ -180,6 +180,16 @@ public class PersonaNaturalDto implements Serializable {
 	public void setIdCliente(Integer idCliente) {
 		this.idCliente = idCliente;
 	}
+
+	@Override
+	public String toString() {
+		return "PersonaNaturalDto [id=" + id + ", nombre=" + nombre + ", tipoPersona=" + tipoPersona
+				+ ", tipoIdentificacion=" + tipoIdentificacion + ", nroIdentificacion=" + nroIdentificacion
+				+ ", primerNombre=" + primerNombre + ", segundoNombre=" + segundoNombre + ", apellidoPaterno="
+				+ apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", sexo=" + sexo + ", fechaNacimiento="
+				+ fechaNacimiento + ", email=" + email + ", estadoCivil=" + estadoCivil + ", esCliente=" + esCliente
+				+ ", idCliente=" + idCliente + "]";
+	}
 	
 	
 	
