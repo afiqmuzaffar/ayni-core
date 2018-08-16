@@ -19,7 +19,7 @@ public class ClienteDaoImpl implements ClienteDao {
 	@Override
 	public void create(Cliente cliente) {
 		Session session = sessionFactory.getCurrentSession();
-		session.save(cliente);
+		session.save(cliente); 
 	}
 	
 	@Override

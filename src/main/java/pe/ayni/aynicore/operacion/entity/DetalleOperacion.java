@@ -3,18 +3,22 @@ package pe.ayni.aynicore.operacion.entity;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import pe.ayni.aynicore.banco.entity.DetalleOperacionBanco;
 import pe.ayni.aynicore.credito.entity.DetalleCronogramaCredito;
 import pe.ayni.aynicore.cuenta.entity.Cuenta;
 import pe.ayni.aynicore.cuenta.entity.CuentaContable;
 
+@Entity
+@Table(name="DetalleOperacion")
 public class DetalleOperacion {
 	
 	@Id

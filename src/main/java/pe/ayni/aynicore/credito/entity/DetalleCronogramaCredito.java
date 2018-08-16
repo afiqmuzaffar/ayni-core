@@ -56,7 +56,7 @@ public class DetalleCronogramaCredito {
 	@Column(name="montoPagado", nullable=false)
 	private BigDecimal montoPagado;
 	
-	@OneToMany(mappedBy="detalleOperacionCredito", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="detalleCronogramaCredito", fetch=FetchType.LAZY)
 	private List<DetalleOperacion> detallesOperacion; 
 	
 	public DetalleCronogramaCredito() {
