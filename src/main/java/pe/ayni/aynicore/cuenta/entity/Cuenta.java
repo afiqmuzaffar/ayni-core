@@ -10,7 +10,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import pe.ayni.aynicore.empleado.entity.Empleado;
@@ -32,8 +31,8 @@ public abstract class Cuenta {
 	@JoinColumn(name="ctaContable", nullable=false)
 	private CuentaContable ctaContable;
 	
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="idEmpleado", nullable=false, unique=true)
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="idResponsable", nullable=false)
 	private Empleado responsable;
 	
 	public Cuenta() {

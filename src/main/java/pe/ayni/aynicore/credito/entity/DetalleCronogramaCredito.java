@@ -62,6 +62,19 @@ public class DetalleCronogramaCredito {
 	public DetalleCronogramaCredito() {
 		
 	}
+	
+	public DetalleCronogramaCredito(Integer nroCondicion, Integer nroCuota, Integer nroConcepto,
+			CuentaContable ctaContable, LocalDate fechaVencimiento, BigDecimal saldoCapital, BigDecimal montoCobrar,
+			BigDecimal montoPagado) {
+		this.nroCondicion = nroCondicion;
+		this.nroCuota = nroCuota;
+		this.nroConcepto = nroConcepto;
+		this.ctaContable = ctaContable;
+		this.fechaVencimiento = fechaVencimiento;
+		this.saldoCapital = saldoCapital;
+		this.montoCobrar = montoCobrar;
+		this.montoPagado = montoPagado;
+	}
 
 	public Integer getId() {
 		return id;

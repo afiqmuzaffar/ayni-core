@@ -8,10 +8,15 @@ public class DetalleCronogramaCreditoDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer nroCuota;
+	
 	private String fechaVencimiento;
+	
 	private BigDecimal saldoCapital;
+	
 	private BigDecimal capital;
+	
 	private BigDecimal interes;
+	
 	private BigDecimal montoCuota;
 	
 	public DetalleCronogramaCreditoDto() {

@@ -51,6 +51,10 @@ public class Usuario {
 		
 	}
 
+	public Usuario(String usuario) {
+		this.usuario = usuario;
+	}
+
 	public String getUsuario() {
 		return usuario;
 	}

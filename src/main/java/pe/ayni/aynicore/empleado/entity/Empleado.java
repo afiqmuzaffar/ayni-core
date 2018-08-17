@@ -52,6 +52,10 @@ public class Empleado{
 
 	}
 
+	public Empleado(Integer id) {
+		this.id = id;
+	}
+
 	public Integer getId() {
 		return id;
 	}

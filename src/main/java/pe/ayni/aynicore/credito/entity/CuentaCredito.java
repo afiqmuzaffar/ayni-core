@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -22,7 +23,7 @@ import pe.ayni.aynicore.cuenta.entity.Cuenta;
 import pe.ayni.aynicore.seguridad.entity.Usuario;
 
 @Entity
-@Table(name="Credito")
+@Table(name="CuentaCredito")
 @PrimaryKeyJoinColumn(name = "idCuenta")
 public class CuentaCredito extends Cuenta {
 	
@@ -54,8 +55,8 @@ public class CuentaCredito extends Cuenta {
 	private BigDecimal tem;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name="frecuenca", nullable=false, length=10)
-	private FrecuenciaCredito frecuenca;
+	@Column(name="frecuencia", nullable=false, length=10)
+	private FrecuenciaCredito frecuencia;
 	
 	@Column(name="nroCuotas", nullable=false)
 	private Integer nroCuotas;
@@ -66,7 +67,7 @@ public class CuentaCredito extends Cuenta {
 	@Column(name="fechaPrimeraCuota", nullable=false)
 	private LocalDate fechaPrimeraCuota;
 	
-	@OneToMany(mappedBy="cuentaCredito", fetch = FetchType.LAZY) // default LAZY
+	@OneToMany(mappedBy="cuentaCredito", fetch = FetchType.LAZY, cascade=CascadeType.ALL) // default LAZY
 	private List<DetalleCronogramaCredito> detallesCronogramaCredito;
 	
 	public CuentaCredito() {
@@ -137,12 +138,12 @@ public class CuentaCredito extends Cuenta {
 		this.tem = tem;
 	}
 
-	public FrecuenciaCredito getFrecuenca() {
-		return frecuenca;
+	public FrecuenciaCredito getFrecuencia() {
+		return frecuencia;
 	}
 
-	public void setFrecuenca(FrecuenciaCredito frecuenca) {
-		this.frecuenca = frecuenca;
+	public void setFrecuencia(FrecuenciaCredito frecuencia) {
+		this.frecuencia = frecuencia;
 	}
 
 	public Integer getNroCuotas() {
@@ -174,6 +175,9 @@ public class CuentaCredito extends Cuenta {
 	}
 
 	public void setDetallesCronogramaCredito(List<DetalleCronogramaCredito> detallesCronogramaCredito) {
+		for(DetalleCronogramaCredito detalleCronogramaCredito: detallesCronogramaCredito) {
+			detalleCronogramaCredito.setCuentaCredito(this);
+		}
 		this.detallesCronogramaCredito = detallesCronogramaCredito;
 	}
 

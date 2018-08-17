@@ -31,6 +31,10 @@ public class CuentaContable {
 		
 	}
 
+	public CuentaContable(String ctaContable) {
+		this.ctaContable = ctaContable;
+	}
+
 	public String getCtaContable() {
 		return ctaContable;
 	}
