@@ -42,6 +42,10 @@ public class DetalleOperacionBanco {
 	@OneToMany(mappedBy="detalleOperacionBanco", fetch=FetchType.LAZY)
 	private List<DetalleOperacion> detallesOperacion;
 
+	public DetalleOperacionBanco(Integer id) {
+		this.id = id;
+	}
+
 	public Integer getId() {
 		return id;
 	}

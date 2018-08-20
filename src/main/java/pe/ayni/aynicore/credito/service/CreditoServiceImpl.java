@@ -103,7 +103,7 @@ public class CreditoServiceImpl implements CreditoService {
 		
 		credito.setCapitalInicial(creditoDto.getMontoDesembolso());
 		credito.setCliente(new Cliente(creditoDto.getIdCliente()));
-		credito.setCtaContable(new CuentaContable("14110206"));
+		credito.setCuentaContable(new CuentaContable("14110206"));
 		credito.setEstado(EstadoCredito.ACTIVO);
 		//credito.setDetallesCronogramaCredito(detallesCronogramaCredito);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

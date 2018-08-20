@@ -76,6 +76,10 @@ public class DetalleCronogramaCredito {
 		this.montoPagado = montoPagado;
 	}
 
+	public DetalleCronogramaCredito(Integer id) {
+		this.id = id;
+	}
+
 	public Integer getId() {
 		return id;
 	}

@@ -33,6 +33,31 @@ public class DesembolsoCreditoDto implements Serializable {
 	private Integer idResponsableCuenta;
 	
 	private String usuarioOperacion;
+	
+	public DesembolsoCreditoDto() {
+		
+	}
+	
+	public DesembolsoCreditoDto(BigDecimal montoDesembolso, String moneda, String frecuencia, BigDecimal tem,
+			Integer nroCuotas, String fechaDesembolso, String fechaPrimeraCuota, Integer idCliente,
+			String viaDesembolso, Integer idCuentaDesembolso, String usuarioAprobador, Integer idResponsableCuenta,
+			String usuarioOperacion) {
+		this.montoDesembolso = montoDesembolso;
+		this.moneda = moneda;
+		this.frecuencia = frecuencia;
+		this.tem = tem;
+		this.nroCuotas = nroCuotas;
+		this.fechaDesembolso = fechaDesembolso;
+		this.fechaPrimeraCuota = fechaPrimeraCuota;
+		this.idCliente = idCliente;
+		this.viaDesembolso = viaDesembolso;
+		this.idCuentaDesembolso = idCuentaDesembolso;
+		this.usuarioAprobador = usuarioAprobador;
+		this.idResponsableCuenta = idResponsableCuenta;
+		this.usuarioOperacion = usuarioOperacion;
+	}
+	
+	
 
 	public BigDecimal getMontoDesembolso() {
 		return montoDesembolso;
@@ -138,23 +163,4 @@ public class DesembolsoCreditoDto implements Serializable {
 		this.usuarioOperacion = usuarioOperacion;
 	}
 
-	public DesembolsoCreditoDto(BigDecimal montoDesembolso, String moneda, String frecuencia, BigDecimal tem,
-			Integer nroCuotas, String fechaDesembolso, String fechaPrimeraCuota, Integer idCliente,
-			String viaDesembolso, Integer idCuentaDesembolso, String usuarioAprobador, Integer idResponsableCuenta,
-			String usuarioOperacion) {
-		this.montoDesembolso = montoDesembolso;
-		this.moneda = moneda;
-		this.frecuencia = frecuencia;
-		this.tem = tem;
-		this.nroCuotas = nroCuotas;
-		this.fechaDesembolso = fechaDesembolso;
-		this.fechaPrimeraCuota = fechaPrimeraCuota;
-		this.idCliente = idCliente;
-		this.viaDesembolso = viaDesembolso;
-		this.idCuentaDesembolso = idCuentaDesembolso;
-		this.usuarioAprobador = usuarioAprobador;
-		this.idResponsableCuenta = idResponsableCuenta;
-		this.usuarioOperacion = usuarioOperacion;
-	}
-	
 }

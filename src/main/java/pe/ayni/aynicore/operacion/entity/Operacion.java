@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -58,12 +59,16 @@ public class Operacion {
 	@JoinColumn(name="idOperacionRelacionada", nullable=true, unique=true)
 	private Operacion operacionRelacionada;
 	
-	@OneToMany(mappedBy="operacion", fetch = FetchType.LAZY) // default LAZY
+	@OneToMany(mappedBy="operacion", fetch = FetchType.LAZY, cascade=CascadeType.ALL) // default LAZY
 	private List<DetalleOperacion> detallesOperacion;
 	
 	
 	public Operacion() {
 		
+	}
+
+	public Operacion(Integer id) {
+		this.id = id;
 	}
 
 
@@ -163,6 +168,9 @@ public class Operacion {
 
 
 	public void setDetallesOperacion(List<DetalleOperacion> detallesOperacion) {
+		for (DetalleOperacion detalleOperacion: detallesOperacion) {
+			detalleOperacion.setOperacion(this);
+		}
 		this.detallesOperacion = detallesOperacion;
 	}
 
