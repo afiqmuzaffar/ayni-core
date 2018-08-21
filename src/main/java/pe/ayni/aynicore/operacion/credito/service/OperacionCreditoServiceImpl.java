@@ -1,14 +1,29 @@
 package pe.ayni.aynicore.operacion.credito.service;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import pe.ayni.aynicore.cliente.dto.ClienteDto;
+import pe.ayni.aynicore.cliente.service.ClienteService;
 import pe.ayni.aynicore.credito.dto.CreditoDto;
+import pe.ayni.aynicore.credito.dto.DetalleCronogramaCreditoDto;
 import pe.ayni.aynicore.credito.entity.DetalleCronogramaCredito;
 import pe.ayni.aynicore.credito.service.CreditoService;
 import pe.ayni.aynicore.credito.service.DetalleCronogramaCreditoService;
@@ -35,6 +50,9 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 	
 	@Autowired
 	DetalleOperacionService detalleOperacionService;
+	
+	@Autowired
+	ClienteService clienteService;
 	
 	@Override
 	@Transactional
@@ -77,6 +95,42 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 		operacionService.createOperacion(operacionDto);
 		
 	}
+
+	@Override
+	@Transactional
+	public void buildReporteSolicitud(DesembolsoCreditoDto desembolsoCreditoDto, OutputStream outStream) throws JRException {
+		
+		CreditoDto creditoDto = new CreditoDto(desembolsoCreditoDto.getMontoDesembolso(), desembolsoCreditoDto.getMoneda(),
+				desembolsoCreditoDto.getFrecuencia(), desembolsoCreditoDto.getTem(), desembolsoCreditoDto.getNroCuotas(),
+				desembolsoCreditoDto.getFechaDesembolso(), desembolsoCreditoDto.getFechaPrimeraCuota(),
+				desembolsoCreditoDto.getUsuarioAprobador(), desembolsoCreditoDto.getIdCliente(),
+				desembolsoCreditoDto.getIdResponsableCuenta());
+		
+		List<DetalleCronogramaCreditoDto> detallesCronograma = creditoService.getSimulacionCronograma(creditoDto)
+																	.stream()
+																	.filter(e -> (e.getNroCuota().intValue() > 0))
+																	.collect(Collectors.toList()); 
+		
+		InputStream reportStream = this.getClass().getClassLoader().getResourceAsStream("Solicitud_Credito.jasper");
+		
+		Map<String,Object> params = new HashMap<>();
+	    ClienteDto clienteDto = clienteService.findClienteById(desembolsoCreditoDto.getIdCliente());
+		params.put("nroIdentificacion", clienteDto.getPersonaNatural().getNroIdentificacion());
+	    params.put("nombre", clienteDto.getPersonaNatural().getNombre());
+	    params.put("montoDesembolso", desembolsoCreditoDto.getMontoDesembolso());
+	    params.put("frecuencia", desembolsoCreditoDto.getFrecuencia());
+	    params.put("tem", desembolsoCreditoDto.getTem());
+	    params.put("nroCuotas", desembolsoCreditoDto.getNroCuotas());
+	    params.put("fechaDesembolso", desembolsoCreditoDto.getFechaDesembolso());
+		
+	    JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportStream);
+	    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanArrayDataSource(detallesCronograma.toArray()));
+	    
+	    JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
+	    
+	}
+	
+	
 	
 	/*
 	 * public void createDesembolso(...) {

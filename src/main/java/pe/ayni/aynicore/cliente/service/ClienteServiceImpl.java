@@ -55,7 +55,7 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Override
 	@Transactional
-	public ClienteDto getClienteById(Integer id) {
+	public ClienteDto findClienteById(Integer id) {
 		Cliente cliente = clienteDao.findById(id);
 		ClienteDto clienteDto = convertToDto(cliente);
 		return clienteDto;

@@ -39,7 +39,7 @@ public class ClienteRest {
 	@CrossOrigin
 	@GetMapping("/{id}")
 	public ClienteDto findClienteById(@PathVariable Integer id) {
-		return clienteService.getClienteById(id);
+		return clienteService.findClienteById(id);
 	}
 	
 }

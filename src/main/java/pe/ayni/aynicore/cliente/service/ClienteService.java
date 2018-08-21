@@ -10,5 +10,5 @@ public interface ClienteService {
 
 	List<ClienteDto> findClientesBy(String by, String input);
 
-	ClienteDto getClienteById(Integer id);
+	ClienteDto findClienteById(Integer id);
 }
