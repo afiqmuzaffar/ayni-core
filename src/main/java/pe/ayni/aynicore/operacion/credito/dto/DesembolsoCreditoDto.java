@@ -163,4 +163,16 @@ public class DesembolsoCreditoDto implements Serializable {
 		this.usuarioOperacion = usuarioOperacion;
 	}
 
+	@Override
+	public String toString() {
+		return "DesembolsoCreditoDto [montoDesembolso=" + montoDesembolso + ", moneda=" + moneda + ", frecuencia="
+				+ frecuencia + ", tem=" + tem + ", nroCuotas=" + nroCuotas + ", fechaDesembolso=" + fechaDesembolso
+				+ ", fechaPrimeraCuota=" + fechaPrimeraCuota + ", idCliente=" + idCliente + ", viaDesembolso="
+				+ viaDesembolso + ", idCuentaDesembolso=" + idCuentaDesembolso + ", usuarioAprobador="
+				+ usuarioAprobador + ", idResponsableCuenta=" + idResponsableCuenta + ", usuarioOperacion="
+				+ usuarioOperacion + "]";
+	}
+	
+	
+	
 }
