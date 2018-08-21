@@ -17,6 +17,7 @@ import pe.ayni.aynicore.credito.constraint.CreditoConstraint.EstadoCredito;
 import pe.ayni.aynicore.credito.constraint.CreditoConstraint.FrecuenciaCredito;
 import pe.ayni.aynicore.credito.dao.CreditoDao;
 import pe.ayni.aynicore.credito.dto.CreditoDto;
+import pe.ayni.aynicore.credito.dto.DatosSimulacionCreditoDto;
 import pe.ayni.aynicore.credito.dto.DetalleCronogramaCreditoDto;
 import pe.ayni.aynicore.credito.entity.CuentaCredito;
 import pe.ayni.aynicore.credito.entity.DetalleCronogramaCredito;
@@ -58,7 +59,7 @@ public class CreditoServiceImpl implements CreditoService {
 		
 		List<DetalleCronogramaCredito> detallesCronogramaCredito = new ArrayList<>();
 		
-		List<DetalleCronogramaCreditoDto> detallesCronogramaCreditoDto = getSimulacionCronograma(creditoDto);
+		List<DetalleCronogramaCreditoDto> detallesCronogramaCreditoDto = getCalculoDetalleCronograma(creditoDto);
 		
 		int nroConceptoCapital = 0;
 		int nroConceptoInteres = 1;
@@ -123,10 +124,20 @@ public class CreditoServiceImpl implements CreditoService {
 		
 		return credito;
 	}
-
+	
 	@Override
-	@Transactional
-	public List<DetalleCronogramaCreditoDto> getSimulacionCronograma(CreditoDto creditoDto) {
+	public List<DetalleCronogramaCreditoDto> getSimulacionCronograma(
+			DatosSimulacionCreditoDto datosSimulacionCreditoDto) {
+		CreditoDto creditoDto = new CreditoDto(datosSimulacionCreditoDto.getMontoDesembolso(), 
+				datosSimulacionCreditoDto.getFrecuencia(), datosSimulacionCreditoDto.getTem(), 
+				datosSimulacionCreditoDto.getNroCuotas(), datosSimulacionCreditoDto.getFechaDesembolso(), 
+				datosSimulacionCreditoDto.getFechaPrimeraCuota());
+		
+		return getCalculoDetalleCronograma(creditoDto);
+	}
+	
+	@Override
+	public List<DetalleCronogramaCreditoDto> getCalculoDetalleCronograma(CreditoDto creditoDto) {
 		
 		LocalDate[] fechasVencimiento = getFechasVencimiento(LocalDate.parse(creditoDto.getFechaPrimeraCuota()), 
 				FrecuenciaCredito.valueOf(creditoDto.getFrecuencia()), creditoDto.getNroCuotas().intValue());

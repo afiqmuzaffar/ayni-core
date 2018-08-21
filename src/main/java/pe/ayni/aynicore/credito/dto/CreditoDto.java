@@ -49,6 +49,16 @@ public class CreditoDto implements Serializable {
 		this.idCliente = idCliente;
 		this.idResponsableCuenta = idResponsableCuenta;
 	}
+	
+	public CreditoDto(BigDecimal montoDesembolso, String frecuencia, BigDecimal tem, Integer nroCuotas,
+			String fechaDesembolso, String fechaPrimeraCuota) {
+		this.montoDesembolso = montoDesembolso;
+		this.frecuencia = frecuencia;
+		this.tem = tem;
+		this.nroCuotas = nroCuotas;
+		this.fechaDesembolso = fechaDesembolso;
+		this.fechaPrimeraCuota = fechaPrimeraCuota;
+	}
 
 	public Integer getIdCuenta() {
 		return idCuenta;

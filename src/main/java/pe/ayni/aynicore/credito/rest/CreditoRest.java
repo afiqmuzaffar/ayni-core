@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import pe.ayni.aynicore.credito.dto.CreditoDto;
+import pe.ayni.aynicore.credito.dto.DatosSimulacionCreditoDto;
 import pe.ayni.aynicore.credito.dto.DetalleCronogramaCreditoDto;
 import pe.ayni.aynicore.credito.service.CreditoService;
 
@@ -22,9 +22,9 @@ public class CreditoRest {
 	
 	@CrossOrigin
 	@GetMapping("/simular-cronograma")
-	public List<DetalleCronogramaCreditoDto> getSimulacionCronograma(CreditoDto creditoDto) {
-		System.out.println(creditoDto.toString());
-		return creditoService.getSimulacionCronograma(creditoDto);
+	public List<DetalleCronogramaCreditoDto> getSimulacionCronograma(DatosSimulacionCreditoDto datosSimulacionCreditoDto) {
+		System.out.println(datosSimulacionCreditoDto.toString());
+		return creditoService.getSimulacionCronograma(datosSimulacionCreditoDto);
 	}
 	
 }

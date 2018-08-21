@@ -106,7 +106,7 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 				desembolsoCreditoDto.getUsuarioAprobador(), desembolsoCreditoDto.getIdCliente(),
 				desembolsoCreditoDto.getIdResponsableCuenta());
 		
-		List<DetalleCronogramaCreditoDto> detallesCronograma = creditoService.getSimulacionCronograma(creditoDto)
+		List<DetalleCronogramaCreditoDto> detallesCronograma = creditoService.getCalculoDetalleCronograma(creditoDto)
 																	.stream()
 																	.filter(e -> (e.getNroCuota().intValue() > 0))
 																	.collect(Collectors.toList()); 
