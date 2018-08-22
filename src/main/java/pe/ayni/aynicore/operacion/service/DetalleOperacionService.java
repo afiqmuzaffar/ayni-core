@@ -1,16 +1,18 @@
 package pe.ayni.aynicore.operacion.service;
 
-import pe.ayni.aynicore.credito.entity.DetalleCronogramaCredito;
+import java.util.List;
+
+import pe.ayni.aynicore.credito.dto.DetalleCronogramaCreditoDto;
 import pe.ayni.aynicore.operacion.constraint.DetalleOperacionConstraint.DebitoCredito;
 import pe.ayni.aynicore.operacion.dto.DetalleOperacionDto;
-import pe.ayni.aynicore.operacion.entity.DetalleOperacion;
+import pe.ayni.aynicore.operacion.entity.Operacion;
 
 public interface DetalleOperacionService {
 
-	DetalleOperacion createEntityFrom(DetalleOperacionDto detalleOperacionDto);
+	DetalleOperacionDto buildDetalleOperacionDesembolso(DetalleCronogramaCreditoDto detalleDesembolsoCronogramaCredito);
 
-	DetalleOperacionDto getDetalleOperacionDesembolsoDto(DetalleCronogramaCredito detalleDesembolsoCronogramaCredito);
+	DetalleOperacionDto buildDetalleOperacion(Integer idCuenta, int nroDetalle, DebitoCredito debitoCredito);
 
-	DetalleOperacionDto getDetalleOperacionDto(Integer idCuenta, int nroDetalle, DebitoCredito debitoCredito);
+	void setDetalleOperacion(Operacion operacion, List<DetalleOperacionDto> detallesOperacionDto);
 
 }

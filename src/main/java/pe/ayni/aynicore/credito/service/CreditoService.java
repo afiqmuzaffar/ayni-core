@@ -4,15 +4,15 @@ import java.util.List;
 
 import pe.ayni.aynicore.credito.dto.CreditoDto;
 import pe.ayni.aynicore.credito.dto.DatosSimulacionCreditoDto;
-import pe.ayni.aynicore.credito.dto.DetalleCronogramaCreditoDto;
+import pe.ayni.aynicore.credito.dto.CuotaCronogramaCreditoDto;
 
 public interface CreditoService {
 
 	void createCredito(CreditoDto creditoDto);
 	
-	public List<DetalleCronogramaCreditoDto> getCalculoDetalleCronograma(CreditoDto creditoDto);
+	public List<CuotaCronogramaCreditoDto> calculateCronograma(CreditoDto creditoDto);
 
-	List<DetalleCronogramaCreditoDto> getSimulacionCronograma(DatosSimulacionCreditoDto datosSimulacionCreditoDto);
+	List<CuotaCronogramaCreditoDto> calculateCronograma(DatosSimulacionCreditoDto datosSimulacionCreditoDto);
 
 	CreditoDto findCreditoById(Integer idCuenta); 
 	

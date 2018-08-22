@@ -47,7 +47,7 @@ public class ClienteServiceImpl implements ClienteService {
 		List<ClienteDto> clientesDto = new ArrayList<>();
 		List<Cliente> clientes = clienteDao.findBy(by, input);
 		for (Cliente cliente:clientes) {
-			ClienteDto clienteDto = convertToDto(cliente);
+			ClienteDto clienteDto = buildDtoFrom(cliente);
 			clientesDto.add(clienteDto);
 		}
 		return clientesDto;
@@ -57,15 +57,15 @@ public class ClienteServiceImpl implements ClienteService {
 	@Transactional
 	public ClienteDto findClienteById(Integer id) {
 		Cliente cliente = clienteDao.findById(id);
-		ClienteDto clienteDto = convertToDto(cliente);
+		ClienteDto clienteDto = buildDtoFrom(cliente);
 		return clienteDto;
 	}
 
-	private ClienteDto convertToDto (Cliente cliente) {
+	private ClienteDto buildDtoFrom (Cliente cliente) {
 		ModelMapper modelMapper = new ModelMapper();
 
 		ClienteDto  clienteDto = modelMapper.map(cliente, ClienteDto.class);
-		PersonaNaturalDto personaNaturalDto = personaNaturalService.convertToDto(cliente.getPersonaNatural());
+		PersonaNaturalDto personaNaturalDto = personaNaturalService.buildDtoFrom(cliente.getPersonaNatural());
 		clienteDto.setPersonaNaturalDto(personaNaturalDto);
 		return clienteDto;
 	}

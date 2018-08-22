@@ -6,7 +6,6 @@ import pe.ayni.aynicore.persona.constraint.TelefonoConstraint.EstadoTelefono;
 import pe.ayni.aynicore.persona.dto.TelefonoDto;
 import pe.ayni.aynicore.persona.dto.TelefonoFormDto;
 import pe.ayni.aynicore.persona.entity.Persona;
-import pe.ayni.aynicore.persona.entity.Telefono;
 
 public interface TelefonoService {
 	TelefonoFormDto getTelefonoForm();
@@ -15,6 +14,6 @@ public interface TelefonoService {
 
 	void deleteTelefono(Persona persona, Integer idTelefono);
 
-	List<Telefono> findAllTelefonosByEstadoAndIdPersona(EstadoTelefono estado, Integer idPersona);
+	List<TelefonoDto> findAllTelefonosByEstadoAndIdPersona(EstadoTelefono estado, Integer idPersona);
 
 }

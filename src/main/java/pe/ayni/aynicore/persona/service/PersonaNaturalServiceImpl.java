@@ -26,12 +26,10 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 	@Autowired
 	PersonaNaturalDao personaNaturalDao;
 	
-
 	@Override
 	@Transactional
 	public void createPersonaNatural(PersonaNaturalDto personaNaturalDto) {
-		PersonaNatural personaNatural = new PersonaNatural(); 
-		mapDtoToEntity(personaNaturalDto, personaNatural);	
+		PersonaNatural personaNatural = buildEntityFrom(personaNaturalDto);	
 		personaNatural.setTipoPersona(TipoPersona.PPNN);
 		personaNatural.setId(null);
 		personaNatural.setFechaRegistro(LocalDate.now());
@@ -46,7 +44,7 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 	@Override
 	public PersonaNaturalDto findPersonaNaturalById(Integer id) {
 		PersonaNatural personaNatural = personaNaturalDao.findById(id);
-		PersonaNaturalDto personaNaturalDto = convertToDto(personaNatural);
+		PersonaNaturalDto personaNaturalDto = buildDtoFrom(personaNatural);
 		return personaNaturalDto;
 	}
 
@@ -55,7 +53,7 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 	public void updatePersonaNatural(PersonaNaturalDto personaNaturalDto) {
 		
 		PersonaNatural personaNatural = personaNaturalDao.findById(personaNaturalDto.getId());
-		mapDtoToEntity(personaNaturalDto, personaNatural);	
+		setEntityDetails(personaNatural, personaNaturalDto);	
 		personaNatural.setFechaHoraModificacion(LocalDateTime.now());
 		personaNaturalDao.update(personaNatural);
 	}
@@ -66,7 +64,7 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 		List<PersonaNatural> personasNaturales = personaNaturalDao.findFirstNumberOf(max);
 		List<PersonaNaturalDto> personasNaturalesDto = new ArrayList<>();
 		for(PersonaNatural personaNatural:personasNaturales) {
-			personasNaturalesDto.add(convertToDto(personaNatural));
+			personasNaturalesDto.add(buildDtoFrom(personaNatural));
 		}
 		return personasNaturalesDto;
 	}
@@ -77,16 +75,9 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 		List<PersonaNatural> personasNaturales = personaNaturalDao.findBy(by, input);
 		List<PersonaNaturalDto> personasNaturalesDto = new ArrayList<>();
 		for(PersonaNatural personaNatural:personasNaturales) {
-			personasNaturalesDto.add(convertToDto(personaNatural));
+			personasNaturalesDto.add(buildDtoFrom(personaNatural));
 		}
 		return personasNaturalesDto;
-	}
-
-	// TODO: Temporal
-	@Override
-	@Transactional
-	public PersonaNatural findPersonaNaturalEntityById(Integer id) {
-		return personaNaturalDao.findById(id);
 	}
 
 	@Override
@@ -104,14 +95,20 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 	}
 
 
-	public PersonaNaturalDto convertToDto (PersonaNatural personaNatural) {
+	public PersonaNaturalDto buildDtoFrom (PersonaNatural personaNatural) {
 		ModelMapper modelMapper = new ModelMapper();
 		PersonaNaturalDto  personaNaturalDTO = modelMapper.map(personaNatural, PersonaNaturalDto.class);
 		return personaNaturalDTO;
 	}
 
-	private void mapDtoToEntity(PersonaNaturalDto personaNaturalDto, PersonaNatural personaNatural) {
+	private PersonaNatural buildEntityFrom(PersonaNaturalDto personaNaturalDto) {
 		
+		PersonaNatural personaNatural = new PersonaNatural();
+		setEntityDetails(personaNatural, personaNaturalDto);
+		return personaNatural;
+	}
+	
+	private void setEntityDetails(PersonaNatural personaNatural, PersonaNaturalDto personaNaturalDto) {
 		personaNatural.setApellidoPaterno(personaNaturalDto.getApellidoPaterno().toUpperCase());
 		personaNatural.setApellidoMaterno(personaNaturalDto.getApellidoMaterno().toUpperCase());
 		personaNatural.setPrimerNombre(personaNaturalDto.getPrimerNombre().toUpperCase());
@@ -127,8 +124,6 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 		personaNatural.setFechaNacimiento(fechaNacimiento);
 		personaNatural.setTipoIdentificacion(TipoIdentificacion.valueOf(personaNaturalDto.getTipoIdentificacion()));
 		personaNatural.setNroIdentificacion(personaNaturalDto.getNroIdentificacion());
-		
-		
 	}
 
 }

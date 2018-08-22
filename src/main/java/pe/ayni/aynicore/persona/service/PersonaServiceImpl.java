@@ -1,11 +1,9 @@
 package pe.ayni.aynicore.persona.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +12,7 @@ import pe.ayni.aynicore.persona.constraint.TelefonoConstraint.EstadoTelefono;
 import pe.ayni.aynicore.persona.dao.PersonaDao;
 import pe.ayni.aynicore.persona.dto.DireccionDto;
 import pe.ayni.aynicore.persona.dto.TelefonoDto;
-import pe.ayni.aynicore.persona.entity.Direccion;
 import pe.ayni.aynicore.persona.entity.Persona;
-import pe.ayni.aynicore.persona.entity.Telefono;
 
 @Service
 public class PersonaServiceImpl implements PersonaService {
@@ -54,17 +50,8 @@ public class PersonaServiceImpl implements PersonaService {
 	@Transactional
 	@Override
 	public List<DireccionDto> findAllDireccionesByIdPersona(Integer idPersona) {
-		//Persona persona = findPersonaById(idPersona);
-		//List<Direccion> direcciones = persona.getDirecciones();
-		List<Direccion> direcciones = direccionService.findAllDireccionesByEstadoAndIdPersona(EstadoDireccion.ACTIVO, idPersona);
+		return direccionService.findAllDireccionesByEstadoAndIdPersona(EstadoDireccion.ACTIVO, idPersona);
 
-		List<DireccionDto> direccionesDto = new ArrayList<>();
-		ModelMapper modelMapper = new ModelMapper();
-		for (Direccion direccion:direcciones) {
-			DireccionDto direccionDto = modelMapper.map(direccion, DireccionDto.class);
-			direccionesDto.add(direccionDto);
-		}
-	    return direccionesDto;
 	}
 	
 	@Transactional
@@ -84,15 +71,8 @@ public class PersonaServiceImpl implements PersonaService {
 	@Transactional
 	@Override
 	public List<TelefonoDto> findAllTelefonosByIdPersona(Integer idPersona) {
+		return telefonoService.findAllTelefonosByEstadoAndIdPersona(EstadoTelefono.ACTIVO, idPersona);
 
-		List<Telefono> telefonos = telefonoService.findAllTelefonosByEstadoAndIdPersona(EstadoTelefono.ACTIVO, idPersona);
-		List<TelefonoDto> telefonosDto = new ArrayList<>();
-		ModelMapper modelMapper = new ModelMapper();
-		for (Telefono telefono: telefonos) {
-			TelefonoDto telefonoDto = modelMapper.map(telefono, TelefonoDto.class);
-			telefonosDto.add(telefonoDto);
-		}
-		return telefonosDto;
 	}
 
 

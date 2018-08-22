@@ -24,9 +24,8 @@ import pe.ayni.aynicore.cliente.dto.ClienteDto;
 import pe.ayni.aynicore.cliente.service.ClienteService;
 import pe.ayni.aynicore.credito.dto.CreditoDto;
 import pe.ayni.aynicore.credito.dto.CreditoDto.Cliente;
-import pe.ayni.aynicore.credito.dto.CreditoDto.Usuario;
+import pe.ayni.aynicore.credito.dto.CuotaCronogramaCreditoDto;
 import pe.ayni.aynicore.credito.dto.DetalleCronogramaCreditoDto;
-import pe.ayni.aynicore.credito.entity.DetalleCronogramaCredito;
 import pe.ayni.aynicore.credito.service.CreditoService;
 import pe.ayni.aynicore.credito.service.DetalleCronogramaCreditoService;
 import pe.ayni.aynicore.operacion.constraint.DetalleOperacionConstraint.DebitoCredito;
@@ -64,8 +63,8 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 		CreditoDto creditoDto = new CreditoDto(desembolsoCreditoDto.getMontoDesembolso(), desembolsoCreditoDto.getMoneda(),
 				desembolsoCreditoDto.getFrecuencia(), desembolsoCreditoDto.getTem(), desembolsoCreditoDto.getNroCuotas(),
 				desembolsoCreditoDto.getFechaDesembolso(), desembolsoCreditoDto.getFechaPrimeraCuota(),
-				new Usuario(desembolsoCreditoDto.getUsuarioAprobador()), new Cliente(desembolsoCreditoDto.getCliente().getId()),
-				new Usuario(desembolsoCreditoDto.getResponsableCuenta()));
+				desembolsoCreditoDto.getUsuarioAprobador(), new Cliente(desembolsoCreditoDto.getCliente().getId()),
+				desembolsoCreditoDto.getResponsableCuenta());
 		creditoService.createCredito(creditoDto);
 
 		Integer idOperacionRelacionada = null;
@@ -77,10 +76,10 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 		
 		// Detalle de la Operacion del Desembolso
 		int nroDetalleDesembolso = 0;
-		DetalleCronogramaCredito detalleDesembolsoCronogramaCredito = 
+		DetalleCronogramaCreditoDto detalleDesembolsoCronogramaCreditoDto = 
 				detalleCronogramaCreditoService.findDetalleDesembolsoCronogramaCredito(creditoDto.getIdCuenta());
 		DetalleOperacionDto detalleOperacionDesembolsoDto = 
-				detalleOperacionService.getDetalleOperacionDesembolsoDto(detalleDesembolsoCronogramaCredito);
+				detalleOperacionService.buildDetalleOperacionDesembolso(detalleDesembolsoCronogramaCreditoDto);
 		detalleOperacionDesembolsoDto.setNroDetalle(nroDetalleDesembolso);
 		detalleOperacionDesembolsoDto.setDebito(desembolsoCreditoDto.getMontoDesembolso());
 		detallesOperacionDto.add(detalleOperacionDesembolsoDto);
@@ -88,7 +87,7 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 		// Detalle de la Operacion de la Contraparte
 		int nroDetalleContraparte = 1;
 		if (desembolsoCreditoDto.getViaDesembolso().equals(ViaDesembolso.CAJA.toString())) {
-			DetalleOperacionDto detalleOperacionDto = detalleOperacionService.getDetalleOperacionDto(desembolsoCreditoDto.getIdCuentaDesembolso(),
+			DetalleOperacionDto detalleOperacionDto = detalleOperacionService.buildDetalleOperacion(desembolsoCreditoDto.getIdCuentaDesembolso(),
 					nroDetalleContraparte, DebitoCredito.CREDITO);
 			detalleOperacionDto.setCredito(desembolsoCreditoDto.getMontoDesembolso());
 			detallesOperacionDto.add(detalleOperacionDto);
@@ -106,7 +105,7 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 				desembolsoCreditoDto.getTem(), desembolsoCreditoDto.getNroCuotas(),
 				desembolsoCreditoDto.getFechaDesembolso(), desembolsoCreditoDto.getFechaPrimeraCuota());
 		
-		List<DetalleCronogramaCreditoDto> detallesCronograma = creditoService.getCalculoDetalleCronograma(creditoDto)
+		List<CuotaCronogramaCreditoDto> cuotasCronograma = creditoService.calculateCronograma(creditoDto)
 																	.stream()
 																	.filter(e -> (e.getNroCuota().intValue() > 0))
 																	.collect(Collectors.toList()); 
@@ -124,7 +123,7 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 	    params.put("fechaDesembolso", desembolsoCreditoDto.getFechaDesembolso());
 		
 	    JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportStream);
-	    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanArrayDataSource(detallesCronograma.toArray()));
+	    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanArrayDataSource(cuotasCronograma.toArray()));
 	    
 	    JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
 	    

@@ -1,10 +1,12 @@
 package pe.ayni.aynicore.persona.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,8 +39,7 @@ public class DireccionServiceImpl implements DireccionService {
 	@Override
 	public void createDireccion(Integer idPersona, DireccionDto direccionDto) {
 
-		Direccion direccion = new Direccion();
-		mapDtotoEntity(direccionDto, direccion);
+		Direccion direccion = buildEntityFrom(direccionDto);
 		
 		Departamento departamento =  ubigeoService.findDptoByIdUbigeo(direccionDto.getIdUbigeoDpto());
 		Provincia provincia = ubigeoService.findProvinciaByIdUbigeo(departamento, direccionDto.getIdUbigeoProvincia());
@@ -80,12 +81,20 @@ public class DireccionServiceImpl implements DireccionService {
 	
 
 	@Override
-	public List<Direccion> findAllDireccionesByEstadoAndIdPersona(EstadoDireccion estado, Integer idPersona) {
-		return direccionDao.findAllByEstadoAndIdPersona(estado, idPersona);
+	public List<DireccionDto> findAllDireccionesByEstadoAndIdPersona(EstadoDireccion estado, Integer idPersona) {
+		List<Direccion> direcciones = direccionDao.findAllByEstadoAndIdPersona(estado, idPersona);
+		List<DireccionDto> direccionesDto = new ArrayList<>();
+		ModelMapper modelMapper = new ModelMapper();
+		for (Direccion direccion:direcciones) {
+			DireccionDto direccionDto = modelMapper.map(direccion, DireccionDto.class);
+			direccionesDto.add(direccionDto);
+		}
+	    return direccionesDto;
 
 	}
 
-	private void mapDtotoEntity(DireccionDto direccionDto, Direccion direccion) {
+	private Direccion buildEntityFrom(DireccionDto direccionDto) {
+		Direccion direccion = new Direccion();
 		direccion.setTipo(TipoDireccion.valueOf(direccionDto.getTipo()));
 		direccion.setTipoVia(direccionDto.getTipoVia()==null? null: TipoVia.valueOf(direccionDto.getTipoVia()));
 		direccion.setNombreVia(direccionDto.getNombreVia()==null? null: direccionDto.getNombreVia().toUpperCase());
@@ -96,6 +105,7 @@ public class DireccionServiceImpl implements DireccionService {
 		direccion.setLote(direccionDto.getLote()==null? null: direccionDto.getLote().toUpperCase());
 		direccion.setInterior(direccionDto.getInterior()==null? null: direccionDto.getInterior().toUpperCase());
 		direccion.setReferencia(direccionDto.getReferencia().toUpperCase());
+		return direccion;
 	}
 
 

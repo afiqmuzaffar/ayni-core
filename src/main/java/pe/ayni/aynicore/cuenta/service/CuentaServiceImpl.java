@@ -20,4 +20,5 @@ public class CuentaServiceImpl implements CuentaService {
 		return cuentaDao.findById(id);
 	}
 
+
 }

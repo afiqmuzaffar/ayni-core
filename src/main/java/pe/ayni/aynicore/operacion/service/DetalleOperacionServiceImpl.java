@@ -1,6 +1,8 @@
 package pe.ayni.aynicore.operacion.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pe.ayni.aynicore.banco.entity.DetalleOperacionBanco;
+import pe.ayni.aynicore.credito.dto.DetalleCronogramaCreditoDto;
 import pe.ayni.aynicore.credito.entity.DetalleCronogramaCredito;
 import pe.ayni.aynicore.cuenta.entity.Cuenta;
 import pe.ayni.aynicore.cuenta.entity.CuentaContable;
@@ -15,6 +18,7 @@ import pe.ayni.aynicore.cuenta.service.CuentaService;
 import pe.ayni.aynicore.operacion.constraint.DetalleOperacionConstraint.DebitoCredito;
 import pe.ayni.aynicore.operacion.dto.DetalleOperacionDto;
 import pe.ayni.aynicore.operacion.entity.DetalleOperacion;
+import pe.ayni.aynicore.operacion.entity.Operacion;
 
 @Service
 public class DetalleOperacionServiceImpl implements DetalleOperacionService {
@@ -25,9 +29,8 @@ public class DetalleOperacionServiceImpl implements DetalleOperacionService {
 	@Autowired
 	CuentaService cuentaService;
 	
-	@Override
 	@Transactional
-	public DetalleOperacion createEntityFrom(DetalleOperacionDto detalleOperacionDto) {
+	private DetalleOperacion buildEntityFrom(DetalleOperacionDto detalleOperacionDto) {
 		
 		DetalleOperacion detalleOperacion = new DetalleOperacion();
 		
@@ -50,19 +53,19 @@ public class DetalleOperacionServiceImpl implements DetalleOperacionService {
 	}
 
 	@Override
-	public DetalleOperacionDto getDetalleOperacionDesembolsoDto(
-			DetalleCronogramaCredito detalleDesembolsoCronogramaCredito) {
+	public DetalleOperacionDto buildDetalleOperacionDesembolso(
+			DetalleCronogramaCreditoDto detalleDesembolsoCronogramaCreditoDto) {
 		DetalleOperacionDto detalleOperacionDto = new DetalleOperacionDto();
-		detalleOperacionDto.setIdCuenta(detalleDesembolsoCronogramaCredito.getCuentaCredito().getIdCuenta());
+		detalleOperacionDto.setIdCuenta(detalleDesembolsoCronogramaCreditoDto.getIdCuenta());
 		detalleOperacionDto.setCredito(BigDecimal.ZERO);
-		detalleOperacionDto.setCtaContable(detalleDesembolsoCronogramaCredito.getCtaContable().getCtaContable());
-		detalleOperacionDto.setIdDetalleCronogramaCredito(detalleDesembolsoCronogramaCredito.getId());
+		detalleOperacionDto.setCtaContable(detalleDesembolsoCronogramaCreditoDto.getCtaContable());
+		detalleOperacionDto.setIdDetalleCronogramaCredito(detalleDesembolsoCronogramaCreditoDto.getId());
 		return detalleOperacionDto;
 	}
 
 	@Override
 	@Transactional
-	public DetalleOperacionDto getDetalleOperacionDto(Integer idCuenta, int nroDetalle, DebitoCredito debitoCredito) {
+	public DetalleOperacionDto buildDetalleOperacion(Integer idCuenta, int nroDetalle, DebitoCredito debitoCredito) {
 		Cuenta cuenta = cuentaService.findCuentaById(idCuenta);
 		
 		DetalleOperacionDto detalleOperacionDto = new DetalleOperacionDto();
@@ -78,6 +81,16 @@ public class DetalleOperacionServiceImpl implements DetalleOperacionService {
 		}
 		
 		return detalleOperacionDto;
+	}
+
+	@Override
+	public void setDetalleOperacion(Operacion operacion, List<DetalleOperacionDto> detallesOperacionDto) {
+		List<DetalleOperacion> detallesOperacion = new ArrayList<>();
+		for (DetalleOperacionDto detalleOperacionDto: detallesOperacionDto) {
+			DetalleOperacion detalleOperacion = buildEntityFrom(detalleOperacionDto);
+			detallesOperacion.add(detalleOperacion);
+		}
+		operacion.setDetallesOperacion(detallesOperacion);		
 	}
 
 }

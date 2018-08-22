@@ -23,11 +23,11 @@ public class CreditoDto implements Serializable {
 	
 	private String fechaPrimeraCuota;
 	
-	private Usuario usuarioAprobador;
+	private String usuarioAprobador;
 	
 	private Integer nroCondicion;
 	
-	private Usuario responsableCuenta;
+	private String responsableCuenta;
 	
 	private Cliente cliente; 
 	
@@ -79,42 +79,13 @@ public class CreditoDto implements Serializable {
 		
 	}
 	
-	public static class Usuario {
-		
-		private String usuario;
-		
-		private String nombre;
-		
-		public Usuario(String usuario) {
-			this.usuario = usuario;
-		}
-
-		public String getUsuario() {
-			return usuario;
-		}
-
-		public void setUsuario(String usuario) {
-			this.usuario = usuario;
-		}
-
-		public String getNombre() {
-			return nombre;
-		}
-
-		public void setNombre(String nombre) {
-			this.nombre = nombre;
-		}
-		
-	}
-	
-	
 	public CreditoDto() {
 		
 	}
 	
 	public CreditoDto(BigDecimal montoDesembolso, String moneda, String frecuencia, BigDecimal tem, Integer nroCuotas,
-			String fechaDesembolso, String fechaPrimeraCuota, Usuario usuarioAprobador, Cliente cliente,
-			Usuario responsableCuenta) {
+			String fechaDesembolso, String fechaPrimeraCuota, String usuarioAprobador, Cliente cliente,
+			String responsableCuenta) {
 		this.montoDesembolso = montoDesembolso;
 		this.moneda = moneda;
 		this.frecuencia = frecuencia;
@@ -201,11 +172,11 @@ public class CreditoDto implements Serializable {
 		this.fechaPrimeraCuota = fechaPrimeraCuota;
 	}
 
-	public Usuario getUsuarioAprobador() {
+	public String getUsuarioAprobador() {
 		return usuarioAprobador;
 	}
 
-	public void setUsuarioAprobador(Usuario usuarioAprobador) {
+	public void setUsuarioAprobador(String usuarioAprobador) {
 		this.usuarioAprobador = usuarioAprobador;
 	}
 
@@ -217,11 +188,11 @@ public class CreditoDto implements Serializable {
 		this.nroCondicion = nroCondicion;
 	}
 
-	public Usuario getResponsableCuenta() {
+	public String getResponsableCuenta() {
 		return responsableCuenta;
 	}
 
-	public void setResponsableCuenta(Usuario responsableCuenta) {
+	public void setResponsableCuenta(String responsableCuenta) {
 		this.responsableCuenta = responsableCuenta;
 	}
 

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -83,8 +84,16 @@ public class TelefonoServiceImpl implements TelefonoService {
 	
 	@Transactional
 	@Override
-	public List<Telefono> findAllTelefonosByEstadoAndIdPersona(EstadoTelefono estado, Integer idPersona) {
-		return telefonoDao.findAllByEstadoAndIdPersona(estado, idPersona);
+	public List<TelefonoDto> findAllTelefonosByEstadoAndIdPersona(EstadoTelefono estado, Integer idPersona) {
+		List<Telefono> telefonos = telefonoDao.findAllByEstadoAndIdPersona(estado, idPersona);
+		
+		List<TelefonoDto> telefonosDto = new ArrayList<>();
+		ModelMapper modelMapper = new ModelMapper();
+		for (Telefono telefono: telefonos) {
+			TelefonoDto telefonoDto = modelMapper.map(telefono, TelefonoDto.class);
+			telefonosDto.add(telefonoDto);
+		}
+		return telefonosDto;
 	}
 	
 	

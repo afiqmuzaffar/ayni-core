@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pe.ayni.aynicore.credito.dto.CreditoDto;
 import pe.ayni.aynicore.credito.dto.DatosSimulacionCreditoDto;
-import pe.ayni.aynicore.credito.dto.DetalleCronogramaCreditoDto;
+import pe.ayni.aynicore.credito.dto.CuotaCronogramaCreditoDto;
 import pe.ayni.aynicore.credito.service.CreditoService;
 
 @RestController
@@ -23,9 +23,9 @@ public class CreditoRest {
 	
 	@CrossOrigin
 	@GetMapping("/simular-cronograma")
-	public List<DetalleCronogramaCreditoDto> getSimulacionCronograma(DatosSimulacionCreditoDto datosSimulacionCreditoDto) {
+	public List<CuotaCronogramaCreditoDto> calculateCronograma(DatosSimulacionCreditoDto datosSimulacionCreditoDto) {
 		System.out.println(datosSimulacionCreditoDto.toString());
-		return creditoService.getSimulacionCronograma(datosSimulacionCreditoDto);
+		return creditoService.calculateCronograma(datosSimulacionCreditoDto);
 	}
 	
 	@CrossOrigin

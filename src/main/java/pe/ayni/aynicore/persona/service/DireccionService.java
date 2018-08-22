@@ -4,7 +4,6 @@ import java.util.List;
 
 import pe.ayni.aynicore.persona.constraint.DireccionConstraint.EstadoDireccion;
 import pe.ayni.aynicore.persona.dto.DireccionDto;
-import pe.ayni.aynicore.persona.entity.Direccion;
 import pe.ayni.aynicore.persona.entity.Persona;
 
 public interface DireccionService {
@@ -12,7 +11,7 @@ public interface DireccionService {
 
 	void deleteDireccion(Persona persona, Integer idDireccion);
 
-	List<Direccion> findAllDireccionesByEstadoAndIdPersona(EstadoDireccion estado, Integer idPersona);
+	List<DireccionDto> findAllDireccionesByEstadoAndIdPersona(EstadoDireccion estado, Integer idPersona);
 
 
 }

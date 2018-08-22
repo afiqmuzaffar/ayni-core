@@ -39,6 +39,10 @@ public abstract class Cuenta {
 		
 	}
 	
+	public Cuenta(Integer idCuenta) {
+		this.idCuenta = idCuenta;
+	}
+	
 	public Integer getIdCuenta() {
 		return idCuenta;
 	}
