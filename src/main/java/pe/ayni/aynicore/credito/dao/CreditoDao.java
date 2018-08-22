@@ -6,4 +6,6 @@ public interface CreditoDao {
 
 	void create(CuentaCredito credito);
 
+	CuentaCredito findById(Integer idCuenta);
+
 }

@@ -20,4 +20,11 @@ public class CreditoDaoImpl implements CreditoDao {
 		session.save(credito);
 	}
 
+	@Override
+	public CuentaCredito findById(Integer idCuenta) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		return session.get(CuentaCredito.class, idCuenta);
+	}
+
 }

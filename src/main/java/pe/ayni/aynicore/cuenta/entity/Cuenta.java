@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import pe.ayni.aynicore.empleado.entity.Empleado;
+import pe.ayni.aynicore.seguridad.entity.Usuario;
 
 @Entity
 @Table(name="Cuenta")
@@ -32,8 +32,8 @@ public abstract class Cuenta {
 	private CuentaContable cuentaContable;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="idResponsable", nullable=false)
-	private Empleado responsable;
+	@JoinColumn(name="usuarioResponsable", nullable=false)
+	private Usuario responsable;
 	
 	public Cuenta() {
 		
@@ -54,10 +54,6 @@ public abstract class Cuenta {
 	public void setMoneda(String moneda) {
 		this.moneda = moneda;
 	}
-	
-	public Empleado getResponsable() {
-		return responsable;
-	}
 
 	public CuentaContable getCuentaContable() {
 		return cuentaContable;
@@ -66,8 +62,12 @@ public abstract class Cuenta {
 	public void setCuentaContable(CuentaContable cuentaContable) {
 		this.cuentaContable = cuentaContable;
 	}
+	
+	public Usuario getResponsable() {
+		return responsable;
+	}
 
-	public void setResponsable(Empleado responsable) {
+	public void setResponsable(Usuario responsable) {
 		this.responsable = responsable;
 	}
 

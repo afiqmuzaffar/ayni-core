@@ -23,21 +23,98 @@ public class CreditoDto implements Serializable {
 	
 	private String fechaPrimeraCuota;
 	
-	private String usuarioAprobador;
-	
-	private Integer idCliente;
+	private Usuario usuarioAprobador;
 	
 	private Integer nroCondicion;
 	
-	private Integer idResponsableCuenta;
+	private Usuario responsableCuenta;
+	
+	private Cliente cliente; 
+	
+	public static class Cliente {
+		
+		private Integer id;
+		
+		private String nombre;
+		
+		private String tipoIdentificacion;
+		
+		private String nroIdentificacion;
+		
+		public Cliente (Integer id) {
+			this.id = id;
+		}
+
+		public Integer getId() {
+			return id;
+		}
+
+		public void setId(Integer id) {
+			this.id = id;
+		}
+
+		public String getNombre() {
+			return nombre;
+		}
+
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
+
+		public String getTipoIdentificacion() {
+			return tipoIdentificacion;
+		}
+
+		public void setTipoIdentificacion(String tipoIdentificacion) {
+			this.tipoIdentificacion = tipoIdentificacion;
+		}
+
+		public String getNroIdentificacion() {
+			return nroIdentificacion;
+		}
+
+		public void setNroIdentificacion(String nroIdentificacion) {
+			this.nroIdentificacion = nroIdentificacion;
+		}
+		
+	}
+	
+	public static class Usuario {
+		
+		private String usuario;
+		
+		private String nombre;
+		
+		public Usuario(String usuario) {
+			this.usuario = usuario;
+		}
+
+		public String getUsuario() {
+			return usuario;
+		}
+
+		public void setUsuario(String usuario) {
+			this.usuario = usuario;
+		}
+
+		public String getNombre() {
+			return nombre;
+		}
+
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
+		
+	}
+	
 	
 	public CreditoDto() {
 		
 	}
 	
 	public CreditoDto(BigDecimal montoDesembolso, String moneda, String frecuencia, BigDecimal tem, Integer nroCuotas,
-			String fechaDesembolso, String fechaPrimeraCuota, String usuarioAprobador, Integer idCliente,
-			Integer idResponsableCuenta) {
+			String fechaDesembolso, String fechaPrimeraCuota, Usuario usuarioAprobador, Cliente cliente,
+			Usuario responsableCuenta) {
 		this.montoDesembolso = montoDesembolso;
 		this.moneda = moneda;
 		this.frecuencia = frecuencia;
@@ -46,8 +123,8 @@ public class CreditoDto implements Serializable {
 		this.fechaDesembolso = fechaDesembolso;
 		this.fechaPrimeraCuota = fechaPrimeraCuota;
 		this.usuarioAprobador = usuarioAprobador;
-		this.idCliente = idCliente;
-		this.idResponsableCuenta = idResponsableCuenta;
+		this.cliente = cliente;
+		this.responsableCuenta = responsableCuenta;
 	}
 	
 	public CreditoDto(BigDecimal montoDesembolso, String frecuencia, BigDecimal tem, Integer nroCuotas,
@@ -124,22 +201,14 @@ public class CreditoDto implements Serializable {
 		this.fechaPrimeraCuota = fechaPrimeraCuota;
 	}
 
-	public String getUsuarioAprobador() {
+	public Usuario getUsuarioAprobador() {
 		return usuarioAprobador;
 	}
 
-	public void setUsuarioAprobador(String usuarioAprobador) {
+	public void setUsuarioAprobador(Usuario usuarioAprobador) {
 		this.usuarioAprobador = usuarioAprobador;
 	}
 
-	public Integer getIdCliente() {
-		return idCliente;
-	}
-
-	public void setIdCliente(Integer idCliente) {
-		this.idCliente = idCliente;
-	}
-	
 	public Integer getNroCondicion() {
 		return nroCondicion;
 	}
@@ -148,12 +217,20 @@ public class CreditoDto implements Serializable {
 		this.nroCondicion = nroCondicion;
 	}
 
-	public Integer getIdResponsableCuenta() {
-		return idResponsableCuenta;
+	public Usuario getResponsableCuenta() {
+		return responsableCuenta;
 	}
 
-	public void setIdResponsableCuenta(Integer idResponsableCuenta) {
-		this.idResponsableCuenta = idResponsableCuenta;
+	public void setResponsableCuenta(Usuario responsableCuenta) {
+		this.responsableCuenta = responsableCuenta;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	@Override
@@ -161,9 +238,9 @@ public class CreditoDto implements Serializable {
 		return "CreditoDto [idCuenta=" + idCuenta + ", montoDesembolso=" + montoDesembolso + ", moneda=" + moneda
 				+ ", frecuencia=" + frecuencia + ", tem=" + tem + ", nroCuotas=" + nroCuotas + ", fechaDesembolso="
 				+ fechaDesembolso + ", fechaPrimeraCuota=" + fechaPrimeraCuota + ", usuarioAprobador="
-				+ usuarioAprobador + ", idCliente=" + idCliente + ", nroCondicion=" + nroCondicion
-				+ ", idResponsableCuenta=" + idResponsableCuenta + "]";
+				+ usuarioAprobador + ", nroCondicion=" + nroCondicion + ", responsableCuenta=" + responsableCuenta
+				+ ", cliente=" + cliente + "]";
 	}
-	
-	
+
+		
 }

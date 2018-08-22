@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +48,15 @@ public class CreditoServiceImpl implements CreditoService {
 		creditoDto.setIdCuenta(credito.getIdCuenta());
 		
 	}
+	
+	@Override
+	@Transactional
+	public CreditoDto findCreditoById(Integer idCuenta) {
+		//CuentaCredito credito = creditoDao.findById(idCuenta);
+		//CreditoDto creditoDto = createDtoFrom(credito);
+		return null;
+	}
+
 	private BigDecimal getMontoCuota(List<DetalleCronogramaCredito> detallesCronogramaCredito) {
 		
 		BigDecimal montoCuota = detallesCronogramaCredito.stream().filter(e -> (e.getNroCuota().intValue() == 1))
@@ -98,12 +108,13 @@ public class CreditoServiceImpl implements CreditoService {
 		return detallesCronogramaCredito;
 	}
 
+	
 	private CuentaCredito createEntityFrom(CreditoDto creditoDto) {
 		CuentaCredito credito = new CuentaCredito();
 		
 		
 		credito.setCapitalInicial(creditoDto.getMontoDesembolso());
-		credito.setCliente(new Cliente(creditoDto.getIdCliente()));
+		credito.setCliente(new Cliente(creditoDto.getCliente().getId()));
 		credito.setCuentaContable(new CuentaContable("14110206"));
 		credito.setEstado(EstadoCredito.ACTIVO);
 		//credito.setDetallesCronogramaCredito(detallesCronogramaCredito);
@@ -118,9 +129,9 @@ public class CreditoServiceImpl implements CreditoService {
 		credito.setMontoDesembolso(creditoDto.getMontoDesembolso());
 		credito.setNroCondicion(creditoDto.getNroCondicion());
 		credito.setNroCuotas(creditoDto.getNroCuotas());
-		credito.setResponsable(new Empleado(creditoDto.getIdResponsableCuenta()));
+		credito.setResponsable(new Usuario(creditoDto.getResponsableCuenta().getUsuario()));
 		credito.setTem(creditoDto.getTem());
-		credito.setUsuarioAprobador(new Usuario(creditoDto.getUsuarioAprobador()));
+		credito.setUsuarioAprobador(new Usuario(creditoDto.getUsuarioAprobador().getUsuario()));
 		
 		return credito;
 	}

@@ -12,7 +12,9 @@ public interface CreditoService {
 	
 	public List<DetalleCronogramaCreditoDto> getCalculoDetalleCronograma(CreditoDto creditoDto);
 
-	List<DetalleCronogramaCreditoDto> getSimulacionCronograma(DatosSimulacionCreditoDto datosSimulacionCreditoDto); 
+	List<DetalleCronogramaCreditoDto> getSimulacionCronograma(DatosSimulacionCreditoDto datosSimulacionCreditoDto);
+
+	CreditoDto findCreditoById(Integer idCuenta); 
 	
 	
 

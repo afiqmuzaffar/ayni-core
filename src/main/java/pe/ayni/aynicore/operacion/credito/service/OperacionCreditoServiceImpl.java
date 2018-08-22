@@ -23,6 +23,8 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import pe.ayni.aynicore.cliente.dto.ClienteDto;
 import pe.ayni.aynicore.cliente.service.ClienteService;
 import pe.ayni.aynicore.credito.dto.CreditoDto;
+import pe.ayni.aynicore.credito.dto.CreditoDto.Cliente;
+import pe.ayni.aynicore.credito.dto.CreditoDto.Usuario;
 import pe.ayni.aynicore.credito.dto.DetalleCronogramaCreditoDto;
 import pe.ayni.aynicore.credito.entity.DetalleCronogramaCredito;
 import pe.ayni.aynicore.credito.service.CreditoService;
@@ -62,8 +64,8 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 		CreditoDto creditoDto = new CreditoDto(desembolsoCreditoDto.getMontoDesembolso(), desembolsoCreditoDto.getMoneda(),
 				desembolsoCreditoDto.getFrecuencia(), desembolsoCreditoDto.getTem(), desembolsoCreditoDto.getNroCuotas(),
 				desembolsoCreditoDto.getFechaDesembolso(), desembolsoCreditoDto.getFechaPrimeraCuota(),
-				desembolsoCreditoDto.getUsuarioAprobador(), desembolsoCreditoDto.getIdCliente(),
-				desembolsoCreditoDto.getIdResponsableCuenta());
+				new Usuario(desembolsoCreditoDto.getUsuarioAprobador()), new Cliente(desembolsoCreditoDto.getCliente().getId()),
+				new Usuario(desembolsoCreditoDto.getResponsableCuenta()));
 		creditoService.createCredito(creditoDto);
 
 		Integer idOperacionRelacionada = null;
@@ -100,11 +102,9 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 	@Transactional
 	public void buildReporteSolicitud(DesembolsoCreditoDto desembolsoCreditoDto, OutputStream outStream) throws JRException {
 		
-		CreditoDto creditoDto = new CreditoDto(desembolsoCreditoDto.getMontoDesembolso(), desembolsoCreditoDto.getMoneda(),
-				desembolsoCreditoDto.getFrecuencia(), desembolsoCreditoDto.getTem(), desembolsoCreditoDto.getNroCuotas(),
-				desembolsoCreditoDto.getFechaDesembolso(), desembolsoCreditoDto.getFechaPrimeraCuota(),
-				desembolsoCreditoDto.getUsuarioAprobador(), desembolsoCreditoDto.getIdCliente(),
-				desembolsoCreditoDto.getIdResponsableCuenta());
+		CreditoDto creditoDto = new CreditoDto(desembolsoCreditoDto.getMontoDesembolso(),desembolsoCreditoDto.getFrecuencia(),
+				desembolsoCreditoDto.getTem(), desembolsoCreditoDto.getNroCuotas(),
+				desembolsoCreditoDto.getFechaDesembolso(), desembolsoCreditoDto.getFechaPrimeraCuota());
 		
 		List<DetalleCronogramaCreditoDto> detallesCronograma = creditoService.getCalculoDetalleCronograma(creditoDto)
 																	.stream()
@@ -114,7 +114,7 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 		InputStream reportStream = this.getClass().getClassLoader().getResourceAsStream("Solicitud_Credito.jasper");
 		
 		Map<String,Object> params = new HashMap<>();
-	    ClienteDto clienteDto = clienteService.findClienteById(desembolsoCreditoDto.getIdCliente());
+	    ClienteDto clienteDto = clienteService.findClienteById(desembolsoCreditoDto.getCliente().getId());
 		params.put("nroIdentificacion", clienteDto.getPersonaNatural().getNroIdentificacion());
 	    params.put("nombre", clienteDto.getPersonaNatural().getNombre());
 	    params.put("montoDesembolso", desembolsoCreditoDto.getMontoDesembolso());
