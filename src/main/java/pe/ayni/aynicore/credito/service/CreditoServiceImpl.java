@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,15 +45,35 @@ public class CreditoServiceImpl implements CreditoService {
 
 		creditoDao.create(credito);
 		creditoDto.setIdCuenta(credito.getIdCuenta());
-		
 	}
 	
 	@Override
 	@Transactional
 	public CreditoDto findCreditoById(Integer idCuenta) {
-		//CuentaCredito credito = creditoDao.findById(idCuenta);
-		//CreditoDto creditoDto = createDtoFrom(credito);
-		return null;
+		CuentaCredito credito = creditoDao.findById(idCuenta);
+		CreditoDto creditoDto = buildDtoFrom(credito);
+		return creditoDto;
+	}
+
+	private CreditoDto buildDtoFrom(CuentaCredito credito) {
+		CreditoDto creditoDto = null;
+		if (credito != null) {
+			ModelMapper modelMapper = new ModelMapper();
+			creditoDto = modelMapper.map(credito, CreditoDto.class);
+			creditoDto.getCliente().setNombre(credito.getCliente().getPersonaNatural().getNombre());
+			creditoDto.getCliente().setTipoIdentificacion(credito.getCliente().getPersonaNatural().getTipoIdentificacion().toString());
+			creditoDto.getCliente().setNroIdentificacion(credito.getCliente().getPersonaNatural().getNroIdentificacion());
+			creditoDto.setSaldoCapital(getSaldoCapital(credito));
+		}
+		return creditoDto;
+	}
+	
+	private BigDecimal getSaldoCapital(CuentaCredito credito) {
+		return credito.getDetallesCronogramaCredito()
+				.stream()
+				.filter(e -> ( e.getNroCuota().intValue() > 0 && e.getNroConcepto().intValue() == 0))
+				.map(e -> e.getMontoCobrar().subtract(e.getMontoPagado()))
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
 
 	private BigDecimal getMontoCuota(List<DetalleCronogramaCredito> detallesCronogramaCredito) {
@@ -127,7 +148,7 @@ public class CreditoServiceImpl implements CreditoService {
 		credito.setMontoDesembolso(creditoDto.getMontoDesembolso());
 		credito.setNroCondicion(creditoDto.getNroCondicion());
 		credito.setNroCuotas(creditoDto.getNroCuotas());
-		credito.setResponsable(new Usuario(creditoDto.getResponsableCuenta()));
+		credito.setUsuarioResponsable(new Usuario(creditoDto.getUsuarioResponsable()));
 		credito.setTem(creditoDto.getTem());
 		credito.setUsuarioAprobador(new Usuario(creditoDto.getUsuarioAprobador()));
 		

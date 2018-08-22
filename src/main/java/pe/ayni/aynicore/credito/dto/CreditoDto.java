@@ -27,9 +27,11 @@ public class CreditoDto implements Serializable {
 	
 	private Integer nroCondicion;
 	
-	private String responsableCuenta;
+	private String usuarioResponsable;
 	
 	private Cliente cliente; 
+	
+	private BigDecimal saldoCapital;
 	
 	public static class Cliente {
 		
@@ -40,6 +42,10 @@ public class CreditoDto implements Serializable {
 		private String tipoIdentificacion;
 		
 		private String nroIdentificacion;
+		
+		public Cliente() {
+			
+		}
 		
 		public Cliente (Integer id) {
 			this.id = id;
@@ -76,6 +82,14 @@ public class CreditoDto implements Serializable {
 		public void setNroIdentificacion(String nroIdentificacion) {
 			this.nroIdentificacion = nroIdentificacion;
 		}
+
+		@Override
+		public String toString() {
+			return "Cliente [id=" + id + ", nombre=" + nombre + ", tipoIdentificacion=" + tipoIdentificacion
+					+ ", nroIdentificacion=" + nroIdentificacion + "]";
+		}
+		
+		
 		
 	}
 	
@@ -85,7 +99,7 @@ public class CreditoDto implements Serializable {
 	
 	public CreditoDto(BigDecimal montoDesembolso, String moneda, String frecuencia, BigDecimal tem, Integer nroCuotas,
 			String fechaDesembolso, String fechaPrimeraCuota, String usuarioAprobador, Cliente cliente,
-			String responsableCuenta) {
+			String usuarioResponsable) {
 		this.montoDesembolso = montoDesembolso;
 		this.moneda = moneda;
 		this.frecuencia = frecuencia;
@@ -95,7 +109,7 @@ public class CreditoDto implements Serializable {
 		this.fechaPrimeraCuota = fechaPrimeraCuota;
 		this.usuarioAprobador = usuarioAprobador;
 		this.cliente = cliente;
-		this.responsableCuenta = responsableCuenta;
+		this.usuarioResponsable = usuarioResponsable;
 	}
 	
 	public CreditoDto(BigDecimal montoDesembolso, String frecuencia, BigDecimal tem, Integer nroCuotas,
@@ -188,12 +202,12 @@ public class CreditoDto implements Serializable {
 		this.nroCondicion = nroCondicion;
 	}
 
-	public String getResponsableCuenta() {
-		return responsableCuenta;
+	public String getUsuarioResponsable() {
+		return usuarioResponsable;
 	}
 
-	public void setResponsableCuenta(String responsableCuenta) {
-		this.responsableCuenta = responsableCuenta;
+	public void setUsuarioResponsable(String usuarioResponsable) {
+		this.usuarioResponsable = usuarioResponsable;
 	}
 
 	public Cliente getCliente() {
@@ -203,15 +217,23 @@ public class CreditoDto implements Serializable {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+	
+	
+	public BigDecimal getSaldoCapital() {
+		return saldoCapital;
+	}
+
+	public void setSaldoCapital(BigDecimal saldoCapital) {
+		this.saldoCapital = saldoCapital;
+	}
 
 	@Override
 	public String toString() {
 		return "CreditoDto [idCuenta=" + idCuenta + ", montoDesembolso=" + montoDesembolso + ", moneda=" + moneda
 				+ ", frecuencia=" + frecuencia + ", tem=" + tem + ", nroCuotas=" + nroCuotas + ", fechaDesembolso="
 				+ fechaDesembolso + ", fechaPrimeraCuota=" + fechaPrimeraCuota + ", usuarioAprobador="
-				+ usuarioAprobador + ", nroCondicion=" + nroCondicion + ", responsableCuenta=" + responsableCuenta
-				+ ", cliente=" + cliente + "]";
+				+ usuarioAprobador + ", nroCondicion=" + nroCondicion + ", usuarioResponsable=" + usuarioResponsable
+				+ ", cliente=" + cliente + ", saldoCapital=" + saldoCapital + "]";
 	}
 
-		
 }

@@ -33,7 +33,7 @@ public abstract class Cuenta {
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="usuarioResponsable", nullable=false)
-	private Usuario responsable;
+	private Usuario usuarioResponsable;
 	
 	public Cuenta() {
 		
@@ -67,18 +67,18 @@ public abstract class Cuenta {
 		this.cuentaContable = cuentaContable;
 	}
 	
-	public Usuario getResponsable() {
-		return responsable;
+	public Usuario getUsuarioResponsable() {
+		return usuarioResponsable;
 	}
 
-	public void setResponsable(Usuario responsable) {
-		this.responsable = responsable;
+	public void setUsuarioResponsable(Usuario usuarioResponsable) {
+		this.usuarioResponsable = usuarioResponsable;
 	}
 
 	@Override
 	public String toString() {
-		return "Cuenta [idCuenta=" + idCuenta + ", moneda=" + moneda + ", cuentaContable=" + cuentaContable + ", responsable="
-				+ responsable + "]";
+		return "Cuenta [idCuenta=" + idCuenta + ", moneda=" + moneda + ", cuentaContable=" + cuentaContable + ", usuarioResponsable="
+				+ usuarioResponsable + "]";
 	}
 	
 }
