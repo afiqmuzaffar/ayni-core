@@ -52,7 +52,7 @@ public class PersonaNaturalDaoImpl implements PersonaNaturalDao {
 		List<PersonaNatural> personasNaturales = session.createQuery("SELECT a FROM PersonaNatural a", PersonaNatural.class).setMaxResults(max).getResultList();
 		return personasNaturales;
 	}
-
+	//TODO DTO shouldn't be returned from DAO
 	@Override
 	public List<PersonaNatural> findBy(String by, String input) {
 		Session session = sessionFactory.getCurrentSession();
@@ -71,7 +71,8 @@ public class PersonaNaturalDaoImpl implements PersonaNaturalDao {
 
 		return personasNaturales;
 	}
-
+	
+	//TODO DTO shouldn't be returned from DAO
 	@Override
 	public List<PersonaNaturalDto> findFirstNumberOfExtension(int max) {
 		List<PersonaNaturalDto> personasNaturalesDto = new ArrayList<>();
@@ -86,10 +87,8 @@ public class PersonaNaturalDaoImpl implements PersonaNaturalDao {
 			PersonaNaturalDto personaNaturalDto = convertToDto(ppnn);
 			if (cliente !=null) {
 				personaNaturalDto.setIdCliente(cliente.getId());
-				personaNaturalDto.setEsCliente(true);
 			} else {
 				personaNaturalDto.setIdCliente(null);
-				personaNaturalDto.setEsCliente(false);
 			}
 			personasNaturalesDto.add(personaNaturalDto);
 		}
@@ -120,10 +119,8 @@ public class PersonaNaturalDaoImpl implements PersonaNaturalDao {
 			PersonaNaturalDto personaNaturalDto = convertToDto(ppnn);
 			if (cliente !=null) {
 				personaNaturalDto.setIdCliente(cliente.getId());
-				personaNaturalDto.setEsCliente(true);
 			} else {
 				personaNaturalDto.setIdCliente(null);
-				personaNaturalDto.setEsCliente(false);
 			}
 			personasNaturalesDto.add(personaNaturalDto);
 		}

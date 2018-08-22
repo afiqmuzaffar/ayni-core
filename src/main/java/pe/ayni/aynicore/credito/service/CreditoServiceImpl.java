@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,6 @@ import pe.ayni.aynicore.credito.dto.DetalleCronogramaCreditoDto;
 import pe.ayni.aynicore.credito.entity.CuentaCredito;
 import pe.ayni.aynicore.credito.entity.DetalleCronogramaCredito;
 import pe.ayni.aynicore.cuenta.entity.CuentaContable;
-import pe.ayni.aynicore.empleado.entity.Empleado;
 import pe.ayni.aynicore.seguridad.entity.Usuario;
 
 @Service

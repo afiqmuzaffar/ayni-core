@@ -32,8 +32,6 @@ public class PersonaNaturalDto implements Serializable {
 	
 	private String estadoCivil;
 	
-	private Boolean esCliente;
-	
 	private Integer idCliente; 
 	
 	public PersonaNaturalDto(){
@@ -43,7 +41,7 @@ public class PersonaNaturalDto implements Serializable {
 	public PersonaNaturalDto(Integer id, String nombre, String tipoPersona, String tipoIdentificacion,
 			String nroIdentificacion, String primerNombre, String segundoNombre, String apellidoPaterno,
 			String apellidoMaterno, String sexo, String fechaNacimiento, String email, String estadoCivil,
-			Boolean esCliente, Integer idCliente) {
+			Integer idCliente) {
 		this.id = id;
 		this.nombre = nombre;
 		this.tipoPersona = tipoPersona;
@@ -57,7 +55,6 @@ public class PersonaNaturalDto implements Serializable {
 		this.fechaNacimiento = fechaNacimiento;
 		this.email = email;
 		this.estadoCivil = estadoCivil;
-		this.esCliente = esCliente;
 		this.idCliente = idCliente;
 	}
 
@@ -165,14 +162,6 @@ public class PersonaNaturalDto implements Serializable {
 		this.estadoCivil = estadoCivil;
 	}
 
-	public Boolean getEsCliente() {
-		return esCliente;
-	}
-
-	public void setEsCliente(Boolean esCliente) {
-		this.esCliente = esCliente;
-	}
-
 	public Integer getIdCliente() {
 		return idCliente;
 	}
@@ -187,8 +176,7 @@ public class PersonaNaturalDto implements Serializable {
 				+ ", tipoIdentificacion=" + tipoIdentificacion + ", nroIdentificacion=" + nroIdentificacion
 				+ ", primerNombre=" + primerNombre + ", segundoNombre=" + segundoNombre + ", apellidoPaterno="
 				+ apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", sexo=" + sexo + ", fechaNacimiento="
-				+ fechaNacimiento + ", email=" + email + ", estadoCivil=" + estadoCivil + ", esCliente=" + esCliente
-				+ ", idCliente=" + idCliente + "]";
+				+ fechaNacimiento + ", email=" + email + ", estadoCivil=" + estadoCivil + ", idCliente=" + idCliente + "]";
 	}
 	
 	
