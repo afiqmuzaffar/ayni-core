@@ -14,7 +14,9 @@ public interface CreditoService {
 
 	List<CuotaCronogramaCreditoDto> calculateCronograma(DatosSimulacionCreditoDto datosSimulacionCreditoDto);
 
-	CreditoDto findCreditoById(Integer idCuenta); 
+	CreditoDto findCreditoById(Integer idCuenta);
+
+	List<CuotaCronogramaCreditoDto> findCuotasCronogramaByIdCuentaAndEstado(Integer idCuenta, String estado); 
 	
 	
 

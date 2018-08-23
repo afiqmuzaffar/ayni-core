@@ -22,9 +22,9 @@ public class DetalleCronogramaCreditoDto implements Serializable {
 	
 	private LocalDate fechaVencimiento;
 	
-	private BigDecimal saldoCapital;
+	private BigDecimal capitalCredito;
 	
-	private BigDecimal montoCobrar;
+	private BigDecimal montoProgramado;
 	
 	private BigDecimal montoPagado;
 
@@ -84,20 +84,20 @@ public class DetalleCronogramaCreditoDto implements Serializable {
 		this.fechaVencimiento = fechaVencimiento;
 	}
 
-	public BigDecimal getSaldoCapital() {
-		return saldoCapital;
+	public BigDecimal getCapitalCredito() {
+		return capitalCredito;
 	}
 
-	public void setSaldoCapital(BigDecimal saldoCapital) {
-		this.saldoCapital = saldoCapital;
+	public void setCapitalCredito(BigDecimal capitalCredito) {
+		this.capitalCredito = capitalCredito;
 	}
 
-	public BigDecimal getMontoCobrar() {
-		return montoCobrar;
+	public BigDecimal getMontoProgramado() {
+		return montoProgramado;
 	}
 
-	public void setMontoCobrar(BigDecimal montoCobrar) {
-		this.montoCobrar = montoCobrar;
+	public void setMontoProgramado(BigDecimal montoProgramado) {
+		this.montoProgramado = montoProgramado;
 	}
 
 	public BigDecimal getMontoPagado() {

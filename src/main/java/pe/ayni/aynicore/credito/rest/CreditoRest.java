@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pe.ayni.aynicore.credito.dto.CreditoDto;
@@ -21,6 +22,7 @@ public class CreditoRest {
 	@Autowired
 	CreditoService creditoService;
 	
+	
 	@CrossOrigin
 	@GetMapping("/simular-cronograma")
 	public List<CuotaCronogramaCreditoDto> calculateCronograma(DatosSimulacionCreditoDto datosSimulacionCreditoDto) {
@@ -33,6 +35,15 @@ public class CreditoRest {
 	public CreditoDto findCreditoById(@PathVariable Integer idCuenta) {
 		System.out.println(idCuenta);
 		return creditoService.findCreditoById(idCuenta);
+	}
+	
+	@CrossOrigin
+	@GetMapping(path="/{idCuenta}/cuotas-cronograma", params="estado")
+	public List<CuotaCronogramaCreditoDto> findCuotasCronogramaByIdCuentaAndEstado(@PathVariable Integer idCuenta, 
+			@RequestParam("estado") String estado) {
+		System.out.println(idCuenta);
+		System.out.println(estado);
+		return creditoService.findCuotasCronogramaByIdCuentaAndEstado(idCuenta, estado);
 	}
 	
 }

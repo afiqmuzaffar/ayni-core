@@ -7,19 +7,21 @@ public class CuotaCronogramaCreditoDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id;
-	
 	private Integer idCuenta;
 	
 	private Integer nroCuota;
 	
 	private String fechaVencimiento;
 	
-	private BigDecimal saldoCapital;
+	private BigDecimal capitalCredito;
 	
-	private BigDecimal capital;
+	private BigDecimal capitalProgramado;
 	
-	private BigDecimal interes;
+	private BigDecimal interesProgramado;
+	
+	private BigDecimal capitalPagado;
+	
+	private BigDecimal interesPagado;
 	
 	private BigDecimal montoCuota;
 	
@@ -27,22 +29,23 @@ public class CuotaCronogramaCreditoDto implements Serializable {
 		
 	}
 	
-	public CuotaCronogramaCreditoDto(Integer nroCuota, String fechaVencimiento, BigDecimal saldoCapital,
-			BigDecimal capital, BigDecimal interes, BigDecimal montoCuota) {
+	public CuotaCronogramaCreditoDto(Integer nroCuota, String fechaVencimiento, BigDecimal capitalCredito,
+			BigDecimal capitalProgramado, BigDecimal interesProgramado, BigDecimal montoCuota) {
 		this.nroCuota = nroCuota;
 		this.fechaVencimiento = fechaVencimiento;
-		this.saldoCapital = saldoCapital;
-		this.capital = capital;
-		this.interes = interes;
+		this.capitalCredito = capitalCredito;
+		this.capitalProgramado = capitalProgramado;
+		this.interesProgramado = interesProgramado;
 		this.montoCuota = montoCuota;
 	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
+	
+	
+	public CuotaCronogramaCreditoDto(Integer idCuenta, Integer nroCuota, String fechaVencimiento,
+			BigDecimal capitalCredito) {
+		this.idCuenta = idCuenta;
+		this.nroCuota = nroCuota;
+		this.fechaVencimiento = fechaVencimiento;
+		this.capitalCredito = capitalCredito;
 	}
 
 	public Integer getIdCuenta() {
@@ -69,28 +72,44 @@ public class CuotaCronogramaCreditoDto implements Serializable {
 		this.fechaVencimiento = fechaVencimiento;
 	}
 
-	public BigDecimal getSaldoCapital() {
-		return saldoCapital;
+	public BigDecimal getCapitalCredito() {
+		return capitalCredito;
 	}
 
-	public void setSaldoCapital(BigDecimal saldoCapital) {
-		this.saldoCapital = saldoCapital;
+	public void setCapitalCredito(BigDecimal capitalCredito) {
+		this.capitalCredito = capitalCredito;
 	}
 
-	public BigDecimal getCapital() {
-		return capital;
+	public BigDecimal getCapitalProgramado() {
+		return capitalProgramado;
 	}
 
-	public void setCapital(BigDecimal capital) {
-		this.capital = capital;
+	public void setCapitalProgramado(BigDecimal capitalProgramado) {
+		this.capitalProgramado = capitalProgramado;
 	}
 
-	public BigDecimal getInteres() {
-		return interes;
+	public BigDecimal getInteresProgramado() {
+		return interesProgramado;
 	}
 
-	public void setInteres(BigDecimal interes) {
-		this.interes = interes;
+	public void setInteresProgramado(BigDecimal interesProgramado) {
+		this.interesProgramado = interesProgramado;
+	}
+
+	public BigDecimal getCapitalPagado() {
+		return capitalPagado;
+	}
+
+	public void setCapitalPagado(BigDecimal capitalPagado) {
+		this.capitalPagado = capitalPagado;
+	}
+
+	public BigDecimal getInteresPagado() {
+		return interesPagado;
+	}
+
+	public void setInteresPagado(BigDecimal interesPagado) {
+		this.interesPagado = interesPagado;
 	}
 
 	public BigDecimal getMontoCuota() {
@@ -100,6 +119,6 @@ public class CuotaCronogramaCreditoDto implements Serializable {
 	public void setMontoCuota(BigDecimal montoCuota) {
 		this.montoCuota = montoCuota;
 	}
-	
+
 
 }

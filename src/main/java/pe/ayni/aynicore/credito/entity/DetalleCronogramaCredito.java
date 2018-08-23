@@ -47,11 +47,11 @@ public class DetalleCronogramaCredito {
 	@Column(name="fechaVencimiento", nullable=false)
 	private LocalDate fechaVencimiento;
 	
-	@Column(name="saldoCapital", nullable=false)
-	private BigDecimal saldoCapital;
+	@Column(name="capitalCredito", nullable=false)
+	private BigDecimal capitalCredito;
 	
-	@Column(name="montoCobrar", nullable=false)
-	private BigDecimal montoCobrar;
+	@Column(name="montoProgramado", nullable=false)
+	private BigDecimal montoProgramado;
 	
 	@Column(name="montoPagado", nullable=false)
 	private BigDecimal montoPagado;
@@ -64,15 +64,15 @@ public class DetalleCronogramaCredito {
 	}
 	
 	public DetalleCronogramaCredito(Integer nroCondicion, Integer nroCuota, Integer nroConcepto,
-			CuentaContable ctaContable, LocalDate fechaVencimiento, BigDecimal saldoCapital, BigDecimal montoCobrar,
+			CuentaContable ctaContable, LocalDate fechaVencimiento, BigDecimal capitalCredito, BigDecimal montoProgramado,
 			BigDecimal montoPagado) {
 		this.nroCondicion = nroCondicion;
 		this.nroCuota = nroCuota;
 		this.nroConcepto = nroConcepto;
 		this.ctaContable = ctaContable;
 		this.fechaVencimiento = fechaVencimiento;
-		this.saldoCapital = saldoCapital;
-		this.montoCobrar = montoCobrar;
+		this.capitalCredito = capitalCredito;
+		this.montoProgramado = montoProgramado;
 		this.montoPagado = montoPagado;
 	}
 
@@ -136,20 +136,20 @@ public class DetalleCronogramaCredito {
 		this.fechaVencimiento = fechaVencimiento;
 	}
 
-	public BigDecimal getSaldoCapital() {
-		return saldoCapital;
+	public BigDecimal getCapitalCredito() {
+		return capitalCredito;
 	}
 
-	public void setSaldoCapital(BigDecimal saldoCapital) {
-		this.saldoCapital = saldoCapital;
+	public void setCapitalCredito(BigDecimal capitalCredito) {
+		this.capitalCredito = capitalCredito;
 	}
 
-	public BigDecimal getMontoCobrar() {
-		return montoCobrar;
+	public BigDecimal getMontoProgramado() {
+		return montoProgramado;
 	}
 
-	public void setMontoCobrar(BigDecimal montoCobrar) {
-		this.montoCobrar = montoCobrar;
+	public void setMontoProgramado(BigDecimal montoProgramado) {
+		this.montoProgramado = montoProgramado;
 	}
 
 	public BigDecimal getMontoPagado() {
