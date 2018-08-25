@@ -47,6 +47,26 @@ public class CuotaCronogramaCreditoDto implements Serializable {
 		this.fechaVencimiento = fechaVencimiento;
 		this.capitalCredito = capitalCredito;
 	}
+	
+	public CuotaCronogramaCreditoDto(Integer idCuenta, Integer nroCuota, String fechaVencimiento,
+			BigDecimal capitalCredito, BigDecimal capitalProgramado, BigDecimal interesProgramado,
+			BigDecimal capitalPagado, BigDecimal interesPagado, BigDecimal montoCuota) {
+		this.idCuenta = idCuenta;
+		this.nroCuota = nroCuota;
+		this.fechaVencimiento = fechaVencimiento;
+		this.capitalCredito = capitalCredito;
+		this.capitalProgramado = capitalProgramado;
+		this.interesProgramado = interesProgramado;
+		this.capitalPagado = capitalPagado;
+		this.interesPagado = interesPagado;
+		this.montoCuota = montoCuota;
+	}
+
+	public CuotaCronogramaCreditoDto(CuotaCronogramaCreditoDto cuotaCronogramaCreditoDto) {
+		this(cuotaCronogramaCreditoDto.getIdCuenta(), cuotaCronogramaCreditoDto.getNroCuota(), cuotaCronogramaCreditoDto.getFechaVencimiento(),
+				cuotaCronogramaCreditoDto.getCapitalCredito(), cuotaCronogramaCreditoDto.getCapitalProgramado(), cuotaCronogramaCreditoDto.getInteresPagado(),
+				cuotaCronogramaCreditoDto.getCapitalPagado(), cuotaCronogramaCreditoDto.getInteresPagado(), cuotaCronogramaCreditoDto.getMontoCuota());
+	}
 
 	public Integer getIdCuenta() {
 		return idCuenta;

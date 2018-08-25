@@ -6,8 +6,10 @@ import pe.ayni.aynicore.credito.entity.DetalleCronogramaCredito;
 
 public interface DetalleCronogramaCreditoDao {
 
-	DetalleCronogramaCredito findDesembolso(Integer idCuenta);
+	DetalleCronogramaCredito findIsDesembolso(Integer idCuenta);
 
 	List<DetalleCronogramaCredito> findByIdCuentaInCuotasPendientes(Integer idCuenta, Integer nroCondicion);
+
+	List<DetalleCronogramaCredito> findWithSaldo(Integer idCuenta, Integer nroCondicion);
 
 }

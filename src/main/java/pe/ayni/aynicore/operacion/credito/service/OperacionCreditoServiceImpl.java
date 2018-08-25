@@ -31,6 +31,8 @@ import pe.ayni.aynicore.credito.service.DetalleCronogramaCreditoService;
 import pe.ayni.aynicore.operacion.constraint.DetalleOperacionConstraint.DebitoCredito;
 import pe.ayni.aynicore.operacion.constraint.OperacionConstraint.TipoOperacion;
 import pe.ayni.aynicore.operacion.credito.constraint.DesembolsoConstraint.ViaDesembolso;
+import pe.ayni.aynicore.operacion.credito.dto.CuotaSimulacionAmortizacionDto;
+import pe.ayni.aynicore.operacion.credito.dto.DatosSimulacionAmortizacionDto;
 import pe.ayni.aynicore.operacion.credito.dto.DesembolsoCreditoDto;
 import pe.ayni.aynicore.operacion.dto.DetalleOperacionDto;
 import pe.ayni.aynicore.operacion.dto.OperacionDto;
@@ -54,6 +56,9 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 	
 	@Autowired
 	ClienteService clienteService;
+	
+	@Autowired
+	OperacionDetalleCronogramaService operacionDetalleCronogramaService;
 	
 	@Override
 	@Transactional
@@ -127,6 +132,16 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 	    
 	    JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
 	    
+	}
+
+	@Override
+	@Transactional
+	public List<CuotaSimulacionAmortizacionDto> calculateAmortizacion(DatosSimulacionAmortizacionDto datosSimulacionAmortizacionDto) {
+		
+		Integer nroCondicionCredito = creditoService.getNroCondicionCredito(datosSimulacionAmortizacionDto.getIdCuenta());
+		return operacionDetalleCronogramaService.calculateAmortizacionCuotas(datosSimulacionAmortizacionDto.getIdCuenta(),
+				nroCondicionCredito, datosSimulacionAmortizacionDto.getMontoAmortizacion());
+		
 	}
 	
 	

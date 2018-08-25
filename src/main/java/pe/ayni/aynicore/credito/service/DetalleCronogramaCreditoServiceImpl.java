@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pe.ayni.aynicore.credito.constraint.CuotaCronogramaCreditoConstraint.EstadoCuota;
-import pe.ayni.aynicore.credito.constraint.DetalleCronogramaCreditoConstraint.ConceptoDetalleCronograma;
+import pe.ayni.aynicore.credito.constraint.DetalleCronogramaCreditoConstraint.ConceptoCronograma;
 import pe.ayni.aynicore.credito.dao.DetalleCronogramaCreditoDao;
 import pe.ayni.aynicore.credito.dto.CuotaCronogramaCreditoDto;
 import pe.ayni.aynicore.credito.dto.DetalleCronogramaCreditoDto;
@@ -27,7 +27,7 @@ public class DetalleCronogramaCreditoServiceImpl implements DetalleCronogramaCre
 	@Transactional
 	public DetalleCronogramaCreditoDto findDetalleDesembolsoCronogramaCredito(Integer idCuenta) {
 
-		DetalleCronogramaCredito detalleCronogramaCredito = detalleCronogramaCreditoDao.findDesembolso(idCuenta);
+		DetalleCronogramaCredito detalleCronogramaCredito = detalleCronogramaCreditoDao.findIsDesembolso(idCuenta);
 		return buildDtoFrom(detalleCronogramaCredito);
 	}
 
@@ -63,10 +63,10 @@ public class DetalleCronogramaCreditoServiceImpl implements DetalleCronogramaCre
 				cuotaDto =  cuotaCronogramaCreditoDto;
 			} 			
 			
-			ConceptoDetalleCronograma.getConceptoDetalleCronograma(detalleCronogramaCredito.getNroConcepto()).setMontoProgramado(cuotaDto,
+			ConceptoCronograma.getConceptoCronograma(detalleCronogramaCredito.getNroConcepto()).setMontoProgramado(cuotaDto,
 					detalleCronogramaCredito.getMontoProgramado());
 			
-			ConceptoDetalleCronograma.getConceptoDetalleCronograma(detalleCronogramaCredito.getNroConcepto()).setMontoPagado(cuotaDto,
+			ConceptoCronograma.getConceptoCronograma(detalleCronogramaCredito.getNroConcepto()).setMontoPagado(cuotaDto,
 					detalleCronogramaCredito.getMontoPagado());
 			
 			cuotaDto.setMontoCuota(cuotaDto.getMontoCuota().add(detalleCronogramaCredito.getMontoProgramado()));
@@ -75,6 +75,21 @@ public class DetalleCronogramaCreditoServiceImpl implements DetalleCronogramaCre
 		}
 		
 		return cuotasCrogramaCreditoDto;
+	}
+
+	@Override
+	@Transactional
+	public List<DetalleCronogramaCreditoDto> findDetallesCronogramaWithSaldo(Integer idCuenta, Integer nroCondicion) {
+		
+		List<DetalleCronogramaCreditoDto> detallesWithSaldoDto = new ArrayList<>();
+		List<DetalleCronogramaCredito> detallesWithSaldo = detalleCronogramaCreditoDao.findWithSaldo(idCuenta, nroCondicion);
+		
+		for (DetalleCronogramaCredito detalleWithSaldo: detallesWithSaldo) {
+			DetalleCronogramaCreditoDto detalleWithSaldoDto = buildDtoFrom(detalleWithSaldo);
+			detallesWithSaldoDto.add(detalleWithSaldoDto);
+		}
+		 
+		return detallesWithSaldoDto;
 	}
 
 

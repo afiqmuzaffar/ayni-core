@@ -2,7 +2,6 @@ package pe.ayni.aynicore.credito.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 public class DetalleCronogramaCreditoDto implements Serializable {
 
@@ -20,13 +19,42 @@ public class DetalleCronogramaCreditoDto implements Serializable {
 	
 	private String ctaContable;
 	
-	private LocalDate fechaVencimiento;
+	private String fechaVencimiento;
 	
 	private BigDecimal capitalCredito;
 	
 	private BigDecimal montoProgramado;
 	
 	private BigDecimal montoPagado;
+	
+	public DetalleCronogramaCreditoDto() {
+		
+	}
+	
+	
+
+	public DetalleCronogramaCreditoDto(Integer id, Integer idCuenta, Integer nroCondicion, Integer nroCuota,
+			Integer nroConcepto, String ctaContable, String fechaVencimiento, BigDecimal capitalCredito,
+			BigDecimal montoProgramado, BigDecimal montoPagado) {
+		this.id = id;
+		this.idCuenta = idCuenta;
+		this.nroCondicion = nroCondicion;
+		this.nroCuota = nroCuota;
+		this.nroConcepto = nroConcepto;
+		this.ctaContable = ctaContable;
+		this.fechaVencimiento = fechaVencimiento;
+		this.capitalCredito = capitalCredito;
+		this.montoProgramado = montoProgramado;
+		this.montoPagado = montoPagado;
+	}
+
+	public DetalleCronogramaCreditoDto(DetalleCronogramaCreditoDto detalleCronogramaCreditoDto) {
+		
+		this(detalleCronogramaCreditoDto.getId(), detalleCronogramaCreditoDto.getIdCuenta(), detalleCronogramaCreditoDto.getNroConcepto(),
+				detalleCronogramaCreditoDto.getNroCuota(), detalleCronogramaCreditoDto.getNroConcepto(), detalleCronogramaCreditoDto.getCtaContable(),
+				detalleCronogramaCreditoDto.getFechaVencimiento(), detalleCronogramaCreditoDto.getCapitalCredito(),
+				detalleCronogramaCreditoDto.getMontoProgramado(), detalleCronogramaCreditoDto.getMontoPagado());
+	}
 
 	public Integer getId() {
 		return id;
@@ -76,11 +104,11 @@ public class DetalleCronogramaCreditoDto implements Serializable {
 		this.ctaContable = ctaContable;
 	}
 
-	public LocalDate getFechaVencimiento() {
+	public String getFechaVencimiento() {
 		return fechaVencimiento;
 	}
 
-	public void setFechaVencimiento(LocalDate fechaVencimiento) {
+	public void setFechaVencimiento(String fechaVencimiento) {
 		this.fechaVencimiento = fechaVencimiento;
 	}
 

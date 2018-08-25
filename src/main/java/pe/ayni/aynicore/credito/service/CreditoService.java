@@ -10,7 +10,7 @@ public interface CreditoService {
 
 	void createCredito(CreditoDto creditoDto);
 	
-	public List<CuotaCronogramaCreditoDto> calculateCronograma(CreditoDto creditoDto);
+	List<CuotaCronogramaCreditoDto> calculateCronograma(CreditoDto creditoDto);
 
 	List<CuotaCronogramaCreditoDto> calculateCronograma(DatosSimulacionCreditoDto datosSimulacionCreditoDto);
 
@@ -18,6 +18,6 @@ public interface CreditoService {
 
 	List<CuotaCronogramaCreditoDto> findCuotasCronogramaByIdCuentaAndEstado(Integer idCuenta, String estado); 
 	
-	
+	Integer getNroCondicionCredito(Integer idCuenta);
 
 }

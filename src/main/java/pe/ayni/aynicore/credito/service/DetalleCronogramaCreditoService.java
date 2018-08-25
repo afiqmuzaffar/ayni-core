@@ -11,4 +11,6 @@ public interface DetalleCronogramaCreditoService {
 
 	List<CuotaCronogramaCreditoDto> findCuotasCronogramaByIdCuentaAndEstado(Integer idCuenta, Integer nroCondicion, String estado);
 
+	List<DetalleCronogramaCreditoDto> findDetallesCronogramaWithSaldo(Integer idCuenta, Integer nroCondicion);
+
 }

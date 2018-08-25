@@ -2,13 +2,14 @@ package pe.ayni.aynicore.operacion.credito.rest;
 
 import java.io.IOException;
 import java.io.OutputStream;
-
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import net.sf.jasperreports.engine.JRException;
+import pe.ayni.aynicore.operacion.credito.dto.CuotaSimulacionAmortizacionDto;
+import pe.ayni.aynicore.operacion.credito.dto.DatosSimulacionAmortizacionDto;
 import pe.ayni.aynicore.operacion.credito.dto.DesembolsoCreditoDto;
 import pe.ayni.aynicore.operacion.credito.service.OperacionCreditoService;
 
@@ -51,6 +54,12 @@ public class OperacionCreditoRest {
 
 		operacionCreditoService.buildReporteSolicitud(desembolsoCreditoDto, outStream);
 		
+	}
+	
+	@CrossOrigin
+	@GetMapping("/amortizaciones/simular-amortizacion")
+	public List<CuotaSimulacionAmortizacionDto> calculateAmortizacion(DatosSimulacionAmortizacionDto datosSimulacionAmortizacionDto) {
+		return operacionCreditoService.calculateAmortizacion(datosSimulacionAmortizacionDto);
 	}
 	
 }

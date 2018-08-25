@@ -276,4 +276,10 @@ public class CreditoServiceImpl implements CreditoService {
 		return detalleCronogramaCreditoService.findCuotasCronogramaByIdCuentaAndEstado(idCuenta, credito.getNroCondicion(), estado);
 	}
 
+	@Override
+	@Transactional
+	public Integer getNroCondicionCredito(Integer idCuenta) {
+		return creditoDao.findById(idCuenta).getNroCondicion();
+	}
+
 }

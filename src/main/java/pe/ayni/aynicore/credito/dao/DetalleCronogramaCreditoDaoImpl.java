@@ -16,7 +16,7 @@ public class DetalleCronogramaCreditoDaoImpl implements DetalleCronogramaCredito
 	SessionFactory sessionFactory;
 	
 	@Override
-	public DetalleCronogramaCredito findDesembolso(Integer idCuenta) {
+	public DetalleCronogramaCredito findIsDesembolso(Integer idCuenta) {
 		Session session = sessionFactory.getCurrentSession();
 		
 		String query = "SELECT a FROM DetalleCronogramaCredito a JOIN FETCH a.cuentaCredito JOIN FETCH a.ctaContable"
@@ -46,6 +46,21 @@ public class DetalleCronogramaCreditoDaoImpl implements DetalleCronogramaCredito
 				.setParameter("idCuenta", idCuenta)
 				.setParameter("nroCondicion", nroCondicion)
 				.getResultList();
+	}
+
+	@Override
+	public List<DetalleCronogramaCredito> findWithSaldo(Integer idCuenta, Integer nroCondicion) {
+		Session session = sessionFactory.getCurrentSession();
+		String query = "SELECT a FROM DetalleCronogramaCredito a " + 
+						" WHERE a.cuentaCredito.idCuenta = :idCuenta " + 
+						" AND a.nroCondicion = :nroCondicion " + 
+						" AND a.montoProgramado - a.montoPagado > 0 " + 
+						" ORDER BY a.nroCuota ASC, a.nroConcepto DESC "; // Why DSC: Higher concepts get amortization first
+
+		return session.createQuery(query, DetalleCronogramaCredito.class)
+				.setParameter("idCuenta", idCuenta)
+				.setParameter("nroCondicion", nroCondicion)
+				.getResultList();	
 	}
 	
 	
