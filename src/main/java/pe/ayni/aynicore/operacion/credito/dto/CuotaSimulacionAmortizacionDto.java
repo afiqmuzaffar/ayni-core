@@ -14,6 +14,8 @@ public class CuotaSimulacionAmortizacionDto extends CuotaCronogramaCreditoDto {
 
 	public CuotaSimulacionAmortizacionDto(CuotaCronogramaCreditoDto cuotaCronogramaCreditoDto) {
 		super(cuotaCronogramaCreditoDto);
+		this.amortizacionCapital = BigDecimal.ZERO;
+		this.amortizacionInteres = BigDecimal.ZERO;
 	}
 
 	public BigDecimal getAmortizacionCapital() {

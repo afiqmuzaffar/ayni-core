@@ -60,8 +60,7 @@ public class OperacionDetalleCronogramaServiceImpl implements OperacionDetalleCr
 		List<DetalleCronogramaCreditoDto> detallesCronogramaPendientes = detalleCronogramaCreditoService.findDetallesCronogramaWithSaldo(idCuenta, nroCondicion);
 		
 		for (DetalleCronogramaCreditoDto detalleCronoPendiente: detallesCronogramaPendientes) {
-			DetalleCronogramaSimulacionAmortizacionDto detalleCronoSimulacion = 
-					new DetalleCronogramaSimulacionAmortizacionDto(detalleCronoPendiente);
+			DetalleCronogramaSimulacionAmortizacionDto detalleCronoSimulacion = new DetalleCronogramaSimulacionAmortizacionDto(detalleCronoPendiente);
 			BigDecimal saldoDetalle = detalleCronoPendiente.getMontoProgramado().subtract(detalleCronoPendiente.getMontoPagado());
 			BigDecimal montoAmortizacion;
 			if (monto.compareTo(saldoDetalle) > 0) {

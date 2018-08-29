@@ -13,6 +13,7 @@ public class DetalleCronogramaSimulacionAmortizacionDto extends DetalleCronogram
 
 	public DetalleCronogramaSimulacionAmortizacionDto(DetalleCronogramaCreditoDto detalleCronogramaCreditoDto) {
 		super(detalleCronogramaCreditoDto);
+		this.montoAmortizacion = BigDecimal.ZERO;
 	}
 
 	public BigDecimal getMontoAmortizacion() {

@@ -64,7 +64,7 @@ public class CuotaCronogramaCreditoDto implements Serializable {
 
 	public CuotaCronogramaCreditoDto(CuotaCronogramaCreditoDto cuotaCronogramaCreditoDto) {
 		this(cuotaCronogramaCreditoDto.getIdCuenta(), cuotaCronogramaCreditoDto.getNroCuota(), cuotaCronogramaCreditoDto.getFechaVencimiento(),
-				cuotaCronogramaCreditoDto.getCapitalCredito(), cuotaCronogramaCreditoDto.getCapitalProgramado(), cuotaCronogramaCreditoDto.getInteresPagado(),
+				cuotaCronogramaCreditoDto.getCapitalCredito(), cuotaCronogramaCreditoDto.getCapitalProgramado(), cuotaCronogramaCreditoDto.getInteresProgramado(),
 				cuotaCronogramaCreditoDto.getCapitalPagado(), cuotaCronogramaCreditoDto.getInteresPagado(), cuotaCronogramaCreditoDto.getMontoCuota());
 	}
 
