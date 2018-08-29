@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import net.sf.jasperreports.engine.JRException;
+import pe.ayni.aynicore.operacion.credito.dto.AmortizacionCreditoDto;
 import pe.ayni.aynicore.operacion.credito.dto.CuotaSimulacionAmortizacionDto;
 import pe.ayni.aynicore.operacion.credito.dto.DatosSimulacionAmortizacionDto;
 import pe.ayni.aynicore.operacion.credito.dto.DesembolsoCreditoDto;
@@ -32,7 +33,7 @@ public class OperacionCreditoRest {
 	
 	@CrossOrigin
 	@PostMapping("/desembolsos")
-	public DesembolsoCreditoDto createCredito(@RequestBody DesembolsoCreditoDto desembolsoCreditoDto) {
+	public DesembolsoCreditoDto createDesembolso(@RequestBody DesembolsoCreditoDto desembolsoCreditoDto) {
 		System.out.println(desembolsoCreditoDto);
 		desembolsoCreditoDto.setUsuarioOperacion("oajon"); // TODO
 		
@@ -62,4 +63,11 @@ public class OperacionCreditoRest {
 		return operacionCreditoService.calculateAmortizacion(datosSimulacionAmortizacionDto);
 	}
 	
+	@CrossOrigin
+	@PostMapping("/amortizaciones")
+	public AmortizacionCreditoDto createAmortizacion(@RequestBody AmortizacionCreditoDto amortizacionCreditoDto) {
+		System.out.println(amortizacionCreditoDto);
+		amortizacionCreditoDto.setIdOperacion(123456);
+		return amortizacionCreditoDto;
+	}
 }
