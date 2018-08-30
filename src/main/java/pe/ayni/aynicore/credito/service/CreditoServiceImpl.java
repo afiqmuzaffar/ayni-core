@@ -282,4 +282,11 @@ public class CreditoServiceImpl implements CreditoService {
 		return creditoDao.findById(idCuenta).getNroCondicion();
 	}
 
+	@Override
+	@Transactional
+	public void amortizarCredito(Integer idCuenta, BigDecimal montoAmortizacion) {
+		Integer nroCondicion = getNroCondicionCredito(idCuenta);
+		detalleCronogramaCreditoService.amortizarDetallesCronograma(idCuenta, nroCondicion, montoAmortizacion);
+	}
+
 }

@@ -1,6 +1,9 @@
 package pe.ayni.aynicore.credito.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
+
+import javax.persistence.Query;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -61,6 +64,17 @@ public class DetalleCronogramaCreditoDaoImpl implements DetalleCronogramaCredito
 				.setParameter("idCuenta", idCuenta)
 				.setParameter("nroCondicion", nroCondicion)
 				.getResultList();	
+	}
+
+	@Override
+	public int updateMontoPagado(Integer id, BigDecimal montoPagado) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("UPDATE DetalleCronogramaCredito a "
+				+ " SET a.montoPagado = :montoPagado "
+				+ " WHERE a.id = :id ");
+		query.setParameter("montoPagado", montoPagado);
+		query.setParameter("id", id);
+		return query.executeUpdate();
 	}
 	
 	

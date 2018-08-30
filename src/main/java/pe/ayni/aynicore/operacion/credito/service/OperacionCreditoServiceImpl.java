@@ -31,9 +31,11 @@ import pe.ayni.aynicore.credito.service.DetalleCronogramaCreditoService;
 import pe.ayni.aynicore.operacion.constraint.DetalleOperacionConstraint.DebitoCredito;
 import pe.ayni.aynicore.operacion.constraint.OperacionConstraint.TipoOperacion;
 import pe.ayni.aynicore.operacion.credito.constraint.DesembolsoConstraint.ViaDesembolso;
+import pe.ayni.aynicore.operacion.credito.dto.AmortizacionCreditoDto;
 import pe.ayni.aynicore.operacion.credito.dto.CuotaSimulacionAmortizacionDto;
 import pe.ayni.aynicore.operacion.credito.dto.DatosSimulacionAmortizacionDto;
 import pe.ayni.aynicore.operacion.credito.dto.DesembolsoCreditoDto;
+import pe.ayni.aynicore.operacion.credito.dto.DetalleCronogramaSimulacionAmortizacionDto;
 import pe.ayni.aynicore.operacion.dto.DetalleOperacionDto;
 import pe.ayni.aynicore.operacion.dto.OperacionDto;
 import pe.ayni.aynicore.operacion.service.DetalleOperacionService;
@@ -142,6 +144,22 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 		return operacionDetalleCronogramaService.calculateAmortizacionCuotas(datosSimulacionAmortizacionDto.getIdCuenta(),
 				nroCondicionCredito, datosSimulacionAmortizacionDto.getMontoAmortizacion());
 		
+	}
+
+	@Override
+	@Transactional
+	public AmortizacionCreditoDto createAmortizacion(AmortizacionCreditoDto amortizacionCreditoDto) {
+		Integer nroCondicionCredito = creditoService.getNroCondicionCredito(amortizacionCreditoDto.getIdCuenta());
+		List<DetalleCronogramaSimulacionAmortizacionDto> detallesCronogramaAmortizacion = operacionDetalleCronogramaService.calculateAmortizacionDetalleCronograma(
+				amortizacionCreditoDto.getIdCuenta(),nroCondicionCredito, amortizacionCreditoDto.getMontoAmortizacion());
+		
+		creditoService.amortizarCredito(amortizacionCreditoDto.getIdCuenta(), amortizacionCreditoDto.getMontoAmortizacion());
+		
+		// Detalle de la Operacion de Recaudo
+		//DetalleOperacionDto detalleOperacionRecaudo = detalleOperacionService
+		
+		
+		return null;
 	}
 	
 	

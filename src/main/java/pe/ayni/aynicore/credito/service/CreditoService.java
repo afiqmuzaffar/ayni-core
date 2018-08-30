@@ -1,5 +1,6 @@
 package pe.ayni.aynicore.credito.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import pe.ayni.aynicore.credito.dto.CreditoDto;
@@ -19,5 +20,7 @@ public interface CreditoService {
 	List<CuotaCronogramaCreditoDto> findCuotasCronogramaByIdCuentaAndEstado(Integer idCuenta, String estado); 
 	
 	Integer getNroCondicionCredito(Integer idCuenta);
+
+	void amortizarCredito(Integer idCuenta, BigDecimal montoAmortizacion);
 
 }

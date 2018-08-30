@@ -53,8 +53,9 @@ public class OperacionDetalleCronogramaServiceImpl implements OperacionDetalleCr
 		return cuotasSimulacionAmortizacion;
 	}
 	
+	@Override
 	@Transactional
-	private List<DetalleCronogramaSimulacionAmortizacionDto> calculateAmortizacionDetalleCronograma(Integer idCuenta,
+	public List<DetalleCronogramaSimulacionAmortizacionDto> calculateAmortizacionDetalleCronograma(Integer idCuenta,
 			Integer nroCondicion, BigDecimal monto) {
 		List<DetalleCronogramaSimulacionAmortizacionDto> detallesCronogramaSimulacionAmortizacionDto = new ArrayList<>();
 		List<DetalleCronogramaCreditoDto> detallesCronogramaPendientes = detalleCronogramaCreditoService.findDetallesCronogramaWithSaldo(idCuenta, nroCondicion);

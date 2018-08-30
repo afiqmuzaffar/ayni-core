@@ -16,12 +16,17 @@ import pe.ayni.aynicore.credito.dao.DetalleCronogramaCreditoDao;
 import pe.ayni.aynicore.credito.dto.CuotaCronogramaCreditoDto;
 import pe.ayni.aynicore.credito.dto.DetalleCronogramaCreditoDto;
 import pe.ayni.aynicore.credito.entity.DetalleCronogramaCredito;
+import pe.ayni.aynicore.operacion.credito.dto.DetalleCronogramaSimulacionAmortizacionDto;
+import pe.ayni.aynicore.operacion.credito.service.OperacionDetalleCronogramaService;
 
 @Service
 public class DetalleCronogramaCreditoServiceImpl implements DetalleCronogramaCreditoService {
 
 	@Autowired
 	DetalleCronogramaCreditoDao detalleCronogramaCreditoDao;
+	
+	@Autowired
+	OperacionDetalleCronogramaService operacionDetalleCronogramaService; 
 	
 	@Override
 	@Transactional
@@ -90,6 +95,16 @@ public class DetalleCronogramaCreditoServiceImpl implements DetalleCronogramaCre
 		}
 		 
 		return detallesWithSaldoDto;
+	}
+
+	@Override
+	@Transactional
+	public void amortizarDetallesCronograma(Integer idCuenta, Integer nroCondicion, BigDecimal monto) {
+		List<DetalleCronogramaSimulacionAmortizacionDto> detallesAmortizacion = operacionDetalleCronogramaService
+				.calculateAmortizacionDetalleCronograma(idCuenta, nroCondicion, monto);
+		for (DetalleCronogramaSimulacionAmortizacionDto detalle: detallesAmortizacion) {
+			detalleCronogramaCreditoDao.updateMontoPagado(detalle.getId(), detalle.getMontoPagado().add(detalle.getMontoAmortizacion()));
+		}
 	}
 
 
