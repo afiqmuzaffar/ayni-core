@@ -76,6 +76,13 @@ public class DetalleCronogramaCreditoDaoImpl implements DetalleCronogramaCredito
 		query.setParameter("id", id);
 		return query.executeUpdate();
 	}
+
+	@Override
+	public DetalleCronogramaCredito findById(Integer id) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		return session.get(DetalleCronogramaCredito.class, id);
+	}
 	
 	
 	

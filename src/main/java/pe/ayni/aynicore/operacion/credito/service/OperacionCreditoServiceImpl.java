@@ -77,7 +77,7 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 		Integer idOperacionRelacionada = null;
 		OperacionDto operacionDto = new OperacionDto(desembolsoCreditoDto.getMontoDesembolso(), desembolsoCreditoDto.getMoneda(),
 				desembolsoCreditoDto.getUsuarioOperacion(), TipoOperacion.DESEMBOLSO_CRED.toString(),
-				"DESEMBOLSO DE CREDITO", idOperacionRelacionada);
+				TipoOperacion.DESEMBOLSO_CRED.toString(), idOperacionRelacionada);
 		
 		List<DetalleOperacionDto> detallesOperacionDto = new ArrayList<>();
 		
@@ -94,7 +94,7 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 		// Detalle de la Operacion de la Contraparte
 		int nroDetalleContraparte = 1;
 		if (desembolsoCreditoDto.getViaDesembolso().equals(ViaDesembolso.CAJA.toString())) {
-			DetalleOperacionDto detalleOperacionDto = detalleOperacionService.buildDetalleOperacion(desembolsoCreditoDto.getIdCuentaDesembolso(),
+			DetalleOperacionDto detalleOperacionDto = detalleOperacionService.buildDetalleOperacion2(desembolsoCreditoDto.getIdCuentaDesembolso(),
 					nroDetalleContraparte, DebitoCredito.CREDITO);
 			detalleOperacionDto.setCredito(desembolsoCreditoDto.getMontoDesembolso());
 			detallesOperacionDto.add(detalleOperacionDto);
@@ -149,60 +149,40 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 	@Override
 	@Transactional
 	public AmortizacionCreditoDto createAmortizacion(AmortizacionCreditoDto amortizacionCreditoDto) {
+		
 		Integer nroCondicionCredito = creditoService.getNroCondicionCredito(amortizacionCreditoDto.getIdCuenta());
 		List<DetalleCronogramaSimulacionAmortizacionDto> detallesCronogramaAmortizacion = operacionDetalleCronogramaService.calculateAmortizacionDetalleCronograma(
-				amortizacionCreditoDto.getIdCuenta(),nroCondicionCredito, amortizacionCreditoDto.getMontoAmortizacion());
+				amortizacionCreditoDto.getIdCuenta(), nroCondicionCredito, amortizacionCreditoDto.getMontoAmortizacion());
 		
 		creditoService.amortizarCredito(amortizacionCreditoDto.getIdCuenta(), amortizacionCreditoDto.getMontoAmortizacion());
 		
+		List<DetalleOperacionDto> detallesOperacionDto = new ArrayList<>();
 		// Detalle de la Operacion de Recaudo
-		//DetalleOperacionDto detalleOperacionRecaudo = detalleOperacionService
+		Integer nroDetalle = 0;
+		DetalleOperacionDto detalleOperacionRecaudo = detalleOperacionService.buildDetalleOperacion(amortizacionCreditoDto.getIdCuenta(),
+				nroDetalle, DebitoCredito.DEBITO, amortizacionCreditoDto.getMontoAmortizacion(), null, null);
+		detallesOperacionDto.add(detalleOperacionRecaudo);
 		
-		
+		for (DetalleCronogramaSimulacionAmortizacionDto detalleCronogramaAmortizacion: detallesCronogramaAmortizacion) {
+			nroDetalle++;
+			DetalleOperacionDto detalleOperacion = detalleOperacionService.buildDetalleOperacion(detalleCronogramaAmortizacion.getIdCuenta(),
+					nroDetalle, DebitoCredito.CREDITO, detalleCronogramaAmortizacion.getMontoAmortizacion(), detalleCronogramaAmortizacion.getId(), null);
+			detallesOperacionDto.add(detalleOperacion);
+		}
+		Integer idOperacionRelacionada = null;
+		OperacionDto operacionDto = new OperacionDto(amortizacionCreditoDto.getMontoAmortizacion(), amortizacionCreditoDto.getMoneda(),
+				amortizacionCreditoDto.getUsuarioOperacion(), TipoOperacion.AMORTIZACION_CRED.toString(), 
+				TipoOperacion.AMORTIZACION_CRED.toString(), idOperacionRelacionada);
+		operacionDto.setDetallesOperacion(detallesOperacionDto);
+		Integer idOperacion = operacionService.createOperacion(operacionDto);
+		return findAmortizacionById(idOperacion);
+	}
+	
+	@Transactional
+	private AmortizacionCreditoDto findAmortizacionById(Integer idOperacion) {
+		// TODO
 		return null;
 	}
 	
-	
-	
-	/*
-	 * public void createDesembolso(...) {
-	 * 
-	 * 		CreditoService::createCredito
-	 * 			DetalleCronogramaCreditoService::createDetalleCronograma
-	 * 
-	 * 		OperacionService::createOperacion
-	 * 			DetalleOperacionService::createDetalleOperacion
-	 * 
-	 * 			SaldoService::aplicarMovimiento
-	 * 
-	 * 
-	 * 
-	 * }
-	 * 
-	 * 
-	 * public void createAmortizacion(...) {
-	 * 
-	 * 		CreditoService::amortizarCredito
-	 * 			DetalleCronogramaCreditoService::amortizarDetalleCronograma
-	 * 		
-	 * 		OperacionService::createOperacion
-	 * 			DetalleOperacionService::createDetalleOperacion
-	 * 
-	 * 			SaldoService::aplicarMovimiento
-	 * }
-	 * 
-	 * public createExtornoAmortizacion(...) {
-	 * 
-	 * 		CreditoService::extornarAmortizacion
-	 * 			DetalleCronogramaCreditoService::extornarAmortizacionDetalleCronograma
-	 * 		
-	 * 		OperacionService::createOperacion
-	 * 			DetalleOperacionService::createDetalleOperacion
-	 * 
-	 * 			SaldoService::aplicarMovimiento
-	 * 
-	 * }
-	 * 
-	 * 
-	 */
+
 }

@@ -16,4 +16,8 @@ public interface DetalleCronogramaCreditoService {
 
 	void amortizarDetallesCronograma(Integer idCuenta, Integer nroCondicion, BigDecimal montoAmortizacion);
 
+	DetalleCronogramaCreditoDto findDetalleCronogramaCreditoById(Integer id);
+	
+	
+
 }

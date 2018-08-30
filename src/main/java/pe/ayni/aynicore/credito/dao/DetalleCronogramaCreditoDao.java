@@ -15,4 +15,6 @@ public interface DetalleCronogramaCreditoDao {
 
 	int updateMontoPagado(Integer id, BigDecimal montoAmortizacion);
 
+	DetalleCronogramaCredito findById(Integer id);
+
 }

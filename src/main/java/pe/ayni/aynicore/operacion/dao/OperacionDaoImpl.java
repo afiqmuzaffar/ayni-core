@@ -14,9 +14,9 @@ public class OperacionDaoImpl implements OperacionDao {
 	SessionFactory sessionFactory;
 	
 	@Override
-	public void create(Operacion operacion) {
+	public Integer create(Operacion operacion) {
 		Session session = sessionFactory.getCurrentSession();
-		session.save(operacion);
+		return (Integer)session.save(operacion);
 	}
 
 }

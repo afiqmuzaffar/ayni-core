@@ -25,11 +25,10 @@ public class OperacionServiceImpl implements OperacionService {
 
 	@Override
 	@Transactional
-	public void createOperacion(OperacionDto operacionDto) {
+	public Integer createOperacion(OperacionDto operacionDto) {
 		
 		Operacion operacion = buildEntityFrom(operacionDto);
-		operacionDao.create(operacion);
-		operacionDto.setId(operacion.getId());
+		return operacionDao.create(operacion);
 	}
 	
 	@Transactional
@@ -46,7 +45,7 @@ public class OperacionServiceImpl implements OperacionService {
 		if (operacionDto.getIdOperacionRelacionada() != null)
 			operacion.setOperacionRelacionada(new Operacion(operacionDto.getIdOperacionRelacionada()));	
 		
-		detalleOperacionService.setDetalleOperacion(operacion, operacionDto.getDetallesOperacion());
+		detalleOperacionService.setDetallesOperacion(operacion, operacionDto.getDetallesOperacion());
 
 		return operacion;
 	}

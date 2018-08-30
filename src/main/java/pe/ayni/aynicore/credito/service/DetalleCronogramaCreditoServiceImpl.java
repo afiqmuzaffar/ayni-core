@@ -107,5 +107,12 @@ public class DetalleCronogramaCreditoServiceImpl implements DetalleCronogramaCre
 		}
 	}
 
+	@Override
+	@Transactional
+	public DetalleCronogramaCreditoDto findDetalleCronogramaCreditoById(Integer id) {
+		DetalleCronogramaCredito detalleCronogramaCredito = detalleCronogramaCreditoDao.findById(id);
+		return buildDtoFrom(detalleCronogramaCredito);
+	}
+
 
 }

@@ -1,5 +1,6 @@
 package pe.ayni.aynicore.operacion.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import pe.ayni.aynicore.credito.dto.DetalleCronogramaCreditoDto;
@@ -11,8 +12,10 @@ public interface DetalleOperacionService {
 
 	DetalleOperacionDto buildDetalleOperacionDesembolso(DetalleCronogramaCreditoDto detalleDesembolsoCronogramaCredito);
 
-	DetalleOperacionDto buildDetalleOperacion(Integer idCuenta, int nroDetalle, DebitoCredito debitoCredito);
+	DetalleOperacionDto buildDetalleOperacion2(Integer idCuenta, int nroDetalle, DebitoCredito debitoCredito);
 
-	void setDetalleOperacion(Operacion operacion, List<DetalleOperacionDto> detallesOperacionDto);
+	void setDetallesOperacion(Operacion operacion, List<DetalleOperacionDto> detallesOperacionDto);
 
+	DetalleOperacionDto buildDetalleOperacion(Integer idCuenta, Integer nroDetalle, DebitoCredito debitoCredito,
+			BigDecimal monto, Integer idDetalleCronogramaCredito, Integer idDetalleOperacionBanco);
 }

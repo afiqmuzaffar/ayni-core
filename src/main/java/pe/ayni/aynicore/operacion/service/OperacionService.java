@@ -4,6 +4,6 @@ import pe.ayni.aynicore.operacion.dto.OperacionDto;
 
 public interface OperacionService {
 
-	void createOperacion(OperacionDto operacionDto);
+	Integer createOperacion(OperacionDto operacionDto);
 
 }
