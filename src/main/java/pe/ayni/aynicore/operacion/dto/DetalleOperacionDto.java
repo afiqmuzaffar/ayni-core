@@ -15,6 +15,8 @@ public class DetalleOperacionDto implements Serializable {
 	
 	private String ctaContable;
 	
+	private String tipoCuenta;
+	
 	private BigDecimal debito;
 	
 	private BigDecimal credito;
@@ -57,6 +59,14 @@ public class DetalleOperacionDto implements Serializable {
 
 	public void setCtaContable(String ctaContable) {
 		this.ctaContable = ctaContable;
+	}
+	
+	public String getTipoCuenta() {
+		return tipoCuenta;
+	}
+
+	public void setTipoCuenta(String tipoCuenta) {
+		this.tipoCuenta = tipoCuenta;
 	}
 
 	public BigDecimal getDebito() {

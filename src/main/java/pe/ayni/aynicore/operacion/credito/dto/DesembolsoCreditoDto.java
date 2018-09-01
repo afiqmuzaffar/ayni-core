@@ -24,7 +24,7 @@ public class DesembolsoCreditoDto implements Serializable {
 	
 	private Cliente cliente;
 	
-	private String viaDesembolso;
+	private String tipoCuentaDesembolso;
 	
 	private Integer idCuentaDesembolso;
 	
@@ -39,7 +39,7 @@ public class DesembolsoCreditoDto implements Serializable {
 	}
 	public DesembolsoCreditoDto(BigDecimal montoDesembolso, String moneda, String frecuencia, BigDecimal tem,
 			Integer nroCuotas, String fechaDesembolso, String fechaPrimeraCuota, Cliente cliente,
-			String viaDesembolso, Integer idCuentaDesembolso, String usuarioAprobador, String responsableCuenta,
+			String tipoCuentaDesembolso, Integer idCuentaDesembolso, String usuarioAprobador, String responsableCuenta,
 			String usuarioOperacion) {
 		this.montoDesembolso = montoDesembolso;
 		this.moneda = moneda;
@@ -49,7 +49,7 @@ public class DesembolsoCreditoDto implements Serializable {
 		this.fechaDesembolso = fechaDesembolso;
 		this.fechaPrimeraCuota = fechaPrimeraCuota;
 		this.cliente = cliente;
-		this.viaDesembolso = viaDesembolso;
+		this.tipoCuentaDesembolso = tipoCuentaDesembolso;
 		this.idCuentaDesembolso = idCuentaDesembolso;
 		this.usuarioAprobador = usuarioAprobador;
 		this.responsableCuenta = responsableCuenta;
@@ -173,14 +173,12 @@ public class DesembolsoCreditoDto implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public String getViaDesembolso() {
-		return viaDesembolso;
+	public String getTipoCuentaDesembolso() {
+		return tipoCuentaDesembolso;
 	}
-
-	public void setViaDesembolso(String viaDesembolso) {
-		this.viaDesembolso = viaDesembolso;
+	public void setTipoCuentaDesembolso(String tipoCuentaDesembolso) {
+		this.tipoCuentaDesembolso = tipoCuentaDesembolso;
 	}
-
 	public Integer getIdCuentaDesembolso() {
 		return idCuentaDesembolso;
 	}
@@ -212,17 +210,15 @@ public class DesembolsoCreditoDto implements Serializable {
 	public void setUsuarioOperacion(String usuarioOperacion) {
 		this.usuarioOperacion = usuarioOperacion;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "DesembolsoCreditoDto [montoDesembolso=" + montoDesembolso + ", moneda=" + moneda + ", frecuencia="
 				+ frecuencia + ", tem=" + tem + ", nroCuotas=" + nroCuotas + ", fechaDesembolso=" + fechaDesembolso
-				+ ", fechaPrimeraCuota=" + fechaPrimeraCuota + ", cliente=" + cliente + ", viaDesembolso="
-				+ viaDesembolso + ", idCuentaDesembolso=" + idCuentaDesembolso + ", usuarioAprobador="
+				+ ", fechaPrimeraCuota=" + fechaPrimeraCuota + ", cliente=" + cliente + ", tipoCuentaDesembolso="
+				+ tipoCuentaDesembolso + ", idCuentaDesembolso=" + idCuentaDesembolso + ", usuarioAprobador="
 				+ usuarioAprobador + ", responsableCuenta=" + responsableCuenta + ", usuarioOperacion="
 				+ usuarioOperacion + "]";
 	}
-	
-	
 	
 }

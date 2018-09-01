@@ -30,7 +30,7 @@ import pe.ayni.aynicore.credito.service.CreditoService;
 import pe.ayni.aynicore.credito.service.DetalleCreditoService;
 import pe.ayni.aynicore.operacion.constraint.DetalleOperacionConstraint.DebitoCredito;
 import pe.ayni.aynicore.operacion.constraint.OperacionConstraint.TipoOperacion;
-import pe.ayni.aynicore.operacion.credito.constraint.DesembolsoConstraint.ViaDesembolso;
+import pe.ayni.aynicore.operacion.credito.constraint.DesembolsoConstraint.TipoCuentaDesembolso;
 import pe.ayni.aynicore.operacion.credito.dto.AmortizacionCreditoDto;
 import pe.ayni.aynicore.operacion.credito.dto.AmortizacionCuotaDto;
 import pe.ayni.aynicore.operacion.credito.dto.SimulacionAmortizacionDto;
@@ -88,7 +88,7 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 		
 		// Detalle de la Operacion de la Contraparte
 		int nroDetalleContraparte = 1;
-		if (desembolsoCredito.getViaDesembolso().equals(ViaDesembolso.CAJA.toString())) {
+		if (desembolsoCredito.getTipoCuentaDesembolso().equals(TipoCuentaDesembolso.CAJA.toString())) {
 			DetalleOperacionDto detalleOperacionDto = detalleOperacionService.buildDetalleOperacion2(desembolsoCredito.getIdCuentaDesembolso(),
 					nroDetalleContraparte, DebitoCredito.CREDITO);
 			detalleOperacionDto.setCredito(desembolsoCredito.getMontoDesembolso());
@@ -154,7 +154,7 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 		List<DetalleOperacionDto> detallesOperacion = new ArrayList<>();
 		// Detalle de la Operacion de Recaudo
 		Integer nroDetalle = 0;
-		DetalleOperacionDto detalleOperacionRecaudo = detalleOperacionService.buildDetalleOperacion(amortizacionCredito.getIdCuenta(),
+		DetalleOperacionDto detalleOperacionRecaudo = detalleOperacionService.buildDetalleOperacion(amortizacionCredito.getIdCuentaRecaudo(),
 				nroDetalle, DebitoCredito.DEBITO, amortizacionCredito.getMontoAmortizacion(), null, null);
 		detallesOperacion.add(detalleOperacionRecaudo);
 		
@@ -170,15 +170,15 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 				TipoOperacion.AMORTIZACION_CRED.toString(), idOperacionRelacionada);
 		operacionDto.setDetallesOperacion(detallesOperacion);
 		
-		Integer idOperacion = operacionService.createOperacion(operacionDto);
+		OperacionDto operacion = operacionService.createOperacion(operacionDto);
 		
-		return findAmortizacionById(idOperacion);
+		AmortizacionCreditoDto amortizacion = buildAmortizacionCreditoDto(operacion);
+		return amortizacion;
 	}
-	
-	@Transactional
-	private AmortizacionCreditoDto findAmortizacionById(Integer idOperacion) {
-		// TODO
-		return null;
+
+	private AmortizacionCreditoDto buildAmortizacionCreditoDto(OperacionDto operacion) {
+		AmortizacionCreditoDto amortizacion = new AmortizacionCreditoDto(operacion);
+		return amortizacion;
 	}
 	
 

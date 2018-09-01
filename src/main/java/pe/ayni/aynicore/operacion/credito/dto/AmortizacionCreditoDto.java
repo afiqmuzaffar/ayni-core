@@ -3,6 +3,8 @@ package pe.ayni.aynicore.operacion.credito.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import pe.ayni.aynicore.operacion.dto.OperacionDto;
+
 public class AmortizacionCreditoDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -15,11 +17,25 @@ public class AmortizacionCreditoDto implements Serializable {
 	
 	private BigDecimal montoAmortizacion;
 	
-	private String viaRecaudo;
+	private String tipoCuentaRecaudo;
 	
 	private Integer idCuentaRecaudo;
 	
 	private String usuarioOperacion;
+	
+	public AmortizacionCreditoDto() {
+		
+	}
+
+	public AmortizacionCreditoDto(OperacionDto operacion) {
+		this.idOperacion = operacion.getId();
+		this.idCuenta = operacion.getDetallesOperacion().stream().filter(e -> (e.getCredito().compareTo(BigDecimal.ZERO) > 0)).findFirst().get().getIdCuenta();
+		this.moneda = operacion.getMoneda();
+		this.montoAmortizacion = operacion.getMonto();
+		this.tipoCuentaRecaudo = operacion.getDetallesOperacion().stream().findFirst().get().getTipoCuenta();
+		this.idCuentaRecaudo = operacion.getDetallesOperacion().stream().findFirst().get().getIdCuenta();
+		this.usuarioOperacion = operacion.getUsuario();
+	}
 
 	public Integer getIdOperacion() {
 		return idOperacion;
@@ -53,12 +69,12 @@ public class AmortizacionCreditoDto implements Serializable {
 		this.montoAmortizacion = montoAmortizacion;
 	}
 
-	public String getViaRecaudo() {
-		return viaRecaudo;
+	public String getTipoCuentaRecaudo() {
+		return tipoCuentaRecaudo;
 	}
 
-	public void setViaRecaudo(String viaRecaudo) {
-		this.viaRecaudo = viaRecaudo;
+	public void setTipoCuentaRecaudo(String tipoCuentaRecaudo) {
+		this.tipoCuentaRecaudo = tipoCuentaRecaudo;
 	}
 
 	public Integer getIdCuentaRecaudo() {
@@ -80,7 +96,8 @@ public class AmortizacionCreditoDto implements Serializable {
 	@Override
 	public String toString() {
 		return "AmortizacionCreditoDto [idOperacion=" + idOperacion + ", idCuenta=" + idCuenta + ", moneda=" + moneda
-				+ ", montoAmortizacion=" + montoAmortizacion + ", viaRecaudo=" + viaRecaudo + ", idCuentaRecaudo="
-				+ idCuentaRecaudo + ", usuarioOperacion=" + usuarioOperacion + "]";
+				+ ", montoAmortizacion=" + montoAmortizacion + ", tipoCuentaRecaudo=" + tipoCuentaRecaudo
+				+ ", idCuentaRecaudo=" + idCuentaRecaudo + ", usuarioOperacion=" + usuarioOperacion + "]";
 	}
+
 }

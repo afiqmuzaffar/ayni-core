@@ -32,8 +32,7 @@ public class OperacionDto implements Serializable{
 		
 	}
 	
-	public OperacionDto(BigDecimal monto, String moneda, String usuario, String tipoOperacion, String nota,
-			Integer idOperacionRelacionada) {
+	public OperacionDto(BigDecimal monto, String moneda, String usuario, String tipoOperacion, String nota, Integer idOperacionRelacionada) {
 		this.monto = monto;
 		this.moneda = moneda;
 		this.usuario = usuario;
