@@ -10,7 +10,7 @@ import pe.ayni.aynicore.persona.entity.Persona;
 public interface TelefonoService {
 	TelefonoFormDto getTelefonoForm();
 
-	void createTelefono(Integer idPersona, TelefonoDto telefonoDto);
+	void createTelefono(Integer idPersona, TelefonoDto telefono);
 
 	void deleteTelefono(Persona persona, Integer idTelefono);
 

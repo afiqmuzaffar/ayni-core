@@ -10,11 +10,11 @@ public interface PersonaService {
 	
 	Persona findPersonaById(Integer id);
 
-	void addDireccion(Integer idPersona, DireccionDto direccionDTO);
+	void addDireccion(Integer idPersona, DireccionDto direccion);
 
 	List<DireccionDto> findAllDireccionesByIdPersona(Integer idPersona);
 	
-	void addTelefono(Integer idPersona, TelefonoDto telefonoDto);
+	void addTelefono(Integer idPersona, TelefonoDto telefono);
 	
 	List<TelefonoDto> findAllTelefonosByIdPersona(Integer idPersona);
 

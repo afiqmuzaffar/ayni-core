@@ -19,8 +19,8 @@ import pe.ayni.aynicore.cuenta.entity.CuentaContable;
 import pe.ayni.aynicore.operacion.entity.DetalleOperacion;
 
 @Entity
-@Table(name="DetalleCronogramaCredito")
-public class DetalleCronogramaCredito {
+@Table(name="DetalleCredito")
+public class DetalleCredito {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -56,14 +56,14 @@ public class DetalleCronogramaCredito {
 	@Column(name="montoPagado", nullable=false)
 	private BigDecimal montoPagado;
 	
-	@OneToMany(mappedBy="detalleCronogramaCredito", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="detalleCredito", fetch=FetchType.LAZY)
 	private List<DetalleOperacion> detallesOperacion; 
 	
-	public DetalleCronogramaCredito() {
+	public DetalleCredito() {
 		
 	}
 	
-	public DetalleCronogramaCredito(Integer nroCondicion, Integer nroCuota, Integer nroConcepto,
+	public DetalleCredito(Integer nroCondicion, Integer nroCuota, Integer nroConcepto,
 			CuentaContable ctaContable, LocalDate fechaVencimiento, BigDecimal capitalCredito, BigDecimal montoProgramado,
 			BigDecimal montoPagado) {
 		this.nroCondicion = nroCondicion;
@@ -76,7 +76,7 @@ public class DetalleCronogramaCredito {
 		this.montoPagado = montoPagado;
 	}
 
-	public DetalleCronogramaCredito(Integer id) {
+	public DetalleCredito(Integer id) {
 		this.id = id;
 	}
 

@@ -35,8 +35,8 @@ public class PersonaServiceImpl implements PersonaService {
 	
 	@Transactional
 	@Override
-	public void addDireccion(Integer idPersona, DireccionDto direccionDto) {
-		direccionService.createDireccion(idPersona, direccionDto);
+	public void addDireccion(Integer idPersona, DireccionDto direccion) {
+		direccionService.createDireccion(idPersona, direccion);
 	}
 	
 	@Transactional
@@ -56,8 +56,8 @@ public class PersonaServiceImpl implements PersonaService {
 	
 	@Transactional
 	@Override
-	public void addTelefono(Integer idPersona, TelefonoDto telefonoDto) {
-		telefonoService.createTelefono(idPersona, telefonoDto);
+	public void addTelefono(Integer idPersona, TelefonoDto telefono) {
+		telefonoService.createTelefono(idPersona, telefono);
 	}
 	
 	@Transactional

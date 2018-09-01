@@ -7,7 +7,7 @@ import pe.ayni.aynicore.persona.dto.DireccionDto;
 import pe.ayni.aynicore.persona.entity.Persona;
 
 public interface DireccionService {
-	void createDireccion(Integer idPersona, DireccionDto direccionDto);
+	void createDireccion(Integer idPersona, DireccionDto direccion);
 
 	void deleteDireccion(Persona persona, Integer idDireccion);
 

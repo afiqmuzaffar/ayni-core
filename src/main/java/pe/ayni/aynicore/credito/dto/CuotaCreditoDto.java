@@ -3,7 +3,7 @@ package pe.ayni.aynicore.credito.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class CuotaCronogramaCreditoDto implements Serializable {
+public class CuotaCreditoDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -25,11 +25,11 @@ public class CuotaCronogramaCreditoDto implements Serializable {
 	
 	private BigDecimal montoCuota;
 	
-	public CuotaCronogramaCreditoDto() {
+	public CuotaCreditoDto() {
 		
 	}
 	
-	public CuotaCronogramaCreditoDto(Integer nroCuota, String fechaVencimiento, BigDecimal capitalCredito,
+	public CuotaCreditoDto(Integer nroCuota, String fechaVencimiento, BigDecimal capitalCredito,
 			BigDecimal capitalProgramado, BigDecimal interesProgramado, BigDecimal montoCuota) {
 		this.nroCuota = nroCuota;
 		this.fechaVencimiento = fechaVencimiento;
@@ -40,7 +40,7 @@ public class CuotaCronogramaCreditoDto implements Serializable {
 	}
 	
 	
-	public CuotaCronogramaCreditoDto(Integer idCuenta, Integer nroCuota, String fechaVencimiento,
+	public CuotaCreditoDto(Integer idCuenta, Integer nroCuota, String fechaVencimiento,
 			BigDecimal capitalCredito) {
 		this.idCuenta = idCuenta;
 		this.nroCuota = nroCuota;
@@ -48,7 +48,7 @@ public class CuotaCronogramaCreditoDto implements Serializable {
 		this.capitalCredito = capitalCredito;
 	}
 	
-	public CuotaCronogramaCreditoDto(Integer idCuenta, Integer nroCuota, String fechaVencimiento,
+	public CuotaCreditoDto(Integer idCuenta, Integer nroCuota, String fechaVencimiento,
 			BigDecimal capitalCredito, BigDecimal capitalProgramado, BigDecimal interesProgramado,
 			BigDecimal capitalPagado, BigDecimal interesPagado, BigDecimal montoCuota) {
 		this.idCuenta = idCuenta;
@@ -62,10 +62,10 @@ public class CuotaCronogramaCreditoDto implements Serializable {
 		this.montoCuota = montoCuota;
 	}
 
-	public CuotaCronogramaCreditoDto(CuotaCronogramaCreditoDto cuotaCronogramaCreditoDto) {
-		this(cuotaCronogramaCreditoDto.getIdCuenta(), cuotaCronogramaCreditoDto.getNroCuota(), cuotaCronogramaCreditoDto.getFechaVencimiento(),
-				cuotaCronogramaCreditoDto.getCapitalCredito(), cuotaCronogramaCreditoDto.getCapitalProgramado(), cuotaCronogramaCreditoDto.getInteresProgramado(),
-				cuotaCronogramaCreditoDto.getCapitalPagado(), cuotaCronogramaCreditoDto.getInteresPagado(), cuotaCronogramaCreditoDto.getMontoCuota());
+	public CuotaCreditoDto(CuotaCreditoDto cuotaCredito) {
+		this(cuotaCredito.getIdCuenta(), cuotaCredito.getNroCuota(), cuotaCredito.getFechaVencimiento(),
+				cuotaCredito.getCapitalCredito(), cuotaCredito.getCapitalProgramado(), cuotaCredito.getInteresProgramado(),
+				cuotaCredito.getCapitalPagado(), cuotaCredito.getInteresPagado(), cuotaCredito.getMontoCuota());
 	}
 
 	public Integer getIdCuenta() {

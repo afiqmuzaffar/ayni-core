@@ -75,7 +75,7 @@ public class PersonaNaturalDaoImpl implements PersonaNaturalDao {
 	//TODO DTO shouldn't be returned from DAO
 	@Override
 	public List<PersonaNaturalDto> findFirstNumberOfExtension(int max) {
-		List<PersonaNaturalDto> personasNaturalesDto = new ArrayList<>();
+		List<PersonaNaturalDto> personasNaturales = new ArrayList<>();
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery("SELECT p, (SELECT c FROM Cliente c WHERE c.personaNatural.id = p.id) FROM PersonaNatural p");
 		query.setMaxResults(max);
@@ -84,20 +84,20 @@ public class PersonaNaturalDaoImpl implements PersonaNaturalDao {
 		for (Object[] line:list) {
 			PersonaNatural ppnn = (PersonaNatural) line[0];
 			Cliente cliente = (Cliente) line[1];
-			PersonaNaturalDto personaNaturalDto = convertToDto(ppnn);
+			PersonaNaturalDto personaNatural = convertToDto(ppnn);
 			if (cliente !=null) {
-				personaNaturalDto.setIdCliente(cliente.getId());
+				personaNatural.setIdCliente(cliente.getId());
 			} else {
-				personaNaturalDto.setIdCliente(null);
+				personaNatural.setIdCliente(null);
 			}
-			personasNaturalesDto.add(personaNaturalDto);
+			personasNaturales.add(personaNatural);
 		}
-		return personasNaturalesDto;
+		return personasNaturales;
 	}
 
 	@Override
 	public List<PersonaNaturalDto> findExtensionBy(String by, String input) {
-		List<PersonaNaturalDto> personasNaturalesDto = new ArrayList<>();
+		List<PersonaNaturalDto> personasNaturales = new ArrayList<>();
 		Session session = sessionFactory.getCurrentSession();
 		String stringQuery = "SELECT p, (SELECT c FROM Cliente c WHERE c.personaNatural.id = p.id) FROM PersonaNatural p ";
 		if (by.toUpperCase().equals("DNI")) {
@@ -116,15 +116,15 @@ public class PersonaNaturalDaoImpl implements PersonaNaturalDao {
 		for (Object[] line:list) {
 			PersonaNatural ppnn = (PersonaNatural) line[0];
 			Cliente cliente = (Cliente) line[1];
-			PersonaNaturalDto personaNaturalDto = convertToDto(ppnn);
+			PersonaNaturalDto personaNatural = convertToDto(ppnn);
 			if (cliente !=null) {
-				personaNaturalDto.setIdCliente(cliente.getId());
+				personaNatural.setIdCliente(cliente.getId());
 			} else {
-				personaNaturalDto.setIdCliente(null);
+				personaNatural.setIdCliente(null);
 			}
-			personasNaturalesDto.add(personaNaturalDto);
+			personasNaturales.add(personaNatural);
 		}
-		return personasNaturalesDto;
+		return personasNaturales;
 	}
 	
 	@Override

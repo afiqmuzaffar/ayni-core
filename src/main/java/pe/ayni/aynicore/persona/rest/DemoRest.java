@@ -38,7 +38,7 @@ public class DemoRest {
 	
 	@GetMapping("/demo")
 	public ConfiguracionUbigeoDto demo() {
-		return ubigeoService.getConfiguracionUbigeoDto();
+		return ubigeoService.getConfiguracionUbigeo();
 		
 	}
 	

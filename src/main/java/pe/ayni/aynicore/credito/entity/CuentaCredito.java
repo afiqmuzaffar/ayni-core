@@ -68,7 +68,7 @@ public class CuentaCredito extends Cuenta {
 	private LocalDate fechaPrimeraCuota;
 	
 	@OneToMany(mappedBy="cuentaCredito", fetch = FetchType.LAZY, cascade=CascadeType.ALL) // default LAZY
-	private List<DetalleCronogramaCredito> detallesCronogramaCredito;
+	private List<DetalleCredito> detallesCredito;
 	
 	public CuentaCredito() {
 		
@@ -170,15 +170,15 @@ public class CuentaCredito extends Cuenta {
 		this.fechaPrimeraCuota = fechaPrimeraCuota;
 	}
 
-	public List<DetalleCronogramaCredito> getDetallesCronogramaCredito() {
-		return detallesCronogramaCredito;
+	public List<DetalleCredito> getDetallesCredito() {
+		return detallesCredito;
 	}
 
-	public void setDetallesCronogramaCredito(List<DetalleCronogramaCredito> detallesCronogramaCredito) {
-		for(DetalleCronogramaCredito detalleCronogramaCredito: detallesCronogramaCredito) {
-			detalleCronogramaCredito.setCuentaCredito(this);
+	public void setDetallesCredito(List<DetalleCredito> detallesCredito) {
+		for(DetalleCredito detalleCredito: detallesCredito) {
+			detalleCredito.setCuentaCredito(this);
 		}
-		this.detallesCronogramaCredito = detallesCronogramaCredito;
+		this.detallesCredito = detallesCredito;
 	}
 
 		

@@ -12,8 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import pe.ayni.aynicore.banco.entity.DetalleOperacionBanco;
-import pe.ayni.aynicore.credito.entity.DetalleCronogramaCredito;
+import pe.ayni.aynicore.banco.entity.DetalleBanco;
+import pe.ayni.aynicore.credito.entity.DetalleCredito;
 import pe.ayni.aynicore.cuenta.entity.Cuenta;
 import pe.ayni.aynicore.cuenta.entity.CuentaContable;
 
@@ -48,12 +48,12 @@ public class DetalleOperacion {
 	private BigDecimal credito;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="idDetalleCronogramaCredito", nullable=true)
-	private DetalleCronogramaCredito detalleCronogramaCredito;
+	@JoinColumn(name="idDetalleCredito", nullable=true)
+	private DetalleCredito detalleCredito;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="idDetalleOperacionBanco", nullable=true)
-	private DetalleOperacionBanco detalleOperacionBanco;
+	@JoinColumn(name="idDetalleBanco", nullable=true)
+	private DetalleBanco detalleBanco;
 	
 	public DetalleOperacion() {
 		
@@ -115,20 +115,20 @@ public class DetalleOperacion {
 		this.credito = credito;
 	}
 
-	public DetalleCronogramaCredito getDetalleCronogramaCredito() {
-		return detalleCronogramaCredito;
+	public DetalleCredito getDetalleCredito() {
+		return detalleCredito;
 	}
 
-	public void setDetalleCronogramaCredito(DetalleCronogramaCredito detalleCronogramaCredito) {
-		this.detalleCronogramaCredito = detalleCronogramaCredito;
+	public void setDetalleCredito(DetalleCredito detalleCredito) {
+		this.detalleCredito = detalleCredito;
 	}
 
-	public DetalleOperacionBanco getDetalleOperacionBanco() {
-		return detalleOperacionBanco;
+	public DetalleBanco getDetalleBanco() {
+		return detalleBanco;
 	}
 
-	public void setDetalleOperacionBanco(DetalleOperacionBanco detalleOperacionBanco) {
-		this.detalleOperacionBanco = detalleOperacionBanco;
+	public void setDetalleBanco(DetalleBanco detalleBanco) {
+		this.detalleBanco = detalleBanco;
 	}
 	
 	

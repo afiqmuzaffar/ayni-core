@@ -24,10 +24,10 @@ public class ClienteRest {
 	
 	@CrossOrigin
 	@PostMapping("")
-	public ClienteDto createCliente(@RequestBody ClienteDto clienteDto) {
+	public ClienteDto createCliente(@RequestBody ClienteDto cliente) {
 		
-		clienteService.createCliente(clienteDto);
-		return clienteDto;
+		clienteService.createCliente(cliente);
+		return cliente;
 	}
 	
 	@CrossOrigin

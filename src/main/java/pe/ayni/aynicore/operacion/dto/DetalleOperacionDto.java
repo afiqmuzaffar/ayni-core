@@ -19,9 +19,9 @@ public class DetalleOperacionDto implements Serializable {
 	
 	private BigDecimal credito;
 	
-	private Integer idDetalleCronogramaCredito;
+	private Integer idDetalleCredito;
 	
-	private Integer idDetalleOperacionBanco;
+	private Integer idDetalleBanco;
 	
 	public DetalleOperacionDto() {
 		
@@ -75,20 +75,20 @@ public class DetalleOperacionDto implements Serializable {
 		this.credito = credito;
 	}
 
-	public Integer getIdDetalleCronogramaCredito() {
-		return idDetalleCronogramaCredito;
+	public Integer getIdDetalleCredito() {
+		return idDetalleCredito;
 	}
 
-	public void setIdDetalleCronogramaCredito(Integer idDetalleCronogramaCredito) {
-		this.idDetalleCronogramaCredito = idDetalleCronogramaCredito;
+	public void setIdDetalleCredito(Integer idDetalleCredito) {
+		this.idDetalleCredito = idDetalleCredito;
 	}
 
-	public Integer getIdDetalleOperacionBanco() {
-		return idDetalleOperacionBanco;
+	public Integer getIdDetalleBanco() {
+		return idDetalleBanco;
 	}
 
-	public void setIdDetalleOperacionBanco(Integer idDetalleOperacionBanco) {
-		this.idDetalleOperacionBanco = idDetalleOperacionBanco;
+	public void setIdDetalleBanco(Integer idDetalleBanco) {
+		this.idDetalleBanco = idDetalleBanco;
 	}
 	
 	

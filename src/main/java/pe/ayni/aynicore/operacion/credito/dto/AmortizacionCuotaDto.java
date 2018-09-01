@@ -2,9 +2,9 @@ package pe.ayni.aynicore.operacion.credito.dto;
 
 import java.math.BigDecimal;
 
-import pe.ayni.aynicore.credito.dto.CuotaCronogramaCreditoDto;
+import pe.ayni.aynicore.credito.dto.CuotaCreditoDto;
 
-public class CuotaSimulacionAmortizacionDto extends CuotaCronogramaCreditoDto {
+public class AmortizacionCuotaDto extends CuotaCreditoDto {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -12,8 +12,8 @@ public class CuotaSimulacionAmortizacionDto extends CuotaCronogramaCreditoDto {
 	
 	private BigDecimal amortizacionInteres;
 
-	public CuotaSimulacionAmortizacionDto(CuotaCronogramaCreditoDto cuotaCronogramaCreditoDto) {
-		super(cuotaCronogramaCreditoDto);
+	public AmortizacionCuotaDto(CuotaCreditoDto cuotaCredito) {
+		super(cuotaCredito);
 		this.amortizacionCapital = BigDecimal.ZERO;
 		this.amortizacionInteres = BigDecimal.ZERO;
 	}

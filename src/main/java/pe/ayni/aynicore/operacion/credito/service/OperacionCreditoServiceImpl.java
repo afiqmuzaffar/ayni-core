@@ -24,18 +24,18 @@ import pe.ayni.aynicore.cliente.dto.ClienteDto;
 import pe.ayni.aynicore.cliente.service.ClienteService;
 import pe.ayni.aynicore.credito.dto.CreditoDto;
 import pe.ayni.aynicore.credito.dto.CreditoDto.Cliente;
-import pe.ayni.aynicore.credito.dto.CuotaCronogramaCreditoDto;
-import pe.ayni.aynicore.credito.dto.DetalleCronogramaCreditoDto;
+import pe.ayni.aynicore.credito.dto.CuotaCreditoDto;
+import pe.ayni.aynicore.credito.dto.DetalleCreditoDto;
 import pe.ayni.aynicore.credito.service.CreditoService;
-import pe.ayni.aynicore.credito.service.DetalleCronogramaCreditoService;
+import pe.ayni.aynicore.credito.service.DetalleCreditoService;
 import pe.ayni.aynicore.operacion.constraint.DetalleOperacionConstraint.DebitoCredito;
 import pe.ayni.aynicore.operacion.constraint.OperacionConstraint.TipoOperacion;
 import pe.ayni.aynicore.operacion.credito.constraint.DesembolsoConstraint.ViaDesembolso;
 import pe.ayni.aynicore.operacion.credito.dto.AmortizacionCreditoDto;
-import pe.ayni.aynicore.operacion.credito.dto.CuotaSimulacionAmortizacionDto;
-import pe.ayni.aynicore.operacion.credito.dto.DatosSimulacionAmortizacionDto;
+import pe.ayni.aynicore.operacion.credito.dto.AmortizacionCuotaDto;
+import pe.ayni.aynicore.operacion.credito.dto.SimulacionAmortizacionDto;
 import pe.ayni.aynicore.operacion.credito.dto.DesembolsoCreditoDto;
-import pe.ayni.aynicore.operacion.credito.dto.DetalleCronogramaSimulacionAmortizacionDto;
+import pe.ayni.aynicore.operacion.credito.dto.AmortizacionDetalleDto;
 import pe.ayni.aynicore.operacion.dto.DetalleOperacionDto;
 import pe.ayni.aynicore.operacion.dto.OperacionDto;
 import pe.ayni.aynicore.operacion.service.DetalleOperacionService;
@@ -48,7 +48,7 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 	CreditoService creditoService;
 	
 	@Autowired
-	DetalleCronogramaCreditoService detalleCronogramaCreditoService;
+	DetalleCreditoService detalleCreditoService;
 	
 	@Autowired
 	OperacionService operacionService;
@@ -59,44 +59,39 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 	@Autowired
 	ClienteService clienteService;
 	
-	@Autowired
-	OperacionDetalleCronogramaService operacionDetalleCronogramaService;
-	
 	@Override
 	@Transactional
-	public void createDesembolso(DesembolsoCreditoDto desembolsoCreditoDto) {
+	public void createDesembolso(DesembolsoCreditoDto desembolsoCredito) {
 		
 		
-		CreditoDto creditoDto = new CreditoDto(desembolsoCreditoDto.getMontoDesembolso(), desembolsoCreditoDto.getMoneda(),
-				desembolsoCreditoDto.getFrecuencia(), desembolsoCreditoDto.getTem(), desembolsoCreditoDto.getNroCuotas(),
-				desembolsoCreditoDto.getFechaDesembolso(), desembolsoCreditoDto.getFechaPrimeraCuota(),
-				desembolsoCreditoDto.getUsuarioAprobador(), new Cliente(desembolsoCreditoDto.getCliente().getId()),
-				desembolsoCreditoDto.getResponsableCuenta());
+		CreditoDto creditoDto = new CreditoDto(desembolsoCredito.getMontoDesembolso(), desembolsoCredito.getMoneda(),
+				desembolsoCredito.getFrecuencia(), desembolsoCredito.getTem(), desembolsoCredito.getNroCuotas(),
+				desembolsoCredito.getFechaDesembolso(), desembolsoCredito.getFechaPrimeraCuota(),
+				desembolsoCredito.getUsuarioAprobador(), new Cliente(desembolsoCredito.getCliente().getId()),
+				desembolsoCredito.getResponsableCuenta());
 		creditoService.createCredito(creditoDto);
 
 		Integer idOperacionRelacionada = null;
-		OperacionDto operacionDto = new OperacionDto(desembolsoCreditoDto.getMontoDesembolso(), desembolsoCreditoDto.getMoneda(),
-				desembolsoCreditoDto.getUsuarioOperacion(), TipoOperacion.DESEMBOLSO_CRED.toString(),
+		OperacionDto operacionDto = new OperacionDto(desembolsoCredito.getMontoDesembolso(), desembolsoCredito.getMoneda(),
+				desembolsoCredito.getUsuarioOperacion(), TipoOperacion.DESEMBOLSO_CRED.toString(),
 				TipoOperacion.DESEMBOLSO_CRED.toString(), idOperacionRelacionada);
 		
 		List<DetalleOperacionDto> detallesOperacionDto = new ArrayList<>();
 		
 		// Detalle de la Operacion del Desembolso
 		int nroDetalleDesembolso = 0;
-		DetalleCronogramaCreditoDto detalleDesembolsoCronogramaCreditoDto = 
-				detalleCronogramaCreditoService.findDetalleDesembolsoCronogramaCredito(creditoDto.getIdCuenta());
-		DetalleOperacionDto detalleOperacionDesembolsoDto = 
-				detalleOperacionService.buildDetalleOperacionDesembolso(detalleDesembolsoCronogramaCreditoDto);
+		DetalleCreditoDto detalleDesembolsoDto = detalleCreditoService.findDetalleDesembolso(creditoDto.getIdCuenta());
+		DetalleOperacionDto detalleOperacionDesembolsoDto = detalleOperacionService.buildDetalleOperacionDesembolso(detalleDesembolsoDto);
 		detalleOperacionDesembolsoDto.setNroDetalle(nroDetalleDesembolso);
-		detalleOperacionDesembolsoDto.setDebito(desembolsoCreditoDto.getMontoDesembolso());
+		detalleOperacionDesembolsoDto.setDebito(desembolsoCredito.getMontoDesembolso());
 		detallesOperacionDto.add(detalleOperacionDesembolsoDto);
 		
 		// Detalle de la Operacion de la Contraparte
 		int nroDetalleContraparte = 1;
-		if (desembolsoCreditoDto.getViaDesembolso().equals(ViaDesembolso.CAJA.toString())) {
-			DetalleOperacionDto detalleOperacionDto = detalleOperacionService.buildDetalleOperacion2(desembolsoCreditoDto.getIdCuentaDesembolso(),
+		if (desembolsoCredito.getViaDesembolso().equals(ViaDesembolso.CAJA.toString())) {
+			DetalleOperacionDto detalleOperacionDto = detalleOperacionService.buildDetalleOperacion2(desembolsoCredito.getIdCuentaDesembolso(),
 					nroDetalleContraparte, DebitoCredito.CREDITO);
-			detalleOperacionDto.setCredito(desembolsoCreditoDto.getMontoDesembolso());
+			detalleOperacionDto.setCredito(desembolsoCredito.getMontoDesembolso());
 			detallesOperacionDto.add(detalleOperacionDto);
 		}
 		operacionDto.setDetallesOperacion(detallesOperacionDto);
@@ -106,13 +101,13 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 
 	@Override
 	@Transactional
-	public void buildReporteSolicitud(DesembolsoCreditoDto desembolsoCreditoDto, OutputStream outStream) throws JRException {
+	public void buildReporteSolicitud(DesembolsoCreditoDto desembolsoCredito, OutputStream outStream) throws JRException {
 		
-		CreditoDto creditoDto = new CreditoDto(desembolsoCreditoDto.getMontoDesembolso(),desembolsoCreditoDto.getFrecuencia(),
-				desembolsoCreditoDto.getTem(), desembolsoCreditoDto.getNroCuotas(),
-				desembolsoCreditoDto.getFechaDesembolso(), desembolsoCreditoDto.getFechaPrimeraCuota());
+		CreditoDto creditoDto = new CreditoDto(desembolsoCredito.getMontoDesembolso(),desembolsoCredito.getFrecuencia(),
+				desembolsoCredito.getTem(), desembolsoCredito.getNroCuotas(),
+				desembolsoCredito.getFechaDesembolso(), desembolsoCredito.getFechaPrimeraCuota());
 		
-		List<CuotaCronogramaCreditoDto> cuotasCronograma = creditoService.calculateCronograma(creditoDto)
+		List<CuotaCreditoDto> cuotasCredito = creditoService.calculateCuotas(creditoDto)
 																	.stream()
 																	.filter(e -> (e.getNroCuota().intValue() > 0))
 																	.collect(Collectors.toList()); 
@@ -120,17 +115,17 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 		InputStream reportStream = this.getClass().getClassLoader().getResourceAsStream("Solicitud_Credito.jasper");
 		
 		Map<String,Object> params = new HashMap<>();
-	    ClienteDto clienteDto = clienteService.findClienteById(desembolsoCreditoDto.getCliente().getId());
+	    ClienteDto clienteDto = clienteService.findClienteById(desembolsoCredito.getCliente().getId());
 		params.put("nroIdentificacion", clienteDto.getPersonaNatural().getNroIdentificacion());
 	    params.put("nombre", clienteDto.getPersonaNatural().getNombre());
-	    params.put("montoDesembolso", desembolsoCreditoDto.getMontoDesembolso());
-	    params.put("frecuencia", desembolsoCreditoDto.getFrecuencia());
-	    params.put("tem", desembolsoCreditoDto.getTem());
-	    params.put("nroCuotas", desembolsoCreditoDto.getNroCuotas());
-	    params.put("fechaDesembolso", desembolsoCreditoDto.getFechaDesembolso());
+	    params.put("montoDesembolso", desembolsoCredito.getMontoDesembolso());
+	    params.put("frecuencia", desembolsoCredito.getFrecuencia());
+	    params.put("tem", desembolsoCredito.getTem());
+	    params.put("nroCuotas", desembolsoCredito.getNroCuotas());
+	    params.put("fechaDesembolso", desembolsoCredito.getFechaDesembolso());
 		
 	    JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportStream);
-	    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanArrayDataSource(cuotasCronograma.toArray()));
+	    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanArrayDataSource(cuotasCredito.toArray()));
 	    
 	    JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
 	    
@@ -138,43 +133,45 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 
 	@Override
 	@Transactional
-	public List<CuotaSimulacionAmortizacionDto> calculateAmortizacion(DatosSimulacionAmortizacionDto datosSimulacionAmortizacionDto) {
+	public List<AmortizacionCuotaDto> calculateAmortizacion(SimulacionAmortizacionDto simulacionAmortizacion) {
 		
-		Integer nroCondicionCredito = creditoService.getNroCondicionCredito(datosSimulacionAmortizacionDto.getIdCuenta());
-		return operacionDetalleCronogramaService.calculateAmortizacionCuotas(datosSimulacionAmortizacionDto.getIdCuenta(),
-				nroCondicionCredito, datosSimulacionAmortizacionDto.getMontoAmortizacion());
+		Integer nroCondicion = creditoService.getNroCondicionCredito(simulacionAmortizacion.getIdCuenta());
+		return detalleCreditoService.calculateAmortizacionCuotas(simulacionAmortizacion.getIdCuenta(),
+				nroCondicion, simulacionAmortizacion.getMontoAmortizacion());
 		
 	}
 
 	@Override
 	@Transactional
-	public AmortizacionCreditoDto createAmortizacion(AmortizacionCreditoDto amortizacionCreditoDto) {
+	public AmortizacionCreditoDto createAmortizacion(AmortizacionCreditoDto amortizacionCredito) {
 		
-		Integer nroCondicionCredito = creditoService.getNroCondicionCredito(amortizacionCreditoDto.getIdCuenta());
-		List<DetalleCronogramaSimulacionAmortizacionDto> detallesCronogramaAmortizacion = operacionDetalleCronogramaService.calculateAmortizacionDetalleCronograma(
-				amortizacionCreditoDto.getIdCuenta(), nroCondicionCredito, amortizacionCreditoDto.getMontoAmortizacion());
+		Integer nroCondicionCredito = creditoService.getNroCondicionCredito(amortizacionCredito.getIdCuenta());
+		List<AmortizacionDetalleDto> detalles = detalleCreditoService.calculateAmortizacionDetalleCredito(
+				amortizacionCredito.getIdCuenta(), nroCondicionCredito, amortizacionCredito.getMontoAmortizacion());
 		
-		creditoService.amortizarCredito(amortizacionCreditoDto.getIdCuenta(), amortizacionCreditoDto.getMontoAmortizacion());
+		creditoService.amortizarCredito(amortizacionCredito.getIdCuenta(), amortizacionCredito.getMontoAmortizacion());
 		
-		List<DetalleOperacionDto> detallesOperacionDto = new ArrayList<>();
+		List<DetalleOperacionDto> detallesOperacion = new ArrayList<>();
 		// Detalle de la Operacion de Recaudo
 		Integer nroDetalle = 0;
-		DetalleOperacionDto detalleOperacionRecaudo = detalleOperacionService.buildDetalleOperacion(amortizacionCreditoDto.getIdCuenta(),
-				nroDetalle, DebitoCredito.DEBITO, amortizacionCreditoDto.getMontoAmortizacion(), null, null);
-		detallesOperacionDto.add(detalleOperacionRecaudo);
+		DetalleOperacionDto detalleOperacionRecaudo = detalleOperacionService.buildDetalleOperacion(amortizacionCredito.getIdCuenta(),
+				nroDetalle, DebitoCredito.DEBITO, amortizacionCredito.getMontoAmortizacion(), null, null);
+		detallesOperacion.add(detalleOperacionRecaudo);
 		
-		for (DetalleCronogramaSimulacionAmortizacionDto detalleCronogramaAmortizacion: detallesCronogramaAmortizacion) {
+		for (AmortizacionDetalleDto detalle: detalles) {
 			nroDetalle++;
-			DetalleOperacionDto detalleOperacion = detalleOperacionService.buildDetalleOperacion(detalleCronogramaAmortizacion.getIdCuenta(),
-					nroDetalle, DebitoCredito.CREDITO, detalleCronogramaAmortizacion.getMontoAmortizacion(), detalleCronogramaAmortizacion.getId(), null);
-			detallesOperacionDto.add(detalleOperacion);
+			DetalleOperacionDto detalleOperacion = detalleOperacionService.buildDetalleOperacion(detalle.getIdCuenta(),
+					nroDetalle, DebitoCredito.CREDITO, detalle.getMontoAmortizacion(), detalle.getId(), null);
+			detallesOperacion.add(detalleOperacion);
 		}
 		Integer idOperacionRelacionada = null;
-		OperacionDto operacionDto = new OperacionDto(amortizacionCreditoDto.getMontoAmortizacion(), amortizacionCreditoDto.getMoneda(),
-				amortizacionCreditoDto.getUsuarioOperacion(), TipoOperacion.AMORTIZACION_CRED.toString(), 
+		OperacionDto operacionDto = new OperacionDto(amortizacionCredito.getMontoAmortizacion(), amortizacionCredito.getMoneda(),
+				amortizacionCredito.getUsuarioOperacion(), TipoOperacion.AMORTIZACION_CRED.toString(), 
 				TipoOperacion.AMORTIZACION_CRED.toString(), idOperacionRelacionada);
-		operacionDto.setDetallesOperacion(detallesOperacionDto);
+		operacionDto.setDetallesOperacion(detallesOperacion);
+		
 		Integer idOperacion = operacionService.createOperacion(operacionDto);
+		
 		return findAmortizacionById(idOperacion);
 	}
 	

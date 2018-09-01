@@ -3,7 +3,7 @@ package pe.ayni.aynicore.credito.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class DatosSimulacionCreditoDto implements Serializable {
+public class SimulacionCreditoDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	

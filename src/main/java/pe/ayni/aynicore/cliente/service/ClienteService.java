@@ -6,7 +6,7 @@ import pe.ayni.aynicore.cliente.dto.ClienteDto;
 
 public interface ClienteService {
 	
-	void createCliente(ClienteDto clienteDto);
+	void createCliente(ClienteDto cliente);
 
 	List<ClienteDto> findClientesBy(String by, String input);
 

@@ -7,11 +7,11 @@ import pe.ayni.aynicore.persona.entity.PersonaNatural;
 
 public interface PersonaNaturalService {
 	
-	void createPersonaNatural(PersonaNaturalDto personaNaturalDto);
+	void createPersonaNatural(PersonaNaturalDto personaNatural);
 	
 	PersonaNaturalDto findPersonaNaturalById(Integer id);
 	
-	void updatePersonaNatural(PersonaNaturalDto personaNaturalDto);
+	void updatePersonaNatural(PersonaNaturalDto personaNatural);
 	
 	List<PersonaNaturalDto> findFirstNumberOfPersonasNaturales(int max);
 	

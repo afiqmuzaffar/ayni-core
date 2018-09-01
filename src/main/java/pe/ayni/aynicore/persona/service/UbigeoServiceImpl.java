@@ -21,9 +21,9 @@ public class UbigeoServiceImpl implements UbigeoService{
 	
 	@Transactional
 	@Override
-	public ConfiguracionUbigeoDto getConfiguracionUbigeoDto() {
-		ConfiguracionUbigeoDto ubigeoDto = ConfiguracionUbigeoDto.getInstance();
-		if (ubigeoDto.getDepartamentos() == null) {
+	public ConfiguracionUbigeoDto getConfiguracionUbigeo() {
+		ConfiguracionUbigeoDto ubigeo = ConfiguracionUbigeoDto.getInstance();
+		if (ubigeo.getDepartamentos() == null) {
 			List<Departamento> departamentos = ubigeoDao.findAllDepartamentos();
 			for (Departamento dpto:departamentos) {
 				List<Provincia> provincias = ubigeoDao.findAllProvinciasByCodDpto(dpto.getCodDpto());
@@ -33,15 +33,15 @@ public class UbigeoServiceImpl implements UbigeoService{
 				}
 				dpto.setProvincias(provincias);
 			}
-			ubigeoDto.setDepartamentos(departamentos);
+			ubigeo.setDepartamentos(departamentos);
 		}
-		return ubigeoDto;
+		return ubigeo;
 	}
 	
 	@Transactional
 	@Override
 	public Departamento findDptoByIdUbigeo(Integer idUbigeoDpto) {
-		ConfiguracionUbigeoDto ubigeoDto = getConfiguracionUbigeoDto();
+		ConfiguracionUbigeoDto ubigeoDto = getConfiguracionUbigeo();
 		Departamento departamento = ubigeoDto.getDepartamentos()
 			.stream()
 			.filter(dpto -> dpto.getId().equals(idUbigeoDpto))

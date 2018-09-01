@@ -3,7 +3,7 @@ package pe.ayni.aynicore.credito.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class DetalleCronogramaCreditoDto implements Serializable {
+public class DetalleCreditoDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -27,13 +27,13 @@ public class DetalleCronogramaCreditoDto implements Serializable {
 	
 	private BigDecimal montoPagado;
 	
-	public DetalleCronogramaCreditoDto() {
+	public DetalleCreditoDto() {
 		
 	}
 	
 	
 
-	public DetalleCronogramaCreditoDto(Integer id, Integer idCuenta, Integer nroCondicion, Integer nroCuota,
+	public DetalleCreditoDto(Integer id, Integer idCuenta, Integer nroCondicion, Integer nroCuota,
 			Integer nroConcepto, String ctaContable, String fechaVencimiento, BigDecimal capitalCredito,
 			BigDecimal montoProgramado, BigDecimal montoPagado) {
 		this.id = id;
@@ -48,12 +48,12 @@ public class DetalleCronogramaCreditoDto implements Serializable {
 		this.montoPagado = montoPagado;
 	}
 
-	public DetalleCronogramaCreditoDto(DetalleCronogramaCreditoDto detalleCronogramaCreditoDto) {
+	public DetalleCreditoDto(DetalleCreditoDto detalleCredito) {
 		
-		this(detalleCronogramaCreditoDto.getId(), detalleCronogramaCreditoDto.getIdCuenta(), detalleCronogramaCreditoDto.getNroConcepto(),
-				detalleCronogramaCreditoDto.getNroCuota(), detalleCronogramaCreditoDto.getNroConcepto(), detalleCronogramaCreditoDto.getCtaContable(),
-				detalleCronogramaCreditoDto.getFechaVencimiento(), detalleCronogramaCreditoDto.getCapitalCredito(),
-				detalleCronogramaCreditoDto.getMontoProgramado(), detalleCronogramaCreditoDto.getMontoPagado());
+		this(detalleCredito.getId(), detalleCredito.getIdCuenta(), detalleCredito.getNroConcepto(),
+				detalleCredito.getNroCuota(), detalleCredito.getNroConcepto(), detalleCredito.getCtaContable(),
+				detalleCredito.getFechaVencimiento(), detalleCredito.getCapitalCredito(),
+				detalleCredito.getMontoProgramado(), detalleCredito.getMontoPagado());
 	}
 
 	public Integer getId() {

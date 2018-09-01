@@ -35,9 +35,9 @@ public class PersonaRest {
 	
 	@CrossOrigin
 	@PostMapping("/{idPersona}/direcciones")
-	public DireccionDto addDireccion(@PathVariable Integer idPersona, @RequestBody DireccionDto direccionDto) {
-		personaService.addDireccion(idPersona, direccionDto);
-		return direccionDto;
+	public DireccionDto addDireccion(@PathVariable Integer idPersona, @RequestBody DireccionDto direccion) {
+		personaService.addDireccion(idPersona, direccion);
+		return direccion;
 	}
 	
 	
@@ -50,16 +50,16 @@ public class PersonaRest {
 	@CrossOrigin
 	@RequestMapping("/{idPersona}/direcciones")
 	public List<DireccionDto> findAllDireccionesByIdPersona(@PathVariable Integer idPersona) {
-		List<DireccionDto> direccionesDto;
-		direccionesDto = personaService.findAllDireccionesByIdPersona(idPersona);
-		return direccionesDto;
+		List<DireccionDto> direcciones;
+		direcciones = personaService.findAllDireccionesByIdPersona(idPersona);
+		return direcciones;
 	}
 	
 	@CrossOrigin
 	@PostMapping("/{idPersona}/telefonos")
-	public TelefonoDto addTelefono(@PathVariable Integer idPersona, @RequestBody TelefonoDto telefonoDto) {
-		personaService.addTelefono(idPersona, telefonoDto);
-		return telefonoDto;
+	public TelefonoDto addTelefono(@PathVariable Integer idPersona, @RequestBody TelefonoDto telefono) {
+		personaService.addTelefono(idPersona, telefono);
+		return telefono;
 	}
 	
 	@CrossOrigin
@@ -72,9 +72,9 @@ public class PersonaRest {
 	@CrossOrigin
 	@RequestMapping("/{idPersona}/telefonos")
 	public List<TelefonoDto> findAllTelefonosByIdPersona (@PathVariable Integer idPersona) {
-		List<TelefonoDto> telefonosDto;
-		telefonosDto = personaService.findAllTelefonosByIdPersona(idPersona);
-		return telefonosDto;
+		List<TelefonoDto> telefonos;
+		telefonos = personaService.findAllTelefonosByIdPersona(idPersona);
+		return telefonos;
 	}
 	
 	@CrossOrigin
@@ -86,7 +86,7 @@ public class PersonaRest {
 	@CrossOrigin
 	@GetMapping("/configuracion-ubigeo")
 	public ConfiguracionUbigeoDto getConfiguracionUbigeo() {
-		return ubigeoService.getConfiguracionUbigeoDto();
+		return ubigeoService.getConfiguracionUbigeo();
 		
 	}
 }

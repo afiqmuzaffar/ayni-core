@@ -18,8 +18,8 @@ import javax.persistence.Table;
 import pe.ayni.aynicore.operacion.entity.DetalleOperacion;
 
 @Entity
-@Table(name="DetalleOperacionBanco")
-public class DetalleOperacionBanco {
+@Table(name="DetalleBanco")
+public class DetalleBanco {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -39,10 +39,10 @@ public class DetalleOperacionBanco {
 	@Column(name="montoOperacion", nullable=false)
 	private BigDecimal montoOperacion;
 	
-	@OneToMany(mappedBy="detalleOperacionBanco", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="detalleBanco", fetch=FetchType.LAZY)
 	private List<DetalleOperacion> detallesOperacion;
 
-	public DetalleOperacionBanco(Integer id) {
+	public DetalleBanco(Integer id) {
 		this.id = id;
 	}
 

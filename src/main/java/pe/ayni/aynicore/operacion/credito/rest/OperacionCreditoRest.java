@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.sf.jasperreports.engine.JRException;
 import pe.ayni.aynicore.operacion.credito.dto.AmortizacionCreditoDto;
-import pe.ayni.aynicore.operacion.credito.dto.CuotaSimulacionAmortizacionDto;
-import pe.ayni.aynicore.operacion.credito.dto.DatosSimulacionAmortizacionDto;
+import pe.ayni.aynicore.operacion.credito.dto.AmortizacionCuotaDto;
+import pe.ayni.aynicore.operacion.credito.dto.SimulacionAmortizacionDto;
 import pe.ayni.aynicore.operacion.credito.dto.DesembolsoCreditoDto;
 import pe.ayni.aynicore.operacion.credito.service.OperacionCreditoService;
 
@@ -33,42 +33,42 @@ public class OperacionCreditoRest {
 	
 	@CrossOrigin
 	@PostMapping("/desembolsos")
-	public DesembolsoCreditoDto createDesembolso(@RequestBody DesembolsoCreditoDto desembolsoCreditoDto) {
-		System.out.println(desembolsoCreditoDto);
-		desembolsoCreditoDto.setUsuarioOperacion("oajon"); // TODO
+	public DesembolsoCreditoDto createDesembolso(@RequestBody DesembolsoCreditoDto desembolsoCredito) {
+		System.out.println(desembolsoCredito);
+		desembolsoCredito.setUsuarioOperacion("oajon"); // TODO
 		
-		operacionCreditoService.createDesembolso(desembolsoCreditoDto);
-		return desembolsoCreditoDto;
+		operacionCreditoService.createDesembolso(desembolsoCredito);
+		return desembolsoCredito;
 	}
 	
 	@CrossOrigin
 	@PostMapping("/desembolsos/build-reporte-solicitud")
 	@ResponseBody
-	public void buildReporteSolicitud(@RequestBody DesembolsoCreditoDto desembolsoCreditoDto, HttpServletResponse response) throws JRException, IOException{
+	public void buildReporteSolicitud(@RequestBody DesembolsoCreditoDto desembolsoCredito, HttpServletResponse response) throws JRException, IOException{
 
-		System.out.println(desembolsoCreditoDto);
+		System.out.println(desembolsoCredito);
 
 	    response.setContentType("application/pdf");
 	    response.setHeader("Content-disposition", "inline; filename=Solicitud_Credito.pdf");
 
 		final OutputStream outStream = response.getOutputStream();
 
-		operacionCreditoService.buildReporteSolicitud(desembolsoCreditoDto, outStream);
+		operacionCreditoService.buildReporteSolicitud(desembolsoCredito, outStream);
 		
 	}
 	
 	@CrossOrigin
 	@GetMapping("/amortizaciones/simular-amortizacion")
-	public List<CuotaSimulacionAmortizacionDto> calculateAmortizacion(DatosSimulacionAmortizacionDto datosSimulacionAmortizacionDto) {
-		return operacionCreditoService.calculateAmortizacion(datosSimulacionAmortizacionDto);
+	public List<AmortizacionCuotaDto> calculateAmortizacion(SimulacionAmortizacionDto simulacionAmortizacion) {
+		return operacionCreditoService.calculateAmortizacion(simulacionAmortizacion);
 	}
 	
 	@CrossOrigin
 	@PostMapping("/amortizaciones")
-	public AmortizacionCreditoDto createAmortizacion(@RequestBody AmortizacionCreditoDto amortizacionCreditoDto) {
-		System.out.println(amortizacionCreditoDto);
-		amortizacionCreditoDto.setUsuarioOperacion("oajon"); // TODO
-		AmortizacionCreditoDto amortizacionCreditoDtoResponse = operacionCreditoService.createAmortizacion(amortizacionCreditoDto);
-		return amortizacionCreditoDtoResponse;
+	public AmortizacionCreditoDto createAmortizacion(@RequestBody AmortizacionCreditoDto amortizacionCredito) {
+		System.out.println(amortizacionCredito);
+		amortizacionCredito.setUsuarioOperacion("oajon"); // TODO
+		AmortizacionCreditoDto amortizacionCreditoResponse = operacionCreditoService.createAmortizacion(amortizacionCredito);
+		return amortizacionCreditoResponse;
 	}
 }

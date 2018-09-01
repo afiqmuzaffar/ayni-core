@@ -25,9 +25,9 @@ public class PersonaNaturalRest {
 	
 	@CrossOrigin
 	@PostMapping("")
-	public PersonaNaturalDto createPersonaNatural(@RequestBody PersonaNaturalDto personaNaturalDto) {
-		personaNaturalService.createPersonaNatural(personaNaturalDto);
-		return personaNaturalDto;
+	public PersonaNaturalDto createPersonaNatural(@RequestBody PersonaNaturalDto personaNatural) {
+		personaNaturalService.createPersonaNatural(personaNatural);
+		return personaNatural;
 	}
 
 	@CrossOrigin
@@ -38,9 +38,9 @@ public class PersonaNaturalRest {
 	
 	@CrossOrigin
 	@PutMapping("/{id}")
-	public PersonaNaturalDto updatePersonaNatural(@RequestBody PersonaNaturalDto personaNaturalDto) {
-		personaNaturalService.updatePersonaNatural(personaNaturalDto);
-		return personaNaturalDto;
+	public PersonaNaturalDto updatePersonaNatural(@RequestBody PersonaNaturalDto personaNatural) {
+		personaNaturalService.updatePersonaNatural(personaNatural);
+		return personaNatural;
 	}
 
 	@CrossOrigin

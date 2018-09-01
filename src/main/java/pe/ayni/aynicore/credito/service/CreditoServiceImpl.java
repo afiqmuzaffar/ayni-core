@@ -18,10 +18,10 @@ import pe.ayni.aynicore.credito.constraint.CreditoConstraint.EstadoCredito;
 import pe.ayni.aynicore.credito.constraint.CreditoConstraint.FrecuenciaCredito;
 import pe.ayni.aynicore.credito.dao.CreditoDao;
 import pe.ayni.aynicore.credito.dto.CreditoDto;
-import pe.ayni.aynicore.credito.dto.DatosSimulacionCreditoDto;
-import pe.ayni.aynicore.credito.dto.CuotaCronogramaCreditoDto;
+import pe.ayni.aynicore.credito.dto.SimulacionCreditoDto;
+import pe.ayni.aynicore.credito.dto.CuotaCreditoDto;
 import pe.ayni.aynicore.credito.entity.CuentaCredito;
-import pe.ayni.aynicore.credito.entity.DetalleCronogramaCredito;
+import pe.ayni.aynicore.credito.entity.DetalleCredito;
 import pe.ayni.aynicore.cuenta.entity.CuentaContable;
 import pe.ayni.aynicore.seguridad.entity.Usuario;
 
@@ -32,7 +32,7 @@ public class CreditoServiceImpl implements CreditoService {
 	CreditoDao creditoDao;
 	
 	@Autowired
-	DetalleCronogramaCreditoService detalleCronogramaCreditoService;
+	DetalleCreditoService detalleCreditoService;
 	
 	@Override
 	@Transactional
@@ -40,11 +40,11 @@ public class CreditoServiceImpl implements CreditoService {
 		
 		creditoDto.setNroCondicion(0);
 		
-		List<DetalleCronogramaCredito> detallesCronogramaCredito = buildDetallesCronogramaCredito(creditoDto);
+		List<DetalleCredito> detallesCredito = buildDetallesCredito(creditoDto);
 		
 		CuentaCredito credito = buildEntityFrom(creditoDto);
-		credito.setMontoCuota(getMontoCuota(detallesCronogramaCredito));
-		credito.setDetallesCronogramaCredito(detallesCronogramaCredito);
+		credito.setMontoCuota(getMontoCuota(detallesCredito));
+		credito.setDetallesCredito(detallesCredito);
 
 		creditoDao.create(credito);
 		creditoDto.setIdCuenta(credito.getIdCuenta());
@@ -72,62 +72,57 @@ public class CreditoServiceImpl implements CreditoService {
 	}
 	
 	private BigDecimal getSaldoCapital(CuentaCredito credito) {
-		return credito.getDetallesCronogramaCredito()
+		return credito.getDetallesCredito()
 				.stream()
 				.filter(e -> ( e.getNroCuota().intValue() > 0 && e.getNroConcepto().intValue() == 0))
 				.map(e -> e.getMontoProgramado().subtract(e.getMontoPagado()))
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
 
-	private BigDecimal getMontoCuota(List<DetalleCronogramaCredito> detallesCronogramaCredito) {
+	private BigDecimal getMontoCuota(List<DetalleCredito> detallesCredito) {
 		
-		BigDecimal montoCuota = detallesCronogramaCredito.stream().filter(e -> (e.getNroCuota().intValue() == 1))
+		BigDecimal montoCuota = detallesCredito.stream().filter(e -> (e.getNroCuota().intValue() == 1))
 			.map(e -> e.getMontoProgramado()).reduce(BigDecimal.ZERO, BigDecimal::add);
 		
 		return montoCuota;
 	}
 	
-	private List<DetalleCronogramaCredito> buildDetallesCronogramaCredito(CreditoDto creditoDto) {
+	private List<DetalleCredito> buildDetallesCredito(CreditoDto credito) {
 		
-		List<DetalleCronogramaCredito> detallesCronogramaCredito = new ArrayList<>();
+		List<DetalleCredito> detallesCredito = new ArrayList<>();
 		
-		List<CuotaCronogramaCreditoDto> cuotasCronogramaCreditoDto = calculateCronograma(creditoDto);
+		List<CuotaCreditoDto> cuotasCredito = calculateCuotas(credito);
 		
 		int nroConceptoCapital = 0;
 		int nroConceptoInteres = 1;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		for (int nroCuota=0; nroCuota < cuotasCronogramaCreditoDto.size(); nroCuota++) {
+		for (int nroCuota=0; nroCuota < cuotasCredito.size(); nroCuota++) {
 			// {nroCuota : 0}, representa al desembolso
 			if (nroCuota == 0) {
-				DetalleCronogramaCredito detalleCronogramaCreditoDesembolso = new DetalleCronogramaCredito(
-						creditoDto.getNroCondicion(), nroCuota, nroConceptoCapital, new CuentaContable("14110206"), // TODO 
-						LocalDate.parse(cuotasCronogramaCreditoDto.get(nroCuota).getFechaVencimiento(), formatter),
-						cuotasCronogramaCreditoDto.get(nroCuota).getCapitalCredito(),
-						new BigDecimal(0),
-						new BigDecimal(0)
-						);
-				detallesCronogramaCredito.add(detalleCronogramaCreditoDesembolso);
-			} else {
-				DetalleCronogramaCredito detalleCronogramaCreditoCapital = new DetalleCronogramaCredito(
-						creditoDto.getNroCondicion(), nroCuota, nroConceptoCapital, new CuentaContable("14110206"), // TODO 
-						LocalDate.parse(cuotasCronogramaCreditoDto.get(nroCuota).getFechaVencimiento(), formatter),
-						cuotasCronogramaCreditoDto.get(nroCuota).getCapitalCredito(),
-						cuotasCronogramaCreditoDto.get(nroCuota).getCapitalProgramado(),
-						new BigDecimal(0)
-						);
-				detallesCronogramaCredito.add(detalleCronogramaCreditoCapital);
+				DetalleCredito detalleDesembolso = new DetalleCredito(
+						credito.getNroCondicion(), nroCuota, nroConceptoCapital, new CuentaContable("14110206"), // TODO 
+						LocalDate.parse(cuotasCredito.get(nroCuota).getFechaVencimiento(), formatter),
+						cuotasCredito.get(nroCuota).getCapitalCredito(),
+						new BigDecimal(0), new BigDecimal(0));
+				detallesCredito.add(detalleDesembolso);
 				
-				DetalleCronogramaCredito detalleCronogramaCreditoInteres = new DetalleCronogramaCredito(
-						creditoDto.getNroCondicion(), nroCuota, nroConceptoInteres, new CuentaContable("5114010206"), // TODO 
-						LocalDate.parse(cuotasCronogramaCreditoDto.get(nroCuota).getFechaVencimiento(), formatter),
-						cuotasCronogramaCreditoDto.get(nroCuota).getCapitalCredito(),
-						cuotasCronogramaCreditoDto.get(nroCuota).getInteresProgramado(),
-						new BigDecimal(0)
-						);			
-				detallesCronogramaCredito.add(detalleCronogramaCreditoInteres);
+			} else {
+				DetalleCredito detalleCreditoCapital = new DetalleCredito(
+						credito.getNroCondicion(), nroCuota, nroConceptoCapital, new CuentaContable("14110206"), // TODO 
+						LocalDate.parse(cuotasCredito.get(nroCuota).getFechaVencimiento(), formatter),
+						cuotasCredito.get(nroCuota).getCapitalCredito(), cuotasCredito.get(nroCuota).getCapitalProgramado(),
+						new BigDecimal(0));
+				detallesCredito.add(detalleCreditoCapital);
+				
+				DetalleCredito detalleCreditoInteres = new DetalleCredito(
+						credito.getNroCondicion(), nroCuota, nroConceptoInteres, new CuentaContable("5114010206"), // TODO 
+						LocalDate.parse(cuotasCredito.get(nroCuota).getFechaVencimiento(), formatter),
+						cuotasCredito.get(nroCuota).getCapitalCredito(), cuotasCredito.get(nroCuota).getInteresProgramado(),
+						new BigDecimal(0) );			
+				detallesCredito.add(detalleCreditoInteres);
 			}
 		}
-		return detallesCronogramaCredito;
+		return detallesCredito;
 	}
 
 	
@@ -139,7 +134,6 @@ public class CreditoServiceImpl implements CreditoService {
 		credito.setCliente(new Cliente(creditoDto.getCliente().getId()));
 		credito.setCuentaContable(new CuentaContable("14110206"));
 		credito.setEstado(EstadoCredito.ACTIVO);
-		//credito.setDetallesCronogramaCredito(detallesCronogramaCredito);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate fechaDesembolso = LocalDate.parse(creditoDto.getFechaDesembolso(), formatter);
 		credito.setFechaDesembolso(fechaDesembolso);
@@ -159,56 +153,55 @@ public class CreditoServiceImpl implements CreditoService {
 	}
 	
 	@Override
-	public List<CuotaCronogramaCreditoDto> calculateCronograma(
-			DatosSimulacionCreditoDto datosSimulacionCreditoDto) {
-		CreditoDto creditoDto = new CreditoDto(datosSimulacionCreditoDto.getMontoDesembolso(), 
-				datosSimulacionCreditoDto.getFrecuencia(), datosSimulacionCreditoDto.getTem(), 
-				datosSimulacionCreditoDto.getNroCuotas(), datosSimulacionCreditoDto.getFechaDesembolso(), 
-				datosSimulacionCreditoDto.getFechaPrimeraCuota());
+	public List<CuotaCreditoDto> calculateCuotas(SimulacionCreditoDto simulacionCredito) {
+		CreditoDto creditoDto = new CreditoDto(simulacionCredito.getMontoDesembolso(), 
+				simulacionCredito.getFrecuencia(), simulacionCredito.getTem(), 
+				simulacionCredito.getNroCuotas(), simulacionCredito.getFechaDesembolso(), 
+				simulacionCredito.getFechaPrimeraCuota());
 		
-		return calculateCronograma(creditoDto);
+		return calculateCuotas(creditoDto);
 	}
 	
 	@Override
-	public List<CuotaCronogramaCreditoDto> calculateCronograma(CreditoDto creditoDto) {
+	public List<CuotaCreditoDto> calculateCuotas(CreditoDto credito) {
 		
-		LocalDate[] fechasVencimiento = getFechasVencimiento(LocalDate.parse(creditoDto.getFechaPrimeraCuota()), 
-				FrecuenciaCredito.valueOf(creditoDto.getFrecuencia()), creditoDto.getNroCuotas().intValue());
+		LocalDate[] fechasVencimiento = getFechasVencimiento(LocalDate.parse(credito.getFechaPrimeraCuota()), 
+				FrecuenciaCredito.valueOf(credito.getFrecuencia()), credito.getNroCuotas().intValue());
 		
-		int[] diferenciaEnDias = getDiferenciaEnDias(LocalDate.parse(creditoDto.getFechaDesembolso()), fechasVencimiento);
+		int[] diferenciaEnDias = getDiferenciaEnDias(LocalDate.parse(credito.getFechaDesembolso()), fechasVencimiento);
 		
-		double ted = getTEDFromTEM(creditoDto.getTem().doubleValue() / 100);
+		double ted = getTEDFromTEM(credito.getTem().doubleValue() / 100);
 		
-		BigDecimal montoCuota = calculateMontoCuota(creditoDto.getMontoDesembolso(), diferenciaEnDias, ted);
+		BigDecimal montoCuota = calculateMontoCuota(credito.getMontoDesembolso(), diferenciaEnDias, ted);
 		
-		List<CuotaCronogramaCreditoDto> cuotasCronogramaCalculado = new ArrayList<>();
+		List<CuotaCreditoDto> cuotasCalculadas = new ArrayList<>();
 		
 		// 1era Cuota es Desembolso
-		CuotaCronogramaCreditoDto firstCuotaCronograma = new CuotaCronogramaCreditoDto(0, creditoDto.getFechaDesembolso(),
-				creditoDto.getMontoDesembolso(), new BigDecimal(0), new BigDecimal(0), montoCuota);
-		cuotasCronogramaCalculado.add(firstCuotaCronograma);
+		CuotaCreditoDto cuotaDesembolso = new CuotaCreditoDto(0, credito.getFechaDesembolso(),
+				credito.getMontoDesembolso(), new BigDecimal(0), new BigDecimal(0), montoCuota);
+		cuotasCalculadas.add(cuotaDesembolso);
 		
-		for (int i = 0; i < creditoDto.getNroCuotas().intValue(); i++) {
+		for (int i = 0; i < credito.getNroCuotas().intValue(); i++) {
 			
-			CuotaCronogramaCreditoDto cuotaCronograma = new CuotaCronogramaCreditoDto();
+			CuotaCreditoDto cuotaCredito = new CuotaCreditoDto();
 			int nroCuota = i + 1;
-			cuotaCronograma.setNroCuota(nroCuota);
-			cuotaCronograma.setFechaVencimiento(fechasVencimiento[i].toString());
-			cuotaCronograma.setCapitalCredito(cuotasCronogramaCalculado.get(i).getCapitalCredito().subtract(cuotasCronogramaCalculado.get(i).getCapitalProgramado()));
-			cuotaCronograma.setMontoCuota(montoCuota);
+			cuotaCredito.setNroCuota(nroCuota);
+			cuotaCredito.setFechaVencimiento(fechasVencimiento[i].toString());
+			cuotaCredito.setCapitalCredito(cuotasCalculadas.get(i).getCapitalCredito().subtract(cuotasCalculadas.get(i).getCapitalProgramado()));
+			cuotaCredito.setMontoCuota(montoCuota);
 
-			cuotaCronograma.setInteresProgramado(calculateInteres(ted, diferenciaEnDias[i], cuotaCronograma.getCapitalCredito()));
-			cuotaCronograma.setCapitalProgramado(cuotaCronograma.getMontoCuota().subtract(cuotaCronograma.getInteresProgramado()));
+			cuotaCredito.setInteresProgramado(calculateInteres(ted, diferenciaEnDias[i], cuotaCredito.getCapitalCredito()));
+			cuotaCredito.setCapitalProgramado(cuotaCredito.getMontoCuota().subtract(cuotaCredito.getInteresProgramado()));
 			
 			// ultima cuota
-			if (nroCuota == creditoDto.getNroCuotas().intValue() ) {
-				cuotaCronograma.setCapitalProgramado(cuotaCronograma.getCapitalCredito());
-				cuotaCronograma.setMontoCuota(cuotaCronograma.getCapitalProgramado().add(cuotaCronograma.getInteresProgramado()));
+			if (nroCuota == credito.getNroCuotas().intValue() ) {
+				cuotaCredito.setCapitalProgramado(cuotaCredito.getCapitalCredito());
+				cuotaCredito.setMontoCuota(cuotaCredito.getCapitalProgramado().add(cuotaCredito.getInteresProgramado()));
 			}
 			
-			cuotasCronogramaCalculado.add(cuotaCronograma);
+			cuotasCalculadas.add(cuotaCredito);
 		}
-		return cuotasCronogramaCalculado;
+		return cuotasCalculadas;
 	}
 
 	private BigDecimal calculateInteres(double ted, int nroDias, BigDecimal saldoCapital) {
@@ -271,9 +264,9 @@ public class CreditoServiceImpl implements CreditoService {
 
 	@Override
 	@Transactional
-	public List<CuotaCronogramaCreditoDto> findCuotasCronogramaByIdCuentaAndEstado(Integer idCuenta, String estado) {
+	public List<CuotaCreditoDto> findCuotasByIdCuentaAndEstado(Integer idCuenta, String estado) {
 		CuentaCredito credito = creditoDao.findById(idCuenta);
-		return detalleCronogramaCreditoService.findCuotasCronogramaByIdCuentaAndEstado(idCuenta, credito.getNroCondicion(), estado);
+		return detalleCreditoService.findCuotasByIdCuentaAndEstado(idCuenta, credito.getNroCondicion(), estado);
 	}
 
 	@Override
@@ -284,9 +277,9 @@ public class CreditoServiceImpl implements CreditoService {
 
 	@Override
 	@Transactional
-	public void amortizarCredito(Integer idCuenta, BigDecimal montoAmortizacion) {
+	public void amortizarCredito(Integer idCuenta, BigDecimal monto) {
 		Integer nroCondicion = getNroCondicionCredito(idCuenta);
-		detalleCronogramaCreditoService.amortizarDetallesCronograma(idCuenta, nroCondicion, montoAmortizacion);
+		detalleCreditoService.amortizarDetallesCredito(idCuenta, nroCondicion, monto);
 	}
 
 }

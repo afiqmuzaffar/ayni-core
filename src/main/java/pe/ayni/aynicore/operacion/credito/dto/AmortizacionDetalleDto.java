@@ -2,17 +2,17 @@ package pe.ayni.aynicore.operacion.credito.dto;
 
 import java.math.BigDecimal;
 
-import pe.ayni.aynicore.credito.dto.DetalleCronogramaCreditoDto;
+import pe.ayni.aynicore.credito.dto.DetalleCreditoDto;
 
-public class DetalleCronogramaSimulacionAmortizacionDto extends DetalleCronogramaCreditoDto {
+public class AmortizacionDetalleDto extends DetalleCreditoDto {
 	
 
 	private static final long serialVersionUID = 1L;
 	
 	private BigDecimal montoAmortizacion;
 
-	public DetalleCronogramaSimulacionAmortizacionDto(DetalleCronogramaCreditoDto detalleCronogramaCreditoDto) {
-		super(detalleCronogramaCreditoDto);
+	public AmortizacionDetalleDto(DetalleCreditoDto detalleCredito) {
+		super(detalleCredito);
 		this.montoAmortizacion = BigDecimal.ZERO;
 	}
 

@@ -1,5 +1,5 @@
 package pe.ayni.aynicore.credito.constraint;
 
-public class CuotaCronogramaCreditoConstraint {
+public class CuotaCreditoConstraint {
 	public enum EstadoCuota {CANCELADA, PENDIENTE}
 }

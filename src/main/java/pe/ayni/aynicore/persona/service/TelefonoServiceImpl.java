@@ -32,22 +32,22 @@ public class TelefonoServiceImpl implements TelefonoService {
 	@Transactional
 	@Override
 	public TelefonoFormDto getTelefonoForm() {
-		TelefonoFormDto telefonoFormDto = new TelefonoFormDto();
+		TelefonoFormDto telefonoForm = new TelefonoFormDto();
 		
 		List<Option> optionsTipoTelefono = new ArrayList<>();
 		for(TipoTelefono tipoTelefono: TipoTelefono.values()) {
-			optionsTipoTelefono.add(telefonoFormDto.new Option(tipoTelefono.toString(), tipoTelefono.toString()));
+			optionsTipoTelefono.add(telefonoForm.new Option(tipoTelefono.toString(), tipoTelefono.toString()));
 		}
-		telefonoFormDto.setOptionsTipoTelefono(optionsTipoTelefono);;
+		telefonoForm.setOptionsTipoTelefono(optionsTipoTelefono);;
 		
 		List<Option> optionsCodTelefonicoDpto = new ArrayList<>();
 		TelefonoConstraint.CODIGOS_TELEFONICO_DPTO.forEach((k,v)-> {
-			optionsCodTelefonicoDpto.add(telefonoFormDto.new Option(k , v));
+			optionsCodTelefonicoDpto.add(telefonoForm.new Option(k , v));
 		});
 		
-		telefonoFormDto.setOptionsCodTelefonicoDpto(optionsCodTelefonicoDpto);
+		telefonoForm.setOptionsCodTelefonicoDpto(optionsCodTelefonicoDpto);
 		
-		return telefonoFormDto;
+		return telefonoForm;
 	}
 	
 	@Transactional

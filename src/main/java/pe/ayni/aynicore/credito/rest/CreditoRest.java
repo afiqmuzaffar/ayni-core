@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pe.ayni.aynicore.credito.dto.CreditoDto;
-import pe.ayni.aynicore.credito.dto.DatosSimulacionCreditoDto;
-import pe.ayni.aynicore.credito.dto.CuotaCronogramaCreditoDto;
+import pe.ayni.aynicore.credito.dto.SimulacionCreditoDto;
+import pe.ayni.aynicore.credito.dto.CuotaCreditoDto;
 import pe.ayni.aynicore.credito.service.CreditoService;
 
 @RestController
@@ -24,10 +24,10 @@ public class CreditoRest {
 	
 	
 	@CrossOrigin
-	@GetMapping("/simular-cronograma")
-	public List<CuotaCronogramaCreditoDto> calculateCronograma(DatosSimulacionCreditoDto datosSimulacionCreditoDto) {
-		System.out.println(datosSimulacionCreditoDto.toString());
-		return creditoService.calculateCronograma(datosSimulacionCreditoDto);
+	@GetMapping("/simular-cuotas")
+	public List<CuotaCreditoDto> calculateCuotas(SimulacionCreditoDto simulacionCredito) {
+		System.out.println(simulacionCredito.toString());
+		return creditoService.calculateCuotas(simulacionCredito);
 	}
 	
 	@CrossOrigin
@@ -38,12 +38,12 @@ public class CreditoRest {
 	}
 	
 	@CrossOrigin
-	@GetMapping(path="/{idCuenta}/cuotas-cronograma", params="estado")
-	public List<CuotaCronogramaCreditoDto> findCuotasCronogramaByIdCuentaAndEstado(@PathVariable Integer idCuenta, 
+	@GetMapping(path="/{idCuenta}/cuotas-credito", params="estado")
+	public List<CuotaCreditoDto> findCuotasByIdCuentaAndEstado(@PathVariable Integer idCuenta, 
 			@RequestParam("estado") String estado) {
 		System.out.println(idCuenta);
 		System.out.println(estado);
-		return creditoService.findCuotasCronogramaByIdCuentaAndEstado(idCuenta, estado);
+		return creditoService.findCuotasByIdCuentaAndEstado(idCuenta, estado);
 	}
 	
 }

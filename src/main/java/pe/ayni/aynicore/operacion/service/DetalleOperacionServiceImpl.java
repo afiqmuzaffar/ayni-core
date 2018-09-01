@@ -9,10 +9,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pe.ayni.aynicore.banco.entity.DetalleOperacionBanco;
-import pe.ayni.aynicore.credito.dto.DetalleCronogramaCreditoDto;
-import pe.ayni.aynicore.credito.entity.DetalleCronogramaCredito;
-import pe.ayni.aynicore.credito.service.DetalleCronogramaCreditoService;
+import pe.ayni.aynicore.banco.entity.DetalleBanco;
+import pe.ayni.aynicore.credito.dto.DetalleCreditoDto;
+import pe.ayni.aynicore.credito.entity.DetalleCredito;
+import pe.ayni.aynicore.credito.service.DetalleCreditoService;
 import pe.ayni.aynicore.cuenta.entity.Cuenta;
 import pe.ayni.aynicore.cuenta.entity.CuentaContable;
 import pe.ayni.aynicore.cuenta.service.CuentaService;
@@ -31,7 +31,7 @@ public class DetalleOperacionServiceImpl implements DetalleOperacionService {
 	CuentaService cuentaService;
 	
 	@Autowired
-	DetalleCronogramaCreditoService detalleCronogramaCreditoService;
+	DetalleCreditoService detalleCreditoService;
 	
 	@Transactional
 	private DetalleOperacion buildEntityFrom(DetalleOperacionDto detalleOperacionDto) {
@@ -47,24 +47,23 @@ public class DetalleOperacionServiceImpl implements DetalleOperacionService {
 		detalleOperacion.setDebito(detalleOperacionDto.getDebito());
 		detalleOperacion.setCredito(detalleOperacionDto.getCredito());
 		
-		if (detalleOperacionDto.getIdDetalleCronogramaCredito() != null)
-			detalleOperacion.setDetalleCronogramaCredito(new DetalleCronogramaCredito(detalleOperacionDto.getIdDetalleCronogramaCredito()));
+		if (detalleOperacionDto.getIdDetalleCredito() != null)
+			detalleOperacion.setDetalleCredito(new DetalleCredito(detalleOperacionDto.getIdDetalleCredito()));
 		
-		if (detalleOperacionDto.getIdDetalleOperacionBanco() != null) 
-			detalleOperacion.setDetalleOperacionBanco(new DetalleOperacionBanco(detalleOperacionDto.getIdDetalleOperacionBanco()));
+		if (detalleOperacionDto.getIdDetalleBanco() != null) 
+			detalleOperacion.setDetalleBanco(new DetalleBanco(detalleOperacionDto.getIdDetalleBanco()));
 		
 		return detalleOperacion;
 	}
 
 	@Override
-	public DetalleOperacionDto buildDetalleOperacionDesembolso(
-			DetalleCronogramaCreditoDto detalleDesembolsoCronogramaCreditoDto) {
-		DetalleOperacionDto detalleOperacionDto = new DetalleOperacionDto();
-		detalleOperacionDto.setIdCuenta(detalleDesembolsoCronogramaCreditoDto.getIdCuenta());
-		detalleOperacionDto.setCredito(BigDecimal.ZERO);
-		detalleOperacionDto.setCtaContable(detalleDesembolsoCronogramaCreditoDto.getCtaContable());
-		detalleOperacionDto.setIdDetalleCronogramaCredito(detalleDesembolsoCronogramaCreditoDto.getId());
-		return detalleOperacionDto;
+	public DetalleOperacionDto buildDetalleOperacionDesembolso(DetalleCreditoDto detalleDesembolso) {
+		DetalleOperacionDto detalleOperacion = new DetalleOperacionDto();
+		detalleOperacion.setIdCuenta(detalleDesembolso.getIdCuenta());
+		detalleOperacion.setCredito(BigDecimal.ZERO);
+		detalleOperacion.setCtaContable(detalleDesembolso.getCtaContable());
+		detalleOperacion.setIdDetalleCredito(detalleDesembolso.getId());
+		return detalleOperacion;
 	}
 
 	@Override
@@ -72,19 +71,19 @@ public class DetalleOperacionServiceImpl implements DetalleOperacionService {
 	public DetalleOperacionDto buildDetalleOperacion2(Integer idCuenta, int nroDetalle, DebitoCredito debitoCredito) {
 		Cuenta cuenta = cuentaService.findCuentaById(idCuenta);
 		
-		DetalleOperacionDto detalleOperacionDto = new DetalleOperacionDto();
+		DetalleOperacionDto detalleOperacion = new DetalleOperacionDto();
 		
-		detalleOperacionDto.setIdCuenta(idCuenta);
-		detalleOperacionDto.setCtaContable(cuenta.getCuentaContable().getCtaContable());
-		detalleOperacionDto.setNroDetalle(nroDetalle);
+		detalleOperacion.setIdCuenta(idCuenta);
+		detalleOperacion.setCtaContable(cuenta.getCuentaContable().getCtaContable());
+		detalleOperacion.setNroDetalle(nroDetalle);
 		
 		if (debitoCredito.equals(DebitoCredito.DEBITO)) {
-			detalleOperacionDto.setCredito(BigDecimal.ZERO);
+			detalleOperacion.setCredito(BigDecimal.ZERO);
 		} else if (debitoCredito.equals(DebitoCredito.CREDITO)) {
-			detalleOperacionDto.setDebito(BigDecimal.ZERO);
+			detalleOperacion.setDebito(BigDecimal.ZERO);
 		}
 		
-		return detalleOperacionDto;
+		return detalleOperacion;
 	}
 
 	@Override
@@ -100,32 +99,32 @@ public class DetalleOperacionServiceImpl implements DetalleOperacionService {
 	@Override
 	@Transactional
 	public DetalleOperacionDto buildDetalleOperacion(Integer idCuenta, Integer nroDetalle, DebitoCredito debitoCredito,
-			BigDecimal monto, Integer idDetalleCronogramaCredito, Integer idDetalleOperacionBanco) {
+			BigDecimal monto, Integer idDetalleCredito, Integer idDetalleBanco) {
 		
 		Cuenta cuenta = cuentaService.findCuentaById(idCuenta);
 		String ctaContable = cuenta.getCuentaContable().getCtaContable();
-		if (idDetalleCronogramaCredito != null) {
-			DetalleCronogramaCreditoDto detalleCronograma = detalleCronogramaCreditoService.findDetalleCronogramaCreditoById(idDetalleCronogramaCredito);
-			ctaContable = detalleCronograma.getCtaContable();
+		if (idDetalleCredito != null) {
+			DetalleCreditoDto detalleCredito = detalleCreditoService.findDetalleCreditoById(idDetalleCredito);
+			ctaContable = detalleCredito.getCtaContable();
 		}
 		
-		DetalleOperacionDto detalleOperacionDto = new DetalleOperacionDto();
+		DetalleOperacionDto detalleOperacion = new DetalleOperacionDto();
 		
-		detalleOperacionDto.setIdCuenta(idCuenta);
-		detalleOperacionDto.setCtaContable(ctaContable);
-		detalleOperacionDto.setNroDetalle(nroDetalle);
-		detalleOperacionDto.setIdDetalleCronogramaCredito(idDetalleCronogramaCredito);
-		detalleOperacionDto.setIdDetalleOperacionBanco(idDetalleOperacionBanco);
+		detalleOperacion.setIdCuenta(idCuenta);
+		detalleOperacion.setCtaContable(ctaContable);
+		detalleOperacion.setNroDetalle(nroDetalle);
+		detalleOperacion.setIdDetalleCredito(idDetalleCredito);
+		detalleOperacion.setIdDetalleBanco(idDetalleBanco);
 		
 		if (debitoCredito.equals(DebitoCredito.DEBITO)) {
-			detalleOperacionDto.setCredito(BigDecimal.ZERO);
-			detalleOperacionDto.setDebito(monto);
+			detalleOperacion.setCredito(BigDecimal.ZERO);
+			detalleOperacion.setDebito(monto);
 		} else if (debitoCredito.equals(DebitoCredito.CREDITO)) {
-			detalleOperacionDto.setDebito(BigDecimal.ZERO);
-			detalleOperacionDto.setCredito(monto);
+			detalleOperacion.setDebito(BigDecimal.ZERO);
+			detalleOperacion.setCredito(monto);
 		}
 		
-		return detalleOperacionDto;
+		return detalleOperacion;
 	}
 
 }
