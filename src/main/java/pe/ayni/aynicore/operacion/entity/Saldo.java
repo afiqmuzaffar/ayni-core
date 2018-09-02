@@ -20,13 +20,13 @@ import pe.ayni.aynicore.cuenta.entity.CuentaContable;
 public class Saldo {
 	
 	@EmbeddedId
-	private PK pk;
+	private SaldoPk saldoPk;
 	
 	@Column(name="saldo", nullable=false)
 	private BigDecimal saldo;
 	
 	@Embeddable
-	public static class PK implements Serializable { 
+	public static class SaldoPk implements Serializable { 
 		
 		private static final long serialVersionUID = 1L;
 
@@ -38,12 +38,12 @@ public class Saldo {
 		@JoinColumn(name="idCuenta", nullable=false)
 		private Cuenta cuenta;
 		
-		public PK(CuentaContable cuentaContable, Cuenta cuenta) {
+		public SaldoPk(CuentaContable cuentaContable, Cuenta cuenta) {
 			this.cuentaContable = cuentaContable;
 			this.cuenta = cuenta;
 		}
 		
-		public PK() {
+		public SaldoPk() {
 			
 		}
 
@@ -64,7 +64,7 @@ public class Saldo {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			PK other = (PK) obj;
+			SaldoPk other = (SaldoPk) obj;
 			if (cuenta == null) {
 				if (other.cuenta != null)
 					return false;
@@ -82,14 +82,20 @@ public class Saldo {
 		
 	}
 	
-	
-
-	public PK getPk() {
-		return pk;
+	public Saldo() {
+			
+	}
+	public Saldo(CuentaContable cuentaContable, Cuenta cuenta, BigDecimal saldo) {
+		this.saldoPk = new SaldoPk(cuentaContable, cuenta);
+		this.saldo = saldo;
 	}
 
-	public void setPk(PK pk) {
-		this.pk = pk;
+	public SaldoPk getSaldoPk() {
+		return saldoPk;
+	}
+
+	public void setSaldoPk(SaldoPk saldoPk) {
+		this.saldoPk = saldoPk;
 	}
 
 	public BigDecimal getSaldo() {

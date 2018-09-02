@@ -29,13 +29,17 @@ public class OperacionServiceImpl implements OperacionService {
 	
 	@Autowired
 	CuentaContableService cuentaContableService;
+	
+	@Autowired
+	SaldoService saldoService;
 
 	@Override
 	@Transactional
 	public OperacionDto createOperacion(OperacionDto operacionDto) {
 		
 		Operacion operacion = buildEntityFrom(operacionDto);
-		operacionDao.create(operacion);
+		operacionDao.save(operacion);
+		saldoService.updateSaldo(operacion);
 		operacionDto = buildDtoFrom(operacion);
 		return operacionDto;
 	}

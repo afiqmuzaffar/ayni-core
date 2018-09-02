@@ -4,6 +4,6 @@ import pe.ayni.aynicore.operacion.entity.Operacion;
 
 public interface OperacionDao {
 
-	Integer create(Operacion operacion);
+	Integer save(Operacion operacion);
 
 }

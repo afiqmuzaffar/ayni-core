@@ -7,6 +7,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import pe.ayni.aynicore.cuenta.constraint.CuentaContableConstraint.Naturaleza;
 import pe.ayni.aynicore.cuenta.constraint.CuentaContableConstraint.TipoCuenta;
 
 @Entity
@@ -19,6 +20,10 @@ public class CuentaContable {
 	
 	@Column(name="nombre", nullable=false, length=200)
 	private String nombre;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="naturaleza", nullable=false, length=10)
+	private Naturaleza naturaleza;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name="tipoCuenta", nullable=false, length=45)
@@ -45,6 +50,14 @@ public class CuentaContable {
 
 	public String getNombre() {
 		return nombre;
+	}
+	
+	public Naturaleza getNaturaleza() {
+		return naturaleza;
+	}
+
+	public void setNaturaleza(Naturaleza naturaleza) {
+		this.naturaleza = naturaleza;
 	}
 
 	public void setNombre(String nombre) {

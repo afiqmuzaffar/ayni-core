@@ -59,6 +59,9 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 	@Autowired
 	ClienteService clienteService;
 	
+	@Autowired
+	DetalleOperacionCredito detalleOperacionCredito;
+	
 	@Override
 	@Transactional
 	public void createDesembolso(DesembolsoCreditoDto desembolsoCredito) {
@@ -145,38 +148,27 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 	@Transactional
 	public AmortizacionCreditoDto createAmortizacion(AmortizacionCreditoDto amortizacionCredito) {
 		
-		Integer nroCondicionCredito = creditoService.getNroCondicionCredito(amortizacionCredito.getIdCuenta());
+		Integer nroCondicion = creditoService.getNroCondicionCredito(amortizacionCredito.getIdCuenta());
 		List<AmortizacionDetalleDto> detalles = detalleCreditoService.calculateAmortizacionDetalleCredito(
-				amortizacionCredito.getIdCuenta(), nroCondicionCredito, amortizacionCredito.getMontoAmortizacion());
+				amortizacionCredito.getIdCuenta(), nroCondicion, amortizacionCredito.getMontoAmortizacion());
 		
 		creditoService.amortizarCredito(amortizacionCredito.getIdCuenta(), amortizacionCredito.getMontoAmortizacion());
 		
-		List<DetalleOperacionDto> detallesOperacion = new ArrayList<>();
-		// Detalle de la Operacion de Recaudo
-		Integer nroDetalle = 0;
-		DetalleOperacionDto detalleOperacionRecaudo = detalleOperacionService.buildDetalleOperacion(amortizacionCredito.getIdCuentaRecaudo(),
-				nroDetalle, DebitoCredito.DEBITO, amortizacionCredito.getMontoAmortizacion(), null, null);
-		detallesOperacion.add(detalleOperacionRecaudo);
-		
-		for (AmortizacionDetalleDto detalle: detalles) {
-			nroDetalle++;
-			DetalleOperacionDto detalleOperacion = detalleOperacionService.buildDetalleOperacion(detalle.getIdCuenta(),
-					nroDetalle, DebitoCredito.CREDITO, detalle.getMontoAmortizacion(), detalle.getId(), null);
-			detallesOperacion.add(detalleOperacion);
-		}
 		Integer idOperacionRelacionada = null;
 		OperacionDto operacionDto = new OperacionDto(amortizacionCredito.getMontoAmortizacion(), amortizacionCredito.getMoneda(),
 				amortizacionCredito.getUsuarioOperacion(), TipoOperacion.AMORTIZACION_CRED.toString(), 
 				TipoOperacion.AMORTIZACION_CRED.toString(), idOperacionRelacionada);
+
+		List<DetalleOperacionDto> detallesOperacion = detalleOperacionCredito.buildDetallesAmortizacion(amortizacionCredito, detalles);
 		operacionDto.setDetallesOperacion(detallesOperacion);
 		
 		OperacionDto operacion = operacionService.createOperacion(operacionDto);
 		
-		AmortizacionCreditoDto amortizacion = buildAmortizacionCreditoDto(operacion);
+		AmortizacionCreditoDto amortizacion = buildAmortizacionCredito(operacion);
 		return amortizacion;
 	}
 
-	private AmortizacionCreditoDto buildAmortizacionCreditoDto(OperacionDto operacion) {
+	private AmortizacionCreditoDto buildAmortizacionCredito(OperacionDto operacion) {
 		AmortizacionCreditoDto amortizacion = new AmortizacionCreditoDto(operacion);
 		return amortizacion;
 	}
