@@ -23,6 +23,64 @@ public class AmortizacionCreditoDto implements Serializable {
 	
 	private String usuarioOperacion;
 	
+	private DetalleBanco detalleBanco;
+	
+	
+	public static class DetalleBanco {
+		
+		private Integer id;
+		
+		private String nroOperacion;
+		
+		private String fechaOperacion;
+		
+		private BigDecimal montoOperacion;
+		
+		public DetalleBanco() {
+			
+		}
+
+		public Integer getId() {
+			return id;
+		}
+
+		public void setId(Integer id) {
+			this.id = id;
+		}
+
+		public String getNroOperacion() {
+			return nroOperacion;
+		}
+
+		public void setNroOperacion(String nroOperacion) {
+			this.nroOperacion = nroOperacion;
+		}
+
+		public String getFechaOperacion() {
+			return fechaOperacion;
+		}
+
+		public void setFechaOperacion(String fechaOperacion) {
+			this.fechaOperacion = fechaOperacion;
+		}
+
+		public BigDecimal getMontoOperacion() {
+			return montoOperacion;
+		}
+
+		public void setMontoOperacion(BigDecimal montoOperacion) {
+			this.montoOperacion = montoOperacion;
+		}
+
+		@Override
+		public String toString() {
+			return "DetalleBanco [id=" + id + ", nroOperacion=" + nroOperacion + ", fechaOperacion=" + fechaOperacion
+					+ ", montoOperacion=" + montoOperacion + "]";
+		}
+		
+		
+	}
+	
 	public AmortizacionCreditoDto() {
 		
 	}
@@ -92,12 +150,22 @@ public class AmortizacionCreditoDto implements Serializable {
 	public void setUsuarioOperacion(String usuarioOperacion) {
 		this.usuarioOperacion = usuarioOperacion;
 	}
+	
+	public DetalleBanco getDetalleBanco() {
+		return detalleBanco;
+	}
+
+	public void setDetalleBanco(DetalleBanco detalleBanco) {
+		this.detalleBanco = detalleBanco;
+	}
 
 	@Override
 	public String toString() {
 		return "AmortizacionCreditoDto [idOperacion=" + idOperacion + ", idCuenta=" + idCuenta + ", moneda=" + moneda
 				+ ", montoAmortizacion=" + montoAmortizacion + ", tipoCuentaRecaudo=" + tipoCuentaRecaudo
-				+ ", idCuentaRecaudo=" + idCuentaRecaudo + ", usuarioOperacion=" + usuarioOperacion + "]";
+				+ ", idCuentaRecaudo=" + idCuentaRecaudo + ", usuarioOperacion=" + usuarioOperacion + ", detalleBanco="
+				+ detalleBanco + "]";
 	}
 
+	
 }

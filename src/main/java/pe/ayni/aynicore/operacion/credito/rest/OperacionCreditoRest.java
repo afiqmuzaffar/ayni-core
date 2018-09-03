@@ -35,7 +35,7 @@ public class OperacionCreditoRest {
 	@PostMapping("/desembolsos")
 	public DesembolsoCreditoDto createDesembolso(@RequestBody DesembolsoCreditoDto desembolsoCredito) {
 		System.out.println(desembolsoCredito);
-		desembolsoCredito.setUsuarioOperacion("oajon"); // TODO
+		desembolsoCredito.setUsuarioOperacion("OAJON"); // TODO
 		
 		operacionCreditoService.createDesembolso(desembolsoCredito);
 		return desembolsoCredito;
@@ -67,7 +67,7 @@ public class OperacionCreditoRest {
 	@PostMapping("/amortizaciones")
 	public AmortizacionCreditoDto createAmortizacion(@RequestBody AmortizacionCreditoDto amortizacionCredito) {
 		System.out.println(amortizacionCredito);
-		amortizacionCredito.setUsuarioOperacion("oajon"); // TODO
+		amortizacionCredito.setUsuarioOperacion("OAJON"); // TODO
 		AmortizacionCreditoDto amortizacionCreditoResponse = operacionCreditoService.createAmortizacion(amortizacionCredito);
 		return amortizacionCreditoResponse;
 	}

@@ -28,7 +28,7 @@ public class DetalleOperacionCreditoImpl implements DetalleOperacionCredito {
 		// Detalle de la Operacion de Recaudo
 		Integer nroDetalle = 0;
 		DetalleOperacionDto detalleOperacionRecaudo = detalleOperacionService.buildDetalleOperacion(amortizacionCredito.getIdCuentaRecaudo(),
-				nroDetalle, DebitoCredito.DEBITO, amortizacionCredito.getMontoAmortizacion(), null, null);
+				nroDetalle, DebitoCredito.DEBITO, amortizacionCredito.getMontoAmortizacion(), null, amortizacionCredito.getDetalleBanco().getId());
 		detallesOperacion.add(detalleOperacionRecaudo);
 		
 		for (AmortizacionDetalleDto detalle: amortizacionDetalles) {

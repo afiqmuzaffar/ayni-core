@@ -31,6 +31,10 @@ public class CuentaBanco extends Cuenta {
 		
 	}
 
+	public CuentaBanco(Integer idCuenta) {
+		super(idCuenta);
+	}
+
 	public NombreBanco getNombreBanco() {
 		return nombreBanco;
 	}

@@ -20,6 +20,8 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
+import pe.ayni.aynicore.banco.dto.DetalleBancoDto;
+import pe.ayni.aynicore.banco.service.BancoService;
 import pe.ayni.aynicore.cliente.dto.ClienteDto;
 import pe.ayni.aynicore.cliente.service.ClienteService;
 import pe.ayni.aynicore.credito.dto.CreditoDto;
@@ -30,6 +32,7 @@ import pe.ayni.aynicore.credito.service.CreditoService;
 import pe.ayni.aynicore.credito.service.DetalleCreditoService;
 import pe.ayni.aynicore.operacion.constraint.DetalleOperacionConstraint.DebitoCredito;
 import pe.ayni.aynicore.operacion.constraint.OperacionConstraint.TipoOperacion;
+import pe.ayni.aynicore.operacion.credito.constraint.AmortizacionConstraint.TipoCuentaAmortizacion;
 import pe.ayni.aynicore.operacion.credito.constraint.DesembolsoConstraint.TipoCuentaDesembolso;
 import pe.ayni.aynicore.operacion.credito.dto.AmortizacionCreditoDto;
 import pe.ayni.aynicore.operacion.credito.dto.AmortizacionCuotaDto;
@@ -61,6 +64,10 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 	
 	@Autowired
 	DetalleOperacionCredito detalleOperacionCredito;
+	
+	@Autowired
+	BancoService bancoService;
+	
 	
 	@Override
 	@Transactional
@@ -147,6 +154,13 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 	@Override
 	@Transactional
 	public AmortizacionCreditoDto createAmortizacion(AmortizacionCreditoDto amortizacionCredito) {
+		
+		if (amortizacionCredito.getTipoCuentaRecaudo().equals(TipoCuentaAmortizacion.BANCOS.toString())) {
+			DetalleBancoDto detalleBanco = bancoService.createDeposito(new DetalleBancoDto(amortizacionCredito.getIdCuentaRecaudo(), 
+					amortizacionCredito.getDetalleBanco().getFechaOperacion(), amortizacionCredito.getDetalleBanco().getNroOperacion(), 
+					amortizacionCredito.getDetalleBanco().getMontoOperacion()));
+			amortizacionCredito.getDetalleBanco().setId(detalleBanco.getId());
+		}
 		
 		Integer nroCondicion = creditoService.getNroCondicionCredito(amortizacionCredito.getIdCuenta());
 		List<AmortizacionDetalleDto> detalles = detalleCreditoService.calculateAmortizacionDetalleCredito(
