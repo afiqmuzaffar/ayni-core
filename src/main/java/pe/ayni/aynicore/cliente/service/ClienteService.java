@@ -11,4 +11,6 @@ public interface ClienteService {
 	List<ClienteDto> findClientesBy(String by, String input);
 
 	ClienteDto findClienteById(Integer id);
+
+	ClienteDto updateCliente(ClienteDto cliente);
 }

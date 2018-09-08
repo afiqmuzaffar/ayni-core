@@ -110,14 +110,16 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 	
 	private void setEntityDetails(PersonaNatural personaNatural, PersonaNaturalDto personaNaturalDto) {
 		personaNatural.setApellidoPaterno(personaNaturalDto.getApellidoPaterno().toUpperCase());
-		personaNatural.setApellidoMaterno(personaNaturalDto.getApellidoMaterno().toUpperCase());
+		String apellidoMaterno = personaNaturalDto.getApellidoMaterno()==null? null: personaNaturalDto.getApellidoMaterno().toUpperCase();
+		personaNatural.setApellidoMaterno(apellidoMaterno);
 		personaNatural.setPrimerNombre(personaNaturalDto.getPrimerNombre().toUpperCase());
-		personaNatural.setSegundoNombre(personaNaturalDto.getSegundoNombre().toUpperCase());
-		String nombre = personaNaturalDto.getApellidoPaterno() + " " + personaNaturalDto.getApellidoMaterno() + " " + personaNaturalDto.getPrimerNombre() + " " + personaNaturalDto.getSegundoNombre(); 
-		personaNatural.setNombre(nombre.toUpperCase());
+		String segundoNombre = personaNaturalDto.getSegundoNombre()==null?null:personaNaturalDto.getSegundoNombre().toUpperCase();
+		personaNatural.setSegundoNombre(segundoNombre);
+		String nombre = buildNombre(personaNaturalDto.getApellidoPaterno(), apellidoMaterno, personaNaturalDto.getPrimerNombre(), segundoNombre); 
+		personaNatural.setNombre(nombre);
 		personaNatural.setSexo(Sexo.valueOf(personaNaturalDto.getSexo()));
-		personaNatural.setEstadoCivil(EstadoCivil.valueOf(personaNaturalDto.getEstadoCivil()));
-		personaNatural.setEmail(personaNaturalDto.getEmail().toUpperCase());
+		personaNatural.setEstadoCivil(personaNaturalDto.getEstadoCivil() == null ? null: EstadoCivil.valueOf(personaNaturalDto.getEstadoCivil()));
+		personaNatural.setEmail(personaNaturalDto.getEmail() == null? null: personaNaturalDto.getEmail().toUpperCase());
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate fechaNacimiento = personaNaturalDto.getFechaNacimiento() == null ? null : LocalDate.parse(personaNaturalDto.getFechaNacimiento(), formatter);
@@ -125,5 +127,13 @@ public class PersonaNaturalServiceImpl implements PersonaNaturalService {
 		personaNatural.setTipoIdentificacion(TipoIdentificacion.valueOf(personaNaturalDto.getTipoIdentificacion()));
 		personaNatural.setNroIdentificacion(personaNaturalDto.getNroIdentificacion());
 	}
-
+	
+	private String buildNombre(String apellidoPaterno, String apellidoMaterno, String primerNombre,
+			String segundoNombre) {
+		String nombre = apellidoPaterno.toUpperCase() + " " +  
+				(apellidoMaterno == null? "": apellidoMaterno.toUpperCase() + " ") + 
+				 primerNombre.toUpperCase() + " " +
+				(segundoNombre == null? "": segundoNombre.toUpperCase());
+		return nombre;
+	}
 }

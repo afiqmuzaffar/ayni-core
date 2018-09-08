@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,6 +41,14 @@ public class ClienteRest {
 	@GetMapping("/{id}")
 	public ClienteDto findClienteById(@PathVariable Integer id) {
 		return clienteService.findClienteById(id);
+	}
+	
+	@CrossOrigin
+	@PutMapping("/{id}")
+	public ClienteDto updateCliente(@RequestBody ClienteDto cliente) {
+		System.out.println(cliente);
+		ClienteDto clienteResponse = clienteService.updateCliente(cliente);
+		return clienteResponse;
 	}
 	
 }

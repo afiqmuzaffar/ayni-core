@@ -11,4 +11,6 @@ public interface ClienteDao {
 	List<Cliente> findBy(String by, String input);
 
 	Cliente findById(Integer id);
+
+	void update(Cliente cliente);
 }

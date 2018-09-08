@@ -70,4 +70,19 @@ public class ClienteServiceImpl implements ClienteService {
 		return clienteDto;
 	}
 
+	@Override
+	@Transactional
+	public ClienteDto updateCliente(ClienteDto clienteDto) {
+		Cliente cliente = clienteDao.findById(clienteDto.getId());
+		personaNaturalService.updatePersonaNatural(clienteDto.getPersonaNatural());
+		setEntityDetails(cliente, clienteDto);	
+		clienteDao.update(cliente);
+		clienteDto = buildDtoFrom(cliente);
+		return clienteDto;
+	}
+
+	private void setEntityDetails(Cliente cliente, ClienteDto clienteDto) {
+		// nothing to set so far
+	}
+
 }

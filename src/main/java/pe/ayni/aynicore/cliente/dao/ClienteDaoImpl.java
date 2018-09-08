@@ -47,5 +47,11 @@ public class ClienteDaoImpl implements ClienteDao {
 		Session session = sessionFactory.getCurrentSession();
 		return session.get(Cliente.class, id);
 	}
+
+	@Override
+	public void update(Cliente cliente) {
+		Session session = sessionFactory.getCurrentSession();
+		session.update(cliente);
+	}
 	
 }
