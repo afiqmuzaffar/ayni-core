@@ -3,6 +3,8 @@ package pe.ayni.aynicore.credito.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import pe.ayni.aynicore.operacion.credito.dto.DesembolsoCreditoDto;
+
 public class CreditoDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -96,22 +98,7 @@ public class CreditoDto implements Serializable {
 	public CreditoDto() {
 		
 	}
-	
-	public CreditoDto(BigDecimal montoDesembolso, String moneda, String frecuencia, BigDecimal tem, Integer nroCuotas,
-			String fechaDesembolso, String fechaPrimeraCuota, String usuarioAprobador, Cliente cliente,
-			String usuarioResponsable) {
-		this.montoDesembolso = montoDesembolso;
-		this.moneda = moneda;
-		this.frecuencia = frecuencia;
-		this.tem = tem;
-		this.nroCuotas = nroCuotas;
-		this.fechaDesembolso = fechaDesembolso;
-		this.fechaPrimeraCuota = fechaPrimeraCuota;
-		this.usuarioAprobador = usuarioAprobador;
-		this.cliente = cliente;
-		this.usuarioResponsable = usuarioResponsable;
-	}
-	
+
 	public CreditoDto(BigDecimal montoDesembolso, String frecuencia, BigDecimal tem, Integer nroCuotas,
 			String fechaDesembolso, String fechaPrimeraCuota) {
 		this.montoDesembolso = montoDesembolso;
@@ -120,6 +107,19 @@ public class CreditoDto implements Serializable {
 		this.nroCuotas = nroCuotas;
 		this.fechaDesembolso = fechaDesembolso;
 		this.fechaPrimeraCuota = fechaPrimeraCuota;
+	}
+
+	public CreditoDto(DesembolsoCreditoDto desembolsoCredito) {
+		this.montoDesembolso = desembolsoCredito.getCredito().getMontoDesembolso();
+		this.moneda = desembolsoCredito.getCredito().getMoneda();
+		this.frecuencia = desembolsoCredito.getCredito().getFrecuencia();
+		this.tem = desembolsoCredito.getCredito().getTem();
+		this.nroCuotas = desembolsoCredito.getCredito().getNroCuotas();
+		this.fechaDesembolso = desembolsoCredito.getCredito().getFechaDesembolso();
+		this.fechaPrimeraCuota = desembolsoCredito.getCredito().getFechaPrimeraCuota();
+		this.usuarioAprobador = desembolsoCredito.getCredito().getUsuarioAprobador();
+		this.usuarioResponsable = desembolsoCredito.getCredito().getUsuarioResponsable();
+		this.cliente = new Cliente(desembolsoCredito.getCliente().getId());
 	}
 
 	public Integer getIdCuenta() {

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,10 +36,16 @@ public class OperacionCreditoRest {
 	@PostMapping("/desembolsos")
 	public DesembolsoCreditoDto createDesembolso(@RequestBody DesembolsoCreditoDto desembolsoCredito) {
 		System.out.println(desembolsoCredito);
-		desembolsoCredito.setUsuarioOperacion("OAJON"); // TODO
+		desembolsoCredito.getOperacion().setUsuario("OAJON"); // TODO
 		
-		operacionCreditoService.createDesembolso(desembolsoCredito);
-		return desembolsoCredito;
+		DesembolsoCreditoDto desemsolsoResponse = operacionCreditoService.createDesembolso(desembolsoCredito);
+		return desemsolsoResponse;
+	}
+	
+	@CrossOrigin
+	@GetMapping("/desembolsos/{id}")
+	public DesembolsoCreditoDto findDesembolsoById(@PathVariable Integer id) {
+		return operacionCreditoService.findDesembolsoById(id);
 	}
 	
 	@CrossOrigin

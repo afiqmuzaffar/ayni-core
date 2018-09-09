@@ -74,4 +74,12 @@ public class OperacionServiceImpl implements OperacionService {
 		return operacion;
 	}
 
+	@Override
+	@Transactional
+	public OperacionDto findOperacionById(Integer id) {
+		Operacion operacion = operacionDao.findById(id);
+		OperacionDto operacionDto = buildDtoFrom(operacion);
+		return operacionDto;
+	}
+
 }

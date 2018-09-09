@@ -9,7 +9,7 @@ import pe.ayni.aynicore.credito.dto.CuotaCreditoDto;
 
 public interface CreditoService {
 
-	void createCredito(CreditoDto credito);
+	CreditoDto createCredito(CreditoDto credito);
 	
 	List<CuotaCreditoDto> calculateCuotas(CreditoDto credito);
 

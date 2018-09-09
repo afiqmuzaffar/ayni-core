@@ -6,4 +6,6 @@ public interface OperacionDao {
 
 	Integer save(Operacion operacion);
 
+	Operacion findById(Integer id);
+
 }

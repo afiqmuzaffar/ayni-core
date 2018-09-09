@@ -25,7 +25,6 @@ import pe.ayni.aynicore.banco.service.BancoService;
 import pe.ayni.aynicore.cliente.dto.ClienteDto;
 import pe.ayni.aynicore.cliente.service.ClienteService;
 import pe.ayni.aynicore.credito.dto.CreditoDto;
-import pe.ayni.aynicore.credito.dto.CreditoDto.Cliente;
 import pe.ayni.aynicore.credito.dto.CuotaCreditoDto;
 import pe.ayni.aynicore.credito.dto.DetalleCreditoDto;
 import pe.ayni.aynicore.credito.service.CreditoService;
@@ -71,75 +70,42 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 	
 	@Override
 	@Transactional
-	public void createDesembolso(DesembolsoCreditoDto desembolsoCredito) {
+	public DesembolsoCreditoDto createDesembolso(DesembolsoCreditoDto desembolsoCredito) {
 		
-		
-		CreditoDto creditoDto = new CreditoDto(desembolsoCredito.getMontoDesembolso(), desembolsoCredito.getMoneda(),
-				desembolsoCredito.getFrecuencia(), desembolsoCredito.getTem(), desembolsoCredito.getNroCuotas(),
-				desembolsoCredito.getFechaDesembolso(), desembolsoCredito.getFechaPrimeraCuota(),
-				desembolsoCredito.getUsuarioAprobador(), new Cliente(desembolsoCredito.getCliente().getId()),
-				desembolsoCredito.getResponsableCuenta());
-		creditoService.createCredito(creditoDto);
+		CreditoDto credito = new CreditoDto(desembolsoCredito);
+		credito = creditoService.createCredito(credito);
 
 		Integer idOperacionRelacionada = null;
-		OperacionDto operacionDto = new OperacionDto(desembolsoCredito.getMontoDesembolso(), desembolsoCredito.getMoneda(),
-				desembolsoCredito.getUsuarioOperacion(), TipoOperacion.DESEMBOLSO_CRED.toString(),
+		OperacionDto operacionDto = new OperacionDto(credito.getMontoDesembolso(), credito.getMoneda(),
+				desembolsoCredito.getOperacion().getUsuario(), TipoOperacion.DESEMBOLSO_CRED.toString(),
 				TipoOperacion.DESEMBOLSO_CRED.toString(), idOperacionRelacionada);
 		
 		List<DetalleOperacionDto> detallesOperacionDto = new ArrayList<>();
 		
 		// Detalle de la Operacion del Desembolso
 		int nroDetalleDesembolso = 0;
-		DetalleCreditoDto detalleDesembolsoDto = detalleCreditoService.findDetalleDesembolso(creditoDto.getIdCuenta());
+		DetalleCreditoDto detalleDesembolsoDto = detalleCreditoService.findDetalleDesembolso(credito.getIdCuenta());
 		DetalleOperacionDto detalleOperacionDesembolsoDto = detalleOperacionService.buildDetalleOperacionDesembolso(detalleDesembolsoDto);
 		detalleOperacionDesembolsoDto.setNroDetalle(nroDetalleDesembolso);
-		detalleOperacionDesembolsoDto.setDebito(desembolsoCredito.getMontoDesembolso());
+		detalleOperacionDesembolsoDto.setDebito(credito.getMontoDesembolso());
 		detallesOperacionDto.add(detalleOperacionDesembolsoDto);
 		
 		// Detalle de la Operacion de la Contraparte
 		int nroDetalleContraparte = 1;
-		if (desembolsoCredito.getTipoCuentaDesembolso().equals(TipoCuentaDesembolso.CAJA.toString())) {
-			DetalleOperacionDto detalleOperacionDto = detalleOperacionService.buildDetalleOperacion2(desembolsoCredito.getIdCuentaDesembolso(),
+		if (desembolsoCredito.getOperacion().getTipoCuentaDesembolso().equals(TipoCuentaDesembolso.CAJA.toString())) {
+			DetalleOperacionDto detalleOperacionDto = detalleOperacionService.buildDetalleOperacion2(desembolsoCredito.getOperacion().getIdCuentaDesembolso(),
 					nroDetalleContraparte, DebitoCredito.CREDITO);
-			detalleOperacionDto.setCredito(desembolsoCredito.getMontoDesembolso());
+			detalleOperacionDto.setCredito(credito.getMontoDesembolso());
 			detallesOperacionDto.add(detalleOperacionDto);
 		}
 		operacionDto.setDetallesOperacion(detallesOperacionDto);
-		operacionService.createOperacion(operacionDto);
+		OperacionDto operacion = operacionService.createOperacion(operacionDto);
+		DesembolsoCreditoDto desembolso = buildDesembolsoCredito(credito, operacion);
+		return desembolso;
 		
 	}
 
-	@Override
-	@Transactional
-	public void buildReporteSolicitud(DesembolsoCreditoDto desembolsoCredito, OutputStream outStream) throws JRException {
-		
-		CreditoDto creditoDto = new CreditoDto(desembolsoCredito.getMontoDesembolso(),desembolsoCredito.getFrecuencia(),
-				desembolsoCredito.getTem(), desembolsoCredito.getNroCuotas(),
-				desembolsoCredito.getFechaDesembolso(), desembolsoCredito.getFechaPrimeraCuota());
-		
-		List<CuotaCreditoDto> cuotasCredito = creditoService.calculateCuotas(creditoDto)
-																	.stream()
-																	.filter(e -> (e.getNroCuota().intValue() > 0))
-																	.collect(Collectors.toList()); 
-		
-		InputStream reportStream = this.getClass().getClassLoader().getResourceAsStream("Solicitud_Credito.jasper");
-		
-		Map<String,Object> params = new HashMap<>();
-	    ClienteDto clienteDto = clienteService.findClienteById(desembolsoCredito.getCliente().getId());
-		params.put("nroIdentificacion", clienteDto.getPersonaNatural().getNroIdentificacion());
-	    params.put("nombre", clienteDto.getPersonaNatural().getNombre());
-	    params.put("montoDesembolso", desembolsoCredito.getMontoDesembolso());
-	    params.put("frecuencia", desembolsoCredito.getFrecuencia());
-	    params.put("tem", desembolsoCredito.getTem());
-	    params.put("nroCuotas", desembolsoCredito.getNroCuotas());
-	    params.put("fechaDesembolso", desembolsoCredito.getFechaDesembolso());
-		
-	    JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportStream);
-	    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanArrayDataSource(cuotasCredito.toArray()));
-	    
-	    JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
-	    
-	}
+
 
 	@Override
 	@Transactional
@@ -148,7 +114,6 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 		Integer nroCondicion = creditoService.getNroCondicionCredito(simulacionAmortizacion.getIdCuenta());
 		return detalleCreditoService.calculateAmortizacionCuotas(simulacionAmortizacion.getIdCuenta(),
 				nroCondicion, simulacionAmortizacion.getMontoAmortizacion());
-		
 	}
 
 	@Override
@@ -187,5 +152,51 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 		return amortizacion;
 	}
 	
+	private DesembolsoCreditoDto buildDesembolsoCredito(CreditoDto credito, OperacionDto operacion) {
+		DesembolsoCreditoDto desembolso = new DesembolsoCreditoDto(credito, operacion);
+		return desembolso;
+	}
+	
+	@Override
+	@Transactional
+	public void buildReporteSolicitud(DesembolsoCreditoDto desembolsoCredito, OutputStream outStream) throws JRException {
+		
+		CreditoDto creditoDto = new CreditoDto(desembolsoCredito.getCredito().getMontoDesembolso(),desembolsoCredito.getCredito().getFrecuencia(),
+				desembolsoCredito.getCredito().getTem(), desembolsoCredito.getCredito().getNroCuotas(),
+				desembolsoCredito.getCredito().getFechaDesembolso(), desembolsoCredito.getCredito().getFechaPrimeraCuota());
+		
+		List<CuotaCreditoDto> cuotasCredito = creditoService.calculateCuotas(creditoDto)
+																	.stream()
+																	.filter(e -> (e.getNroCuota().intValue() > 0))
+																	.collect(Collectors.toList()); 
+		
+		InputStream reportStream = this.getClass().getClassLoader().getResourceAsStream("Solicitud_Credito.jasper");
+		
+		Map<String,Object> params = new HashMap<>();
+	    ClienteDto clienteDto = clienteService.findClienteById(desembolsoCredito.getCliente().getId());
+		params.put("nroIdentificacion", clienteDto.getPersonaNatural().getNroIdentificacion());
+	    params.put("nombre", clienteDto.getPersonaNatural().getNombre());
+	    params.put("montoDesembolso", desembolsoCredito.getCredito().getMontoDesembolso());
+	    params.put("frecuencia", desembolsoCredito.getCredito().getFrecuencia());
+	    params.put("tem", desembolsoCredito.getCredito().getTem());
+	    params.put("nroCuotas", desembolsoCredito.getCredito().getNroCuotas());
+	    params.put("fechaDesembolso", desembolsoCredito.getCredito().getFechaDesembolso());
+		
+	    JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportStream);
+	    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanArrayDataSource(cuotasCredito.toArray()));
+	    
+	    JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
+	    
+	}
+
+
+
+	@Override
+	@Transactional
+	public DesembolsoCreditoDto findDesembolsoById(Integer id) {
+		OperacionDto operacion = operacionService.findOperacionById(id);
+		CreditoDto credito = creditoService.findCreditoById(operacion.getDetallesOperacion().stream().findFirst().get().getIdCuenta());
+		return buildDesembolsoCredito(credito, operacion);
+	}
 
 }

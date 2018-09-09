@@ -13,7 +13,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pe.ayni.aynicore.cliente.dto.ClienteDto;
 import pe.ayni.aynicore.cliente.entity.Cliente;
+import pe.ayni.aynicore.cliente.service.ClienteService;
 import pe.ayni.aynicore.credito.constraint.CreditoConstraint.EstadoCredito;
 import pe.ayni.aynicore.credito.constraint.CreditoConstraint.FrecuenciaCredito;
 import pe.ayni.aynicore.credito.dao.CreditoDao;
@@ -32,11 +34,14 @@ public class CreditoServiceImpl implements CreditoService {
 	CreditoDao creditoDao;
 	
 	@Autowired
+	ClienteService clienteService;
+	
+	@Autowired
 	DetalleCreditoService detalleCreditoService;
 	
 	@Override
 	@Transactional
-	public void createCredito(CreditoDto creditoDto) {
+	public CreditoDto createCredito(CreditoDto creditoDto) {
 		
 		creditoDto.setNroCondicion(0);
 		
@@ -47,7 +52,8 @@ public class CreditoServiceImpl implements CreditoService {
 		credito.setDetallesCredito(detallesCredito);
 
 		creditoDao.create(credito);
-		creditoDto.setIdCuenta(credito.getIdCuenta());
+		creditoDto = buildDtoFrom(credito);
+		return creditoDto;
 	}
 	
 	@Override
@@ -63,9 +69,10 @@ public class CreditoServiceImpl implements CreditoService {
 		if (credito != null) {
 			ModelMapper modelMapper = new ModelMapper();
 			creditoDto = modelMapper.map(credito, CreditoDto.class);
-			creditoDto.getCliente().setNombre(credito.getCliente().getPersonaNatural().getNombre());
-			creditoDto.getCliente().setTipoIdentificacion(credito.getCliente().getPersonaNatural().getTipoIdentificacion().toString());
-			creditoDto.getCliente().setNroIdentificacion(credito.getCliente().getPersonaNatural().getNroIdentificacion());
+			ClienteDto cliente = clienteService.findClienteById(credito.getCliente().getId());
+			creditoDto.getCliente().setNombre(cliente.getPersonaNatural().getNombre());
+			creditoDto.getCliente().setTipoIdentificacion(cliente.getPersonaNatural().getTipoIdentificacion().toString());
+			creditoDto.getCliente().setNroIdentificacion(cliente.getPersonaNatural().getNroIdentificacion());
 			creditoDto.setSaldoCapital(getSaldoCapital(credito));
 		}
 		return creditoDto;

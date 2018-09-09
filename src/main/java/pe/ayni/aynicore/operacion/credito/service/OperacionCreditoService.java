@@ -11,13 +11,15 @@ import pe.ayni.aynicore.operacion.credito.dto.DesembolsoCreditoDto;
 
 public interface OperacionCreditoService {
 
-	void createDesembolso(DesembolsoCreditoDto desembolsoCredito);
+	DesembolsoCreditoDto createDesembolso(DesembolsoCreditoDto desembolsoCredito);
 
 	void buildReporteSolicitud(DesembolsoCreditoDto desembolsoCreditoDto, OutputStream outStream) throws JRException;
 
 	List<AmortizacionCuotaDto> calculateAmortizacion(SimulacionAmortizacionDto simulacionAmortizacion);
 
 	AmortizacionCreditoDto createAmortizacion(AmortizacionCreditoDto amortizacionCredito);
+
+	DesembolsoCreditoDto findDesembolsoById(Integer id);
 	
 	
 	

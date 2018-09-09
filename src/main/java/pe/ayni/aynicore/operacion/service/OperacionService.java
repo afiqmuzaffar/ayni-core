@@ -6,4 +6,6 @@ public interface OperacionService {
 
 	OperacionDto createOperacion(OperacionDto operacionDto);
 
+	OperacionDto findOperacionById(Integer id);
+
 }

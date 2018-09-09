@@ -19,4 +19,10 @@ public class OperacionDaoImpl implements OperacionDao {
 		return (Integer)session.save(operacion);
 	}
 
+	@Override
+	public Operacion findById(Integer id) {
+		Session session = sessionFactory.getCurrentSession();
+		return session.get(Operacion.class, id);
+	}
+
 }
