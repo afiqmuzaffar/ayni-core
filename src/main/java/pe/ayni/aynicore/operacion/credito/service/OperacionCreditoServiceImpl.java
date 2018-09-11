@@ -118,37 +118,39 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 
 	@Override
 	@Transactional
-	public AmortizacionCreditoDto createAmortizacion(AmortizacionCreditoDto amortizacionCredito) {
+	public AmortizacionCreditoDto createAmortizacion(AmortizacionCreditoDto amortizacion) {
 		
-		if (amortizacionCredito.getTipoCuentaRecaudo().equals(TipoCuentaAmortizacion.BANCOS.toString())) {
-			DetalleBancoDto detalleBanco = bancoService.createDeposito(new DetalleBancoDto(amortizacionCredito.getIdCuentaRecaudo(), 
-					amortizacionCredito.getDetalleBanco().getFechaOperacion(), amortizacionCredito.getDetalleBanco().getNroOperacion(), 
-					amortizacionCredito.getDetalleBanco().getMontoOperacion()));
-			amortizacionCredito.getDetalleBanco().setId(detalleBanco.getId());
+		DetalleBancoDto detalleBanco = null;
+		if (amortizacion.getOperacion().getTipoCuentaRecaudo().equals(TipoCuentaAmortizacion.BANCOS.toString())) {
+			detalleBanco = bancoService.createDeposito(new DetalleBancoDto(amortizacion.getOperacion().getIdCuentaRecaudo(), 
+					amortizacion.getDetalleBanco().getFechaOperacion(), amortizacion.getDetalleBanco().getNroOperacion(), 
+					amortizacion.getDetalleBanco().getMontoOperacion()));
+			amortizacion.getDetalleBanco().setId(detalleBanco.getId());
 		}
 		
-		Integer nroCondicion = creditoService.getNroCondicionCredito(amortizacionCredito.getIdCuenta());
+		Integer nroCondicion = creditoService.getNroCondicionCredito(amortizacion.getIdCuenta());
 		List<AmortizacionDetalleDto> detalles = detalleCreditoService.calculateAmortizacionDetalleCredito(
-				amortizacionCredito.getIdCuenta(), nroCondicion, amortizacionCredito.getMontoAmortizacion());
+				amortizacion.getIdCuenta(), nroCondicion, amortizacion.getOperacion().getMonto());
 		
-		creditoService.amortizarCredito(amortizacionCredito.getIdCuenta(), amortizacionCredito.getMontoAmortizacion());
+		creditoService.amortizarCredito(amortizacion.getIdCuenta(), amortizacion.getOperacion().getMonto());
 		
 		Integer idOperacionRelacionada = null;
-		OperacionDto operacionDto = new OperacionDto(amortizacionCredito.getMontoAmortizacion(), amortizacionCredito.getMoneda(),
-				amortizacionCredito.getUsuarioOperacion(), TipoOperacion.AMORTIZACION_CRED.toString(), 
+		OperacionDto operacionDto = new OperacionDto(amortizacion.getOperacion().getMonto(), amortizacion.getOperacion().getMoneda(),
+				amortizacion.getOperacion().getUsuario(), TipoOperacion.AMORTIZACION_CRED.toString(), 
 				TipoOperacion.AMORTIZACION_CRED.toString(), idOperacionRelacionada);
 
-		List<DetalleOperacionDto> detallesOperacion = detalleOperacionCredito.buildDetallesAmortizacion(amortizacionCredito, detalles);
+		List<DetalleOperacionDto> detallesOperacion = detalleOperacionCredito.buildDetallesAmortizacion(amortizacion, detalles);
 		operacionDto.setDetallesOperacion(detallesOperacion);
 		
 		OperacionDto operacion = operacionService.createOperacion(operacionDto);
+		ClienteDto cliente = clienteService.findClienteByIdCuentaCredito(amortizacion.getIdCuenta());
 		
-		AmortizacionCreditoDto amortizacion = buildAmortizacionCredito(operacion);
-		return amortizacion;
+		AmortizacionCreditoDto amortizacionCredito = buildAmortizacionCredito(detalleBanco, operacion, cliente);
+		return amortizacionCredito;
 	}
 
-	private AmortizacionCreditoDto buildAmortizacionCredito(OperacionDto operacion) {
-		AmortizacionCreditoDto amortizacion = new AmortizacionCreditoDto(operacion);
+	private AmortizacionCreditoDto buildAmortizacionCredito(DetalleBancoDto detalleBanco, OperacionDto operacion, ClienteDto cliente) {
+		AmortizacionCreditoDto amortizacion = new AmortizacionCreditoDto(detalleBanco, operacion, cliente);
 		return amortizacion;
 	}
 	

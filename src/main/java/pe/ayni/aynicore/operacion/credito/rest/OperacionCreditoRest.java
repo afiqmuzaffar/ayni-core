@@ -74,7 +74,7 @@ public class OperacionCreditoRest {
 	@PostMapping("/amortizaciones")
 	public AmortizacionCreditoDto createAmortizacion(@RequestBody AmortizacionCreditoDto amortizacionCredito) {
 		System.out.println(amortizacionCredito);
-		amortizacionCredito.setUsuarioOperacion("OAJON"); // TODO
+		amortizacionCredito.getOperacion().setUsuario("OAJON"); // TODO
 		AmortizacionCreditoDto amortizacionCreditoResponse = operacionCreditoService.createAmortizacion(amortizacionCredito);
 		return amortizacionCreditoResponse;
 	}

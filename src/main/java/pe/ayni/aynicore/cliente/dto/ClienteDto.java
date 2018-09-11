@@ -47,6 +47,21 @@ public class ClienteDto implements Serializable {
 	public void setPersonaNaturalDto(PersonaNaturalDto personaNatural) {
 		this.personaNatural = personaNatural;
 	}
+	
+	public String getNombre() {
+		// if cliente is PPNN
+		return this.personaNatural.getNombre();
+	}
+	
+	public String getTipoIdentificacion() {
+		// if cliente is PPNN
+		return this.personaNatural.getTipoIdentificacion();
+	}
+	
+	public String getNroIdentificacion() {
+		// if cliente is PPNN
+		return this.personaNatural.getNroIdentificacion();
+	}
 
 	@Override
 	public String toString() {

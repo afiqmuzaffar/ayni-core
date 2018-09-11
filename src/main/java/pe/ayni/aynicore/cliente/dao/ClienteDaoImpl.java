@@ -53,5 +53,19 @@ public class ClienteDaoImpl implements ClienteDao {
 		Session session = sessionFactory.getCurrentSession();
 		session.update(cliente);
 	}
+
+	@Override
+	public Cliente findByIdCuentaCredito(Integer idCuenta) {
+		Session session = sessionFactory.getCurrentSession();
+		String stringQuery = "SELECT a FROM Cliente a  " //JOIN FETCH a.personaNatural
+				+ " , CuentaCredito cr "
+				+ " WHERE a.id = cr.cliente.id "
+				+ " AND cr.idCuenta = :idCuenta";
+		Cliente cliente = session.createQuery(stringQuery, Cliente.class)
+				.setParameter("idCuenta", idCuenta)
+				.getSingleResult();
+		
+		return cliente;
+	}
 	
 }

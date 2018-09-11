@@ -61,6 +61,14 @@ public class ClienteServiceImpl implements ClienteService {
 		return clienteDto;
 	}
 
+	@Override
+	@Transactional
+	public ClienteDto findClienteByIdCuentaCredito(Integer idCuenta) {
+		Cliente cliente = clienteDao.findByIdCuentaCredito(idCuenta);
+		ClienteDto clienteDto = buildDtoFrom(cliente);
+		return clienteDto;
+	}
+
 	private ClienteDto buildDtoFrom (Cliente cliente) {
 		ModelMapper modelMapper = new ModelMapper();
 

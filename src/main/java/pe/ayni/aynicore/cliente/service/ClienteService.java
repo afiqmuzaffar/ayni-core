@@ -13,4 +13,6 @@ public interface ClienteService {
 	ClienteDto findClienteById(Integer id);
 
 	ClienteDto updateCliente(ClienteDto cliente);
+
+	ClienteDto findClienteByIdCuentaCredito(Integer idCuenta);
 }

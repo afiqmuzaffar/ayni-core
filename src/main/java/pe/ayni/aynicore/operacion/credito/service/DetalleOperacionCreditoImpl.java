@@ -27,8 +27,9 @@ public class DetalleOperacionCreditoImpl implements DetalleOperacionCredito {
 		List<DetalleOperacionDto> detallesOperacion = new ArrayList<>();
 		// Detalle de la Operacion de Recaudo
 		Integer nroDetalle = 0;
-		DetalleOperacionDto detalleOperacionRecaudo = detalleOperacionService.buildDetalleOperacion(amortizacionCredito.getIdCuentaRecaudo(),
-				nroDetalle, DebitoCredito.DEBITO, amortizacionCredito.getMontoAmortizacion(), null, amortizacionCredito.getDetalleBanco().getId());
+		DetalleOperacionDto detalleOperacionRecaudo = detalleOperacionService.buildDetalleOperacion(
+				amortizacionCredito.getOperacion().getIdCuentaRecaudo(), nroDetalle, DebitoCredito.DEBITO, 
+				amortizacionCredito.getOperacion().getMonto(), null, amortizacionCredito.getDetalleBanco().getId());
 		detallesOperacion.add(detalleOperacionRecaudo);
 		
 		for (AmortizacionDetalleDto detalle: amortizacionDetalles) {

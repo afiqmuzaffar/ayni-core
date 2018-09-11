@@ -13,4 +13,6 @@ public interface ClienteDao {
 	Cliente findById(Integer id);
 
 	void update(Cliente cliente);
+
+	Cliente findByIdCuentaCredito(Integer idCuenta);
 }
