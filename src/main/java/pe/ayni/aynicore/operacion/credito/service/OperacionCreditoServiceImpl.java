@@ -2,6 +2,7 @@ package pe.ayni.aynicore.operacion.credito.service;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -105,8 +106,6 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 		
 	}
 
-
-
 	@Override
 	@Transactional
 	public List<AmortizacionCuotaDto> calculateAmortizacion(SimulacionAmortizacionDto simulacionAmortizacion) {
@@ -150,7 +149,8 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 	}
 
 	private AmortizacionCreditoDto buildAmortizacionCredito(DetalleBancoDto detalleBanco, OperacionDto operacion, ClienteDto cliente) {
-		AmortizacionCreditoDto amortizacion = new AmortizacionCreditoDto(detalleBanco, operacion, cliente);
+		Integer idCuenta = getIdCuentaAmortizacion(operacion);
+		AmortizacionCreditoDto amortizacion = new AmortizacionCreditoDto(idCuenta, detalleBanco, operacion, cliente);
 		return amortizacion;
 	}
 	
@@ -199,6 +199,21 @@ public class OperacionCreditoServiceImpl implements OperacionCreditoService {
 		OperacionDto operacion = operacionService.findOperacionById(id);
 		CreditoDto credito = creditoService.findCreditoById(operacion.getDetallesOperacion().stream().findFirst().get().getIdCuenta());
 		return buildDesembolsoCredito(credito, operacion);
+	}
+
+
+
+	@Override
+	public AmortizacionCreditoDto findAmortizacionById(Integer id) {
+		OperacionDto operacion = operacionService.findOperacionById(id);
+		Integer idCuenta = getIdCuentaAmortizacion(operacion);
+		ClienteDto cliente = clienteService.findClienteByIdCuentaCredito(idCuenta);
+		DetalleBancoDto detalleBanco = null; //TODO
+		return buildAmortizacionCredito(detalleBanco, operacion, cliente);
+	}
+	
+	private Integer getIdCuentaAmortizacion(OperacionDto operacion) {
+		return operacion.getDetallesOperacion().stream().filter(e -> (e.getCredito().compareTo(BigDecimal.ZERO) > 0)).findFirst().get().getIdCuenta();
 	}
 
 }

@@ -78,4 +78,10 @@ public class OperacionCreditoRest {
 		AmortizacionCreditoDto amortizacionCreditoResponse = operacionCreditoService.createAmortizacion(amortizacionCredito);
 		return amortizacionCreditoResponse;
 	}
+	
+	@CrossOrigin
+	@GetMapping("/amortizaciones/{id}")
+	public AmortizacionCreditoDto findAmortizacionById(@PathVariable Integer id) {
+		return operacionCreditoService.findAmortizacionById(id);
+	}
 }

@@ -20,6 +20,8 @@ public interface OperacionCreditoService {
 	AmortizacionCreditoDto createAmortizacion(AmortizacionCreditoDto amortizacionCredito);
 
 	DesembolsoCreditoDto findDesembolsoById(Integer id);
+
+	AmortizacionCreditoDto findAmortizacionById(Integer id);
 	
 	
 	

@@ -23,8 +23,8 @@ public class AmortizacionCreditoDto implements Serializable {
 		
 	}
 
-	public AmortizacionCreditoDto(DetalleBancoDto detalleBanco, OperacionDto operacion, ClienteDto cliente) {
-		this.idCuenta = operacion.getDetallesOperacion().stream().filter(e -> (e.getCredito().compareTo(BigDecimal.ZERO) > 0)).findFirst().get().getIdCuenta();
+	public AmortizacionCreditoDto(Integer idCuenta, DetalleBancoDto detalleBanco, OperacionDto operacion, ClienteDto cliente) {
+		this.idCuenta = idCuenta;
 		this.cliente = new Cliente(cliente.getId(), cliente.getNombre(), cliente.getTipoIdentificacion(), cliente.getNroIdentificacion());
 		this.operacion = new Operacion(operacion);
 		this.detalleBanco = detalleBanco == null? null: new DetalleBanco(detalleBanco);

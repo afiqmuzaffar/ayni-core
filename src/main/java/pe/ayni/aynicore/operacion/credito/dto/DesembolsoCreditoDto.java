@@ -23,7 +23,8 @@ public class DesembolsoCreditoDto implements Serializable {
 	
 	public DesembolsoCreditoDto(CreditoDto credito, OperacionDto operacion) {
 		this.credito = new Credito(credito);
-		this.cliente = new Cliente(credito.getCliente().getId(), credito.getCliente().getNombre(), credito.getCliente().getTipoIdentificacion(), credito.getCliente().getNroIdentificacion());
+		this.cliente = new Cliente(credito.getCliente().getId(), credito.getCliente().getNombre(), 
+				credito.getCliente().getTipoIdentificacion(), credito.getCliente().getNroIdentificacion());
 		this.operacion = new Operacion(operacion);
 	}
 
